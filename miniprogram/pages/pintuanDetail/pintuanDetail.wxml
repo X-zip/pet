@@ -37,10 +37,10 @@
       </view>
       <view class="price-sub">
         <text class="ori-price" wx:if="{{ori_price}}">¥{{ori_price}}</text>
-        <text class="sold-text">已售{{soldCount}}</text>
+        <text class="sold-text" wx:if="{{source==='group'}}">已售{{soldCount}}</text>
       </view>
     </view>
-    <view class="price-right">
+    <view class="price-right" wx:if="{{source==='group'}}">
       <view class="price-badge">
         <text class="price-tag">社区拼团价</text>
         <text class="price-tag-sub">特价团</text>
@@ -57,10 +57,28 @@
       <text class="meta-item">{{shippingText}}</text>
     </view>
 
-    <view class="rank-row">
+    <view class="rank-row" wx:if="{{source==='group'}}">
       <text class="rank-dot">🔥</text>
       <text class="rank-text">{{rankText}}</text>
       <text class="rank-arrow">›</text>
+    </view>
+
+    <view class="service-info" wx:if="{{source==='service'}}">
+      <view class="service-line">
+        <text class="service-tag">服务</text>
+        <text class="service-distance">距你 {{distance}}</text>
+      </view>
+      <view class="service-line">
+        <text class="service-address">{{address}}</text>
+      </view>
+      <view class="service-line">
+        <text class="service-hours">{{bizHours}}</text>
+      </view>
+      <view class="service-tags" wx:if="{{tags && tags.length}}">
+        <block wx:for="{{tags}}" wx:key="index">
+          <view class="service-tag-chip">{{item}}</view>
+        </block>
+      </view>
     </view>
 
     <view class="thumb-row">
@@ -69,9 +87,10 @@
           <image class="thumb-img" src="{{item}}" mode="aspectFill"></image>
         </block>
       </view>
-      <view class="spec-btn">
+      <view class="spec-btn" wx:if="{{source==='group'}}" bindtap="submitInfo" data-id="{{id}}">
         <text class="spec-btn-text">选规格</text>
       </view>
+
     </view>
   </view>
 
@@ -129,9 +148,9 @@
   <!-- 吸底操作栏 -->
   <view class="bottom-actions">
     <button class="action-icon-btn" open-type="contact">
-      <text class="action-icon">•••</text>
+      <!-- <text class="action-icon">•••</text> -->
       <text class="action-text">客服</text>
     </button>
-    <button class="action-main-btn" bindtap="submitInfo" data-id="{{id}}">立即下单</button>
+    <button class="action-main-btn" bindtap="onPrimaryAction" data-id="{{id}}">{{ source==='group' ? '立即下单' : '立即预约' }}</button>
   </view>
 </view>

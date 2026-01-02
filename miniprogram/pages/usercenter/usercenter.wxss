@@ -1,16 +1,9 @@
 page {
-  /* 与 index / service 统一的暖色背景 */
-  background-color: rgb(247, 223, 185);
-  height: 100%;
-  width: 100%;
-}
-  
-  .container {
     background-color: rgb(247, 223, 185);
+    height: 100%;
     width: 100%;
   }
   
-  /* ===== 顶部导航栏（渐变背景） ===== */
   .header-wrap {
     background: linear-gradient(135deg, rgb(255, 248, 235) 0%, rgb(247, 223, 185) 100%);
     position: relative;
@@ -31,34 +24,22 @@ page {
     box-sizing: border-box;
   }
   
-  /* ===== 统一卡片规范 ===== */
   .card {
     background: rgba(255, 255, 255, 0.96);
     border-radius: 24rpx;
     box-shadow: 0 4rpx 12rpx rgba(139, 90, 43, 0.08);
     box-sizing: border-box;
     width: 100%;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
   
-  .card:active {
-    transform: scale(0.99);
-    box-shadow: 0 3rpx 10rpx rgba(139, 90, 43, 0.06);
-  }
-  
-  /* 上三块卡片间距（内容区更紧） */
   .profile-card,
-  .stats-card,
-  .quick-actions-card {
-    margin-bottom: 18rpx;
-  }
-  
-  /* 底部菜单卡间距（功能区更松） */
+  .order-card,
+  .circle-card,
   .menu-card {
-    margin-bottom: 30rpx;
+    margin-bottom: 20rpx;
   }
   
-  /* ===== 个人信息卡片 ===== */
+  /* ===== profile ===== */
   .profile-card {
     padding: 32rpx 28rpx;
     display: flex;
@@ -81,13 +62,8 @@ page {
     height: 140rpx;
     border-radius: 50%;
     border: 4rpx solid #FFFFFF;
-    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.10);
     display: block;
-    transition: transform 0.15s ease;
-  }
-  
-  .avatar-img:active {
-    transform: scale(0.98);
   }
   
   .progress-ring {
@@ -98,6 +74,7 @@ page {
     height: 140rpx;
     border-radius: 50%;
     overflow: hidden;
+    pointer-events: none;
   }
   
   .progress-ring-bg {
@@ -127,11 +104,6 @@ page {
   
   .user-name {
     margin-bottom: 12rpx;
-    transition: opacity 0.15s ease;
-  }
-  
-  .user-name:active {
-    opacity: 0.7;
   }
   
   .user-name text {
@@ -175,153 +147,134 @@ page {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
     box-shadow: 0 2rpx 8rpx rgba(139, 90, 43, 0.06);
   }
   
-  .edit-btn:active {
-    background: rgba(139, 90, 43, 0.16);
-    transform: scale(0.95);
-    box-shadow: 0 1rpx 4rpx rgba(139, 90, 43, 0.08);
+  /* ===== order ===== */
+  .order-card {
+    padding: 22rpx 18rpx 18rpx;
   }
   
-  .edit-icon {
-    font-size: 28rpx;
-    opacity: 0.7;
-  }
-  
-  /* ===== 数据统计条 ===== */
-  .stats-card {
-    padding: 32rpx 28rpx;
+  .order-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: relative;
+    padding: 0 8rpx 10rpx;
   }
   
-  .stat-item {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    transition: opacity 0.15s ease;
-  }
-  
-  .stat-item:active {
-    opacity: 0.7;
-  }
-  
-  .stat-item:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 1rpx;
-    height: 60%;
-    background: rgba(0, 0, 0, 0.06);
-  }
-  
-  .stat-number {
-    font-size: 34rpx;
+  .order-title {
+    font-size: 30rpx;
     font-weight: 800;
     color: rgb(139, 90, 43);
-    margin-bottom: 8rpx;
-    line-height: 1.2;
   }
   
-  .stat-label {
-    font-size: 22rpx;
-    color: rgba(139, 90, 43, 0.55);
-    line-height: 1.4;
-  }
-  
-  .boost-btn {
-    margin-left: 24rpx;
-    padding: 14rpx 28rpx;
-    background: linear-gradient(135deg, rgb(139, 90, 43) 0%, rgb(193, 142, 86) 100%);
-    border-radius: 40rpx;
-    box-shadow: 0 4rpx 12rpx rgba(139, 90, 43, 0.22);
-    transition: all 0.2s ease;
-  }
-  
-  .boost-btn:active {
-    transform: scale(0.97);
-    box-shadow: 0 2rpx 8rpx rgba(139, 90, 43, 0.18);
-  }
-  
-  .boost-text {
-    font-size: 24rpx;
-    color: #FFFFFF;
-    font-weight: 600;
-    white-space: nowrap;
-  }
-  
-  /* ===== 快捷入口卡片 ===== */
-  .quick-actions-card {
-    padding: 32rpx 24rpx;
+  .order-more {
     display: flex;
-    justify-content: space-around;
     align-items: center;
+    gap: 6rpx;
+    font-size: 24rpx;
+    color: rgba(43, 43, 43, 0.65);
   }
   
-  .quick-action {
+  .order-grid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16rpx;
+    padding: 6rpx 4rpx 4rpx;
+  }
+  
+  .order-item {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 14rpx 0 10rpx;
+    border-radius: 18rpx;
+  }
+  
+  .order-item:active {
+    opacity: 0.85;
+    transform: scale(0.985);
+  }
+  
+  .order-icon {
+    width: 72rpx;
+    height: 72rpx;
+    border-radius: 50%;
+    background: rgba(139, 90, 43, 0.10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10rpx;
+  }
+  
+  .order-text {
+    font-size: 24rpx;
+    color: rgba(139, 90, 43, 0.78);
+    font-weight: 600;
+  }
+  
+  /* ===== circle ===== */
+  .circle-card {
+    padding: 22rpx 18rpx 18rpx;
+  }
+  
+  .circle-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8rpx 10rpx;
+  }
+  
+  .circle-title {
+    font-size: 30rpx;
+    font-weight: 800;
+    color: rgb(139, 90, 43);
+  }
+  
+  .circle-grid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10rpx;
+    padding: 6rpx 4rpx 4rpx;
+  }
+  
+  .circle-item {
     flex: 1;
-    transition: transform 0.15s ease, opacity 0.15s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12rpx 0 10rpx;
+    border-radius: 18rpx;
   }
   
-  .quick-action:active {
-    transform: scale(0.97);
-    opacity: 0.8;
+  .circle-item:active {
+    opacity: 0.85;
+    transform: scale(0.985);
   }
   
-  .action-icon {
-    width: 56rpx;
-    height: 56rpx;
+  .circle-icon {
+    width: 72rpx;
+    height: 72rpx;
+    border-radius: 50%;
+    background: rgba(139, 90, 43, 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 16rpx;
-    filter: saturate(0.85);
-    transition: filter 0.15s ease;
+    margin-bottom: 10rpx;
   }
   
-  .quick-action:active .action-icon {
-    filter: saturate(0.7);
+  .circle-text {
+    font-size: 24rpx;
+    color: rgba(139, 90, 43, 0.78);
+    font-weight: 600;
   }
   
-  .action-text {
-    font-size: 27rpx;
-    color: rgba(139, 90, 43, 0.75);
-    font-weight: 500;
-    text-align: center;
-    line-height: 1.4;
-  }
-  
-  /* ===== 切换学校按钮卡片 ===== */
-  .campus-switch-card {
-    background: rgba(255, 255, 255, 0.96);
-    border-radius: 24rpx;
-    padding: 24rpx;
-    margin-bottom: 18rpx;
-    box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.06);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-  }
-  
-  .campus-btn {
-    width: 100%;
-  }
-  
-  /* ===== 功能列表卡片 ===== */
+  /* ===== menu ===== */
   .menu-card {
     padding: 0;
     overflow: hidden;
@@ -334,23 +287,10 @@ page {
     background: transparent !important;
   }
   
-  .menu-cell-group .van-cell-group {
-    margin: 0 !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-  }
-  
-  .menu-cell-group .van-cell-group--inset {
-    margin: 0 !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-  }
-  
   .menu-cell {
     height: 108rpx !important;
     padding-left: 24rpx !important;
     padding-right: 24rpx !important;
-    transition: background-color 0.15s ease;
   }
   
   .menu-cell:active {
@@ -385,10 +325,6 @@ page {
     opacity: 0.8;
   }
   
-  .menu-cell .van-cell__right-icon-wrap {
-    height: auto;
-  }
-  
   .menu-cell:not(:last-child)::after {
     border-color: rgba(0, 0, 0, 0.06) !important;
     left: 24rpx !important;
@@ -398,188 +334,67 @@ page {
   .menu-cell:last-child::after {
     display: none !important;
   }
-  
-  /* 在线客服透明按钮 */
-  .kefuButton {
-    border: none !important;
-    border-color: transparent !important;
-    background-color: transparent !important;
-    color: transparent !important;
-    position: absolute !important;
-    top: 0 !important;
-    right: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-  }
-  
-  /* ===== 保留原有样式（兼容性） ===== */
-  .top-box {
-    background: transparent;
-  }
-  
-  .group-box {
-    margin-top: 20rpx;
-    width: 90%;
-    margin-left: 5%;
-    border-radius: 20rpx;
-  }
-  
-  .van-icon {
-    width: 64rpx;
-  }
-  
-  .row-0 {
-    height: 300rpx;
-  }
-  
-  .row-1 {
-    margin-top: 50rpx;
-    line-height: 100rpx;
-    height: 100rpx;
-    font-size: large;
-  }
-  
-  .row-2 {
-    line-height: 1;
-    height: auto;
-    margin: 0;
-  }
-  
-  .userinfo-avatar {
-    overflow: hidden;
-    display: block;
-    width: 160rpx;
-    height: 160rpx;
-    margin: 20rpx;
-    margin-top: 50rpx;
-    border-radius: 50%;
-    border: 2px solid #fff;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  .userinfo-nickname {
-    font-weight: 600;
-    color: var(--color-primary);
-  }
-  
-  .grid-box {
-    margin-top: 20rpx;
-    width: 90%;
-    margin-left: 5%;
-    border-radius: 20rpx;
-    text-align: center;
-  }
-  
-  /* 中间部分（已注释，保留样式） */
-  .desc-img1 image {
-    width: 70rpx;
-    height: 70rpx;
-  }
-  
-  .desc-img2 image {
-    width: 100rpx;
-    height: 100rpx;
-  }
-  
-  .middle {
+
+
+  /* ===== 圈子卡片（新增） ===== */
+.circle-card {
+    padding: 22rpx 18rpx 18rpx;
     display: flex;
-    margin-top: 8rpx;
-    height: 160rpx;
-    box-shadow: 5rpx 5rpx 10rpx 5rpx #e1e1e1;
+    flex-direction: column;
+    gap: 14rpx;
+    margin-bottom: 20rpx;
   }
   
-  .middle-content {
-    height: 120;
-    width: 100%;
-    padding-left: 20rpx;
-    margin: auto;
-    align-items: center;
-    justify-content: space-around;
-    display: flex;
-  }
-  
-  .communication {
-    align-items: center;
-    display: flex;
-  }
-  
-  .division {
+  .circle-head {
     display: flex;
     align-items: center;
-  }
-  
-  .vertical-line image {
-    width: 50rpx;
-    height: 80rpx;
-    z-index: 9999;
-    vertical-align: middle;
-  }
-  
-  .shop {
-    align-items: center;
-    display: flex;
-  }
-  
-  .title1 {
-    font-size: 30rpx;
-    font-weight: 800;
-    color: rgb(243, 197, 228);
-  }
-  
-  .detail1 {
-    font-size: 20rpx;
-    font-weight: 500;
-    color: rgb(243, 197, 228);
-  }
-  
-  .title2 {
-    font-size: 30rpx;
-    font-weight: 800;
-    color: rgb(188, 209, 138);
-  }
-  
-  .detail2 {
-    font-size: 20rpx;
-    font-weight: 500;
-    color: rgb(188, 209, 138);
-  }
-  
-  .bottom-content {
-    width: 95%;
-    border-radius: 5%;
-    margin: auto;
-    background-color: rgba(255, 255, 255, 0.95);
-    padding-bottom: 35rpx;
-    box-shadow: 5rpx 5rpx 10rpx 5rpx rgba(139, 90, 43, 0.1);
-  }
-  
-  .me-about {
-    display: flex;
-    margin: 20rpx 40rpx;
-    padding: 30rpx 0rpx;
     justify-content: space-between;
-    border-bottom: 2rpx solid rgba(139, 90, 43, 0.1);
   }
   
-  .me-about image {
-    align-self: center;
-    width: 35rpx;
-    height: 35rpx;
+  .circle-title {
+    font-size: 30rpx;
+    font-weight: 800;
+    color: rgb(139, 90, 43);
   }
   
-  .custom-class {
+  .circle-grid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16rpx;
+  }
+  
+  .circle-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.12s ease, opacity 0.12s ease;
+  }
+  
+  .circle-item:active {
+    transform: scale(0.985);
+    opacity: 0.85;
+  }
+  
+  .circle-icon {
+    width: 72rpx;
+    height: 72rpx;
+    border-radius: 50%;
+    background: rgba(139, 90, 43, 0.10);
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 12rpx;
   }
   
-  .van-icon--image {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .circle-text {
+    font-size: 24rpx;
+    color: rgba(139, 90, 43, 0.75);
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.4;
   }
   
-  .campusVerify {
-    align-items: center;
-  }
   

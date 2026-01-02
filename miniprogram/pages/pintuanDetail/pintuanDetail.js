@@ -10,12 +10,18 @@ Page({
     // 导航栏高度
     navBarHeight: 0,
     statusBarHeight: 0,
+    // 来源/类型：group | service
+    source: 'group',
     // 仅用于 UI 展示的占位数据（不影响业务）
     soldCount: 345,
     locationText: '重庆',
     shippingText: '快递：免运费',
     rankText: '社区拼团热销榜 · 第2名',
     thumb_list: [],
+    distance: '',
+    address: '',
+    bizHours: '',
+    tags: [],
     mockParams: [
       { k: '商品分类', v: '罐装' },
       { k: '规格/尺寸', v: '正常规格' },
@@ -50,51 +56,89 @@ Page({
     const systemInfo = wx.getSystemInfoSync();
     const menuButtonInfo = wx.getMenuButtonBoundingClientRect();
     const navBarHeight = (menuButtonInfo.top - systemInfo.statusBarHeight) * 2 + menuButtonInfo.height + systemInfo.statusBarHeight;
+    const source = options.source || 'group';
+    const id = options.id;
     this.setData({
       navBarHeight: navBarHeight,
       statusBarHeight: systemInfo.statusBarHeight,
+      source,
     });
 
-    var id = options.id
-    var that = this
+    if (source === 'group') {
+      this.loadGroupDetail(id);
+    } else {
+      this.loadServiceDetail(id);
+    }
+  },
+
+  loadGroupDetail(id) {
+    const that = this;
     wx.showLoading({
       title: '加载中',
-    })
+    });
     wx.request({
-        url: api.GetGroupBuyByIdXiaoyuan,
-        method:'GET',
-        data: {
-            id:id,
-            region:app.globalData.region,
-            campus:app.globalData.campus
-        },
-        header: {
-            'content-type': 'application/json' // 默认值
-        },
-        success (res) {
-            wx.hideLoading()
-            console.log(res.data.res)
-            var pintuan = res.data.res[0]
-            const posterList = pintuan.poster_pic ? pintuan.poster_pic.split(',').filter(url => url.trim() !== '') : [];
-            const thumbList = posterList.slice(0, 3);
-            that.setData({
-                poster_list: posterList,
-                thumb_list: thumbList.length ? thumbList : (pintuan.main_pic ? [pintuan.main_pic] : []),
-                id: pintuan.id,
-                name: pintuan.name,
-                description: pintuan.description,
-                current_price: pintuan.current_price,
-                ori_price: pintuan.ori_price,
-                discount: pintuan.discount,
-                main_pic: pintuan.main_pic,
-                poster_pic: pintuan.poster_pic,
-                qr_pic: pintuan.qr_pic,
-                campus: pintuan.campus,
-                region: pintuan.region,
-                c_time: pintuan.c_time
-            });
-        },
-    })
+      url: api.GetGroupBuyByIdXiaoyuan,
+      method:'GET',
+      data: {
+        id:id,
+        region:app.globalData.region,
+        campus:app.globalData.campus
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success (res) {
+        wx.hideLoading();
+        var pintuan = res.data.res[0] || {};
+        const posterList = pintuan.poster_pic ? pintuan.poster_pic.split(',').filter(url => url.trim() !== '') : [];
+        const thumbList = posterList.slice(0, 3);
+        that.setData({
+          poster_list: posterList,
+          thumb_list: thumbList.length ? thumbList : (pintuan.main_pic ? [pintuan.main_pic] : []),
+          id: pintuan.id,
+          name: pintuan.name,
+          description: pintuan.description,
+          current_price: pintuan.current_price,
+          ori_price: pintuan.ori_price,
+          discount: pintuan.discount,
+          main_pic: pintuan.main_pic,
+          poster_pic: pintuan.poster_pic,
+          qr_pic: pintuan.qr_pic,
+          campus: pintuan.campus,
+          region: pintuan.region,
+          c_time: pintuan.c_time
+        });
+      },
+      fail() {
+        wx.hideLoading();
+      }
+    });
+  },
+
+  loadServiceDetail(id) {
+    // TODO: 替换为真实服务详情接口
+    const mock = {
+      id: id || 'svc_mock',
+      name: '天河宠物医院',
+      description: '24小时急诊 · 体检疫苗 · 专业诊疗',
+      current_price: 168,
+      ori_price: 0,
+      discount: '',
+      main_pic: 'https://img.yzcdn.cn/vant/cat.jpeg',
+      poster_list: ['https://img.yzcdn.cn/vant/cat.jpeg'],
+      thumb_list: ['https://img.yzcdn.cn/vant/cat.jpeg'],
+      distance: '1.2km',
+      address: '广州市天河区体育东路 88 号',
+      bizHours: '24小时',
+      tags: ['急诊','疫苗','体检'],
+    };
+    const posterList = mock.poster_list || [];
+    const thumbList = mock.thumb_list || [];
+    this.setData({
+      ...mock,
+      poster_list: posterList,
+      thumb_list: thumbList.length ? thumbList : (mock.main_pic ? [mock.main_pic] : []),
+    });
   },
 
   goBack() {
@@ -105,10 +149,17 @@ Page({
 
   submitInfo(e) {
     const id = e.currentTarget.dataset.id;
+    const { source } = this.data;
     console.log(e)
+    const encodedSource = encodeURIComponent(source || 'group');
     wx.navigateTo({
-      url: '/pages/pintuanDetail/groupInfoForm/groupInfoForm?id=' + id
+      url: `/pages/pintuanDetail/groupInfoForm/groupInfoForm?id=${id}&source=${encodedSource}`
     });
+  },
+
+  onPrimaryAction(e) {
+    const { source, id } = this.data;
+    this.submitInfo({ currentTarget: { dataset: { id, source } } });
   },
 
   onTapFav() {

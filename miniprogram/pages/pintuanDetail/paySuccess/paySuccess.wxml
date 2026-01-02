@@ -1,0 +1,63 @@
+<!-- 背景图片 -->
+<image class="page-bg" src="../../../images/BG.png" mode="aspectFill"></image>
+
+<!-- 自定义导航栏（与确认订单页一致） -->
+<view class="custom-navbar" style="height:{{navBarHeight}}px; padding-top:{{statusBarHeight}}px;">
+  <view class="navbar-content">
+    <view class="navbar-left">
+      <view class="navbar-back-btn" bindtap="goBack">
+        <text class="navbar-back-icon">‹</text>
+      </view>
+      <image class="navbar-paw-icon" src="../../../images/icon/paw.png" mode="aspectFit"></image>
+    </view>
+
+    <view class="navbar-center">
+      <text class="navbar-title">支付成功</text>
+    </view>
+
+    <view class="navbar-right">
+      <view class="navbar-icon-placeholder"></view>
+      <view class="navbar-icon-placeholder"></view>
+    </view>
+  </view>
+</view>
+
+<view class="page" style="margin-top:{{navBarHeight}}px;">
+  <view class="card success-card">
+    <view class="success-icon">✓</view>
+    <view class="success-title">支付成功</view>
+    <view class="success-sub">{{ source === 'service' ? '请到店出示核销码完成服务' : '感谢你的支持，订单已开始处理' }}</view>
+
+    <view class="info-table">
+      <view class="info-row">
+        <text class="info-k">支付金额</text>
+        <text class="info-v">¥{{amount}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-k">订单号</text>
+        <text class="info-v">{{orderNo}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-k">支付时间</text>
+        <text class="info-v">{{payTime}}</text>
+      </view>
+    </view>
+
+    <view class="verify-card" wx:if="{{source === 'service'}}">
+      <view class="verify-title">核销码</view>
+      <view class="verify-code">{{verifyCode}}</view>
+      <view class="verify-qr">
+        <image class="verify-qr-img" src="{{qrImg}}" mode="aspectFit"></image>
+      </view>
+      <view class="verify-tip">请向商家出示核销码或二维码完成核销</view>
+    </view>
+
+    <view class="btn-row">
+      <button class="btn btn-ghost" bindtap="goOrder">查看订单</button>
+      <button class="btn btn-primary" bindtap="goHome">{{ source === 'service' ? '返回服务列表' : '返回首页' }}</button>
+    </view>
+  </view>
+</view>
+
+<van-toast id="van-toast" />
+

@@ -7,6 +7,8 @@ Page({
     // 导航栏高度
     navBarHeight: 0,
     statusBarHeight: 0,
+    // 来源：group | service
+    source: 'group',
     // 商品
     id: null,
     name: '',
@@ -48,9 +50,11 @@ Page({
     const systemInfo = wx.getSystemInfoSync();
     const menuButtonInfo = wx.getMenuButtonBoundingClientRect();
     const navBarHeight = (menuButtonInfo.top - systemInfo.statusBarHeight) * 2 + menuButtonInfo.height + systemInfo.statusBarHeight;
+    const source = options.source || 'group';
     this.setData({
       navBarHeight: navBarHeight,
       statusBarHeight: systemInfo.statusBarHeight,
+      source,
     });
 
     const id = options.id;
@@ -60,28 +64,65 @@ Page({
     this.getAddressList();
     this.getPickupList();
 
-    wx.showLoading({ title: '加载中' });
-    wx.request({
-      url: api.GetGroupBuyByIdXiaoyuan,
-      method: 'GET',
-      data: {
-        id: id,
-        region: app.globalData.region,
-        campus: app.globalData.campus
-      },
-      success: (res) => {
-        wx.hideLoading();
-        const pintuan = res.data.res[0];
-        this.setData({
-          name: pintuan.name,
-          current_price: Number(pintuan.current_price || 0),
-          ori_price: Number(pintuan.ori_price || 0),
-          main_pic: pintuan.main_pic,
-        }, () => {
-          this.updateTotals();
-        });
-      }
-    });
+    if (source === 'service') {
+      // 服务类型：先用 mock，后续可替换为服务下单所需字段
+      const mock = {
+        name: '服务预约',
+        current_price: 99,
+        ori_price: 0,
+        main_pic: this.data.main_pic || '',
+      };
+      this.setData({
+        ...mock,
+      }, () => this.ensureDefaultSelection());
+    } else {
+      wx.showLoading({ title: '加载中' });
+      wx.request({
+        url: api.GetGroupBuyByIdXiaoyuan,
+        method: 'GET',
+        data: {
+          id: id,
+          region: app.globalData.region,
+          campus: app.globalData.campus
+        },
+        success: (res) => {
+          wx.hideLoading();
+          const pintuan = res.data.res[0];
+          this.setData({
+            name: pintuan.name,
+            current_price: Number(pintuan.current_price || 0),
+            ori_price: Number(pintuan.ori_price || 0),
+            main_pic: pintuan.main_pic,
+            skuList: pintuan.skuList || pintuan.skus || this.data.skuList,
+            packList: pintuan.packList || pintuan.packs || this.data.packList,
+          }, () => {
+            this.ensureDefaultSelection();
+          });
+        }
+      });
+    }
+  },
+
+  ensureDefaultSelection() {
+    const { skuList, selectedSkuId, packList, selectedPackId } = this.data;
+    let nextSkuId = selectedSkuId;
+    let nextPackId = selectedPackId;
+
+    if (Array.isArray(skuList) && skuList.length === 1) {
+      nextSkuId = skuList[0].id;
+    }
+    if (Array.isArray(packList) && packList.length === 1) {
+      nextPackId = packList[0].id;
+    }
+
+    if (nextSkuId !== selectedSkuId || nextPackId !== selectedPackId) {
+      this.setData({
+        selectedSkuId: nextSkuId,
+        selectedPackId: nextPackId,
+      }, () => this.recalcPrice());
+    } else {
+      this.recalcPrice();
+    }
   },
 
   goBack() {
@@ -100,47 +141,69 @@ Page({
   // 规格选择
   onSelectSku(e) {
     const id = e.currentTarget.dataset.id;
-    this.setData({ selectedSkuId: id }, () => this.updateTotals());
+    this.setData({ selectedSkuId: id }, () => this.recalcPrice());
   },
 
   onSelectPack(e) {
     const id = e.currentTarget.dataset.id;
-    this.setData({ selectedPackId: id }, () => this.updateTotals());
+    this.setData({ selectedPackId: id }, () => this.recalcPrice());
   },
 
   // 数量加减
   onMinus() {
     const { quantity } = this.data;
     if (quantity <= 1) return;
-    this.setData({ quantity: quantity - 1 }, () => this.updateTotals());
+    this.setData({ quantity: quantity - 1 }, () => this.recalcPrice());
   },
 
   onPlus() {
     const { quantity } = this.data;
-    this.setData({ quantity: quantity + 1 }, () => this.updateTotals());
+    this.setData({ quantity: quantity + 1 }, () => this.recalcPrice());
   },
 
-  // 计算单价、总价
-  getSkuDelta() {
-    const { skuList, selectedSkuId } = this.data;
-    const found = skuList.find(s => s.id === selectedSkuId);
-    return found ? Number(found.priceDelta || 0) : 0;
-  },
+  // 计算单价、总价（新增组合价格逻辑）
+  recalcPrice() {
+    const { current_price, quantity, skuList, packList, selectedSkuId, selectedPackId } = this.data;
+    const basePrice = Number(current_price || 0);
+    const selectedSku = (skuList || []).find(s => s.id === selectedSkuId) || null;
+    const selectedPack = (packList || []).find(p => p.id === selectedPackId) || null;
 
-  getPackDelta() {
-    const { packList, selectedPackId } = this.data;
-    const found = packList.find(p => p.id === selectedPackId);
-    return found ? Number(found.priceDelta || 0) : 0;
-  },
+    const skuHasAbsolutePrice = selectedSku && selectedSku.price !== undefined && selectedSku.price !== null && selectedSku.price !== '';
+    const packHasAbsolutePrice = selectedPack && selectedPack.price !== undefined && selectedPack.price !== null && selectedPack.price !== '';
 
-  updateTotals() {
-    const { current_price, quantity } = this.data;
-    const unit = Number(current_price || 0) + this.getSkuDelta() + this.getPackDelta();
+    const skuPrice = skuHasAbsolutePrice ? Number(selectedSku.price) : null;
+    const packPrice = packHasAbsolutePrice ? Number(selectedPack.price) : null;
+
+    const skuDelta = Number(selectedSku ? selectedSku.priceDelta || 0 : 0);
+    const packDelta = Number(selectedPack ? selectedPack.priceDelta || 0 : 0);
+
+    let unit = basePrice;
+
+    if (skuPrice !== null && !Number.isNaN(skuPrice)) {
+      unit = skuPrice;
+    } else {
+      unit = unit + skuDelta;
+    }
+
+    if (packPrice !== null && !Number.isNaN(packPrice)) {
+      // 组合逻辑：包装存在绝对价时，以包装价为基准，若 SKU 仅是增减价则保留该增减
+      const skuDeltaToKeep = skuHasAbsolutePrice ? 0 : skuDelta;
+      unit = packPrice + skuDeltaToKeep;
+    } else {
+      unit = unit + packDelta;
+    }
+
     const total = unit * Number(quantity || 1);
+
     this.setData({
       unitPrice: unit.toFixed(2),
       totalPrice: total.toFixed(2),
     });
+  },
+
+  // 兼容旧调用
+  updateTotals() {
+    this.recalcPrice();
   },
 
   // 预留：获取默认地址
@@ -173,6 +236,7 @@ Page({
       unitPrice, totalPrice, quantity,
       deliveryMode, address, pickup,
       selectedSkuId, selectedPackId,
+      source,
     } = this.data;
 
     // 简单校验（后续可根据真实地址体系增强）
@@ -180,11 +244,11 @@ Page({
       Toast.fail('商品信息异常');
       return;
     }
-    if (deliveryMode === 'ship' && (!address || !address.detail)) {
+    if (source !== 'service' && deliveryMode === 'ship' && (!address || !address.detail)) {
       Toast.fail('请完善收货信息');
       return;
     }
-    if (deliveryMode === 'pickup' && (!pickup || !pickup.detail)) {
+    if (source !== 'service' && deliveryMode === 'pickup' && (!pickup || !pickup.detail)) {
       Toast.fail('请完善自提点信息');
       return;
     }
@@ -198,25 +262,30 @@ Page({
       qty: quantity,
       unitPrice,
       totalPrice,
-      deliveryMode,
-      address: deliveryMode === 'ship' ? address : null,
-      pickup: deliveryMode === 'pickup' ? pickup : null,
+      deliveryMode: source === 'service' ? 'service' : deliveryMode,
+      address: source === 'service' ? null : (deliveryMode === 'ship' ? address : null),
+      pickup: source === 'service' ? null : (deliveryMode === 'pickup' ? pickup : null),
+      order_type: source || 'group',
+      source: source || 'group',
       pay_method: 'wechat', // PAY METHOD FIXED
       remark: '', // REMARK REMOVED（预留字段，先传空串）
     };
 
     console.log('orderDraft', orderDraft);
 
-    // 预留调用链（不阻塞当前运行）
-    this.createOrder(orderDraft)
-      .then(({ orderId }) => this.payOrder(orderId))
-      .then(() => {
-        Toast.success('已生成订单参数，接口待接入');
-      })
-      .catch((err) => {
-        console.error('submitOrder error', err);
-        Toast.fail('下单失败（接口待接入）');
+    // 模拟支付成功后跳转支付成功页（如接入真实支付，请替换为 requestPayment 成功回调）
+    const amount = totalPrice || unitPrice || '0.00';
+    const orderNo = `PT${Date.now()}`;
+    wx.showLoading({ title: '支付中...' });
+    setTimeout(() => {
+      wx.hideLoading();
+      const encodedAmount = encodeURIComponent(amount);
+      const encodedOrderNo = encodeURIComponent(orderNo);
+      const encodedSource = encodeURIComponent(source || 'group');
+      wx.navigateTo({
+        url: `/pages/pintuanDetail/paySuccess/paySuccess?amount=${encodedAmount}&orderNo=${encodedOrderNo}&source=${encodedSource}`
       });
+    }, 800);
   },
   
 });

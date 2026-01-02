@@ -22,7 +22,7 @@
 
 <view class="order-page" style="margin-top:{{navBarHeight}}px;">
   <!-- 配送方式 + 地址（同一卡片） -->
-  <view class="card delivery-card">
+  <view class="card delivery-card" wx:if="{{source === 'group'}}">
     <view class="segmented">
       <view class="seg-item {{deliveryMode === 'ship' ? 'seg-item--active' : ''}}" bindtap="onSwitchDelivery" data-mode="ship">
         <text class="seg-text">邮寄到家</text>
@@ -49,13 +49,18 @@
     </view>
   </view>
 
+  <!-- <view class="card delivery-card delivery-card--service" wx:if="{{source === 'service'}}">
+    <view class="service-delivery-title">到店核销 / 无需配送</view>
+    <view class="service-delivery-sub">请到店出示核销码完成服务</view>
+  </view> -->
+
   <!-- 商品信息卡片 -->
   <view class="card product-card">
     <image class="product-image" src="{{main_pic}}" mode="aspectFill"></image>
     <view class="product-mid">
       <view class="product-name">【威尔逊】{{name}}</view>
       <view class="product-price-row">
-        <text class="price-prefix">拼团价</text>
+        <text class="price-prefix">{{ source === 'service' ? '服务价' : '拼团价' }}</text>
         <text class="price-now">¥{{unitPrice}}</text>
         <text class="price-per">/件</text>
         <text class="price-old" wx:if="{{ori_price}}">¥{{ori_price}}</text>
@@ -71,19 +76,23 @@
 
   <!-- 规格选择 -->
   <view class="card section-card">
-    <view class="section-title">船型分类</view>
-    <view class="chip-grid">
+    <view class="section-title">分类</view>
+    <view class="option-list">
       <block wx:for="{{skuList}}" wx:key="id">
-        <view class="chip {{item.id === selectedSkuId ? 'chip--active' : ''}}" bindtap="onSelectSku" data-id="{{item.id}}">
-          <text>{{item.title}}</text>
+        <view class="option-row">
+          <view class="option-chip {{item.id === selectedSkuId ? 'chip--active' : ''}}" bindtap="onSelectSku" data-id="{{item.id}}">
+            <text>{{item.title}}</text>
+          </view>
         </view>
       </block>
     </view>
     <view class="section-title">包装规格</view>
-    <view class="chip-grid">
+    <view class="option-list">
       <block wx:for="{{packList}}" wx:key="id">
-        <view class="chip {{item.id === selectedPackId ? 'chip--active' : ''}}" bindtap="onSelectPack" data-id="{{item.id}}">
-          <text>{{item.title}}</text>
+        <view class="option-row">
+          <view class="option-chip {{item.id === selectedPackId ? 'chip--active' : ''}}" bindtap="onSelectPack" data-id="{{item.id}}">
+            <text>{{item.title}}</text>
+          </view>
         </view>
       </block>
     </view>
@@ -103,13 +112,17 @@
   </view> -->
 </view>
 
-<!-- 底部固定支付条（PAYBAR UPDATED） -->
+<!-- 底部固定支付条（合并胶囊） -->
 <view class="paybar">
-  <view class="price-pill" aria-label="合计金额">
-    <text class="price-pill-prefix">¥</text>
-    <text class="price-pill-text">{{totalPrice}}</text>
+  <view class="paybar-merged">
+    <view class="paybar-left" aria-label="合计金额">
+      <text class="paybar-currency">¥</text>
+      <text class="paybar-price">{{totalPrice}}</text>
+    </view>
+    <button class="paybar-right" bindtap="submitOrder">
+      <text class="paybar-btn-text">立即支付</text>
+    </button>
   </view>
-  <button class="paybar-btn" bindtap="submitOrder">立即支付</button>
 </view>
 
 <van-toast id="van-toast" />

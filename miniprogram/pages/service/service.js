@@ -74,9 +74,12 @@ Page({
    * 功能宫格点击
    */
   onFeatureTap(e) {
-    const id = e.currentTarget.dataset.id;
-    console.log('点击功能:', id);
-    // TODO: 后续可添加跳转逻辑
+    const { id, name } = e.currentTarget.dataset;
+    const cateId = id;
+    const cateName = encodeURIComponent(name || '');
+    wx.navigateTo({
+      url: `/pages/serviceCategory/serviceCategory?cateId=${cateId}&cateName=${cateName}`
+    });
   },
 
   /**
@@ -85,7 +88,9 @@ Page({
   onServiceTap(e) {
     const id = e.currentTarget.dataset.id;
     console.log('点击服务:', id);
-    // TODO: 后续可添加跳转逻辑
+    wx.navigateTo({
+      url: `/pages/pintuanDetail/pintuanDetail?id=${id}&source=service`
+    });
   },
 
   /**
@@ -114,7 +119,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ selected: 3 });
+    }
   },
 
   /**

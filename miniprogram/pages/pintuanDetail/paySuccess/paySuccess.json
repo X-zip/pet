@@ -1,0 +1,7 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "van-toast": "@vant/weapp/toast/index"
+  }
+}
+

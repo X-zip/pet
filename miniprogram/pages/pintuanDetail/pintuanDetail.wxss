@@ -319,6 +319,54 @@ page {
   font-weight: 700;
 }
 
+.service-info {
+  margin-top: 14rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}
+
+.service-line {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  color: #2B2B2B;
+  font-size: 26rpx;
+}
+
+.service-tag {
+  padding: 4rpx 10rpx;
+  border-radius: 999rpx;
+  background: rgba(139, 90, 43, 0.12);
+  color: #8B5A2B;
+  font-size: 22rpx;
+  font-weight: 700;
+}
+
+.service-distance {
+  color: rgba(43,43,43,0.72);
+}
+
+.service-address,
+.service-hours {
+  color: rgba(43,43,43,0.86);
+}
+
+.service-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+}
+
+.service-tag-chip {
+  padding: 6rpx 14rpx;
+  border-radius: 999rpx;
+  background: rgba(139, 90, 43, 0.08);
+  color: #8B5A2B;
+  font-size: 22rpx;
+  font-weight: 700;
+}
+
 /* =========================
    分区卡片：参数/评价/详情
    ========================= */
@@ -505,7 +553,7 @@ page {
   height: 88rpx;
   /* 与卡片统一圆角，避免“系统组件感” */
   border-radius: var(--radius-card);
-  background: var(--color-primary);
+  background: linear-gradient(135deg, #F8AE2B 0%, #F59E0B 100%);
   color: #ffffff;
   font-size: 32rpx;
   font-weight: 700;

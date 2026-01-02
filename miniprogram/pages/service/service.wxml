@@ -41,7 +41,7 @@
           span="6"
           custom-class="feature-col"
         >
-          <view class="feature-item" bindtap="onFeatureTap" data-id="{{item.id}}">
+          <view class="feature-item" bindtap="onFeatureTap" data-id="{{item.id}}" data-name="{{item.name}}">
             <view class="feature-icon-wrapper">
               <image class="feature-icon" src="{{item.icon}}" mode="aspectFit" />
             </view>

@@ -155,37 +155,61 @@ page {
   padding: 20rpx 22rpx 18rpx;
 }
 
+.delivery-card--service {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.service-delivery-title {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.service-delivery-sub {
+  font-size: 24rpx;
+  color: rgba(43,43,43,0.75);
+}
+
 /* Segmented Control（一个整体容器） */
 .segmented {
-  display: flex;
-  gap: 8rpx;
-  padding: 8rpx;
-  border-radius: 999rpx;
-  background: rgba(255, 255, 255, 0.72);
-  border: 1rpx solid var(--border);
-  margin-bottom: 16rpx;
-}
-
-.seg-item {
-  flex: 1;
-  height: 64rpx;
-  border-radius: 999rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--brand);
-  font-weight: 700;
-}
-
-.seg-text {
-  font-size: 26rpx;
-}
-
-.seg-item--active {
-  background: linear-gradient(135deg, #F8AE2B 0%, #F59E0B 100%);
-  color: #ffffff;
-  box-shadow: 0 6rpx 14rpx rgba(245, 158, 11, 0.22);
-}
+    display: flex;
+    gap: 8rpx;
+    padding: 8rpx;
+    border-radius: 999rpx;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1rpx solid var(--border);
+    margin-bottom: 16rpx;
+  }
+  
+  .seg-item {
+    flex: 1;
+    height: 64rpx;
+    border-radius: 999rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--brand);
+    font-weight: 700;
+  }
+  
+  /* ✅ 关键：text 明确继承父级颜色 */
+  .seg-text {
+    font-size: 26rpx;
+    color: inherit;
+  }
+  
+  .seg-item--active {
+    background: linear-gradient(135deg, #F8AE2B 0%, #F59E0B 100%);
+    color: #ffffff;
+    box-shadow: 0 6rpx 14rpx rgba(245, 158, 11, 0.22);
+  }
+  
+  /* ✅ 关键：再加一层保险，强制选中态 text 白色 */
+  .seg-item--active .seg-text {
+    color: #ffffff !important;
+  }
 
 .address-box {
   background: rgba(255, 255, 255, 0.78);
@@ -347,32 +371,45 @@ page {
   margin-bottom: 14rpx;
 }
 
-.chip-grid {
+.option-list {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 16rpx;
   margin-bottom: 18rpx;
 }
 
-.chip {
-  height: 58rpx;
-  padding: 0 18rpx;
-  border-radius: 30rpx;
-  border: 1rpx solid rgba(139, 90, 43, 0.12);
-  background: rgba(255, 255, 255, 0.92);
-  color: var(--brand);
-  font-size: 24rpx;
-  font-weight: 600;
+.option-row {
+  width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
 }
 
-.chip--active {
-  border: 1rpx solid rgba(248, 174, 43, 0.95);
-  background: rgba(248, 174, 43, 0.22);
-  color: var(--brand);
-  box-shadow: 0 6rpx 14rpx rgba(245, 158, 11, 0.16);
+.option-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  max-width: 100%;
+  padding: 0 22rpx;
+  min-height: 64rpx;
+  border-radius: 26rpx;
+  border: 1rpx solid rgba(139, 90, 43, 0.06);
+  background: rgba(0, 0, 0, 0.06);
+  color: rgba(43, 43, 43, 0.86);
+  font-size: 24rpx;
+  font-weight: 600;
+  box-sizing: border-box;
+}
+
+.option-chip.chip--active {
+  border: 2rpx solid #F8AE2B;
+  background: linear-gradient(135deg, #F8AE2B 0%, #F59E0B 100%);
+  color: #ffffff !important;
+  box-shadow: 0 6rpx 12rpx rgba(245, 158, 11, 0.18);
+}
+
+.option-chip.chip--active text {
+  color: #ffffff !important;
 }
 
 /* 支付方式 */
@@ -423,64 +460,68 @@ page {
   padding: 18rpx 20rpx;
   padding-bottom: calc(18rpx + env(safe-area-inset-bottom));
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  /* PAYBAR UPDATED：两枚胶囊之间保持明显呼吸感，避免拼接 */
-  gap: 18rpx;
   box-sizing: border-box;
   background: transparent;
 }
 
-.price-pill {
-  flex: 1;
-  height: 88rpx;
+.paybar-merged {
+  width: 100%;
+  height: 96rpx;
   border-radius: 999rpx;
-  /* PAYBAR UPDATED：不死黑，带一点层次 */
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 14rpx 28rpx rgba(0, 0, 0, 0.22);
+  background: transparent;
+}
+
+.paybar-left {
+  flex: 1;
+  height: 100%;
   background: linear-gradient(180deg, #2a2a2a 0%, #1f1f1f 100%);
   display: flex;
   align-items: center;
-  padding: 0 28rpx;
+  padding-left: 32rpx;
   box-sizing: border-box;
-  /* PAYBAR UPDATED：更柔和、向下扩散 */
-  box-shadow: 0 12rpx 24rpx rgba(0, 0, 0, 0.18);
 }
 
-.price-pill-prefix {
+.paybar-currency {
   font-size: 28rpx;
-  font-weight: 800;
-  color: rgba(255, 255, 255, 0.92);
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
   margin-right: 4rpx;
 }
 
-.price-pill-text {
-  /* PAYBAR UPDATED：金额更突出但不炸 */
-  font-size: 38rpx;
+.paybar-price {
+  font-size: 40rpx;
   font-weight: 800;
-  color: rgba(255, 255, 255, 0.96);
-  letter-spacing: 0.5rpx;
+  color: #ffffff;
 }
 
-.paybar-btn {
-  flex: 0 0 auto;
-  width: 268rpx;
-  height: 88rpx;
-  padding: 0;
-  /* PAYBAR UPDATED：与金额胶囊同圆角体系 */
-  border-radius: 999rpx;
+.paybar-right {
+  width: 270rpx;
+  height: 100%;
   background: linear-gradient(135deg, #F8AE2B 0%, #F59E0B 100%);
-  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.paybar-right::after {
+  border: none;
+}
+
+.paybar-btn-text {
   font-size: 32rpx;
   font-weight: 800;
-  border: none;
-  /* PAYBAR UPDATED：阴影语言与黑胶囊一致，但偏暖 */
-  box-shadow: 0 12rpx 24rpx rgba(245, 158, 11, 0.22);
+  color: #ffffff;
 }
 
-.paybar-btn::after {
-  border: none;
-}
-
-.paybar-btn:active {
+.paybar-merged:active {
   transform: scale(0.985);
-  box-shadow: 0 6rpx 14rpx rgba(245, 158, 11, 0.18);
 }
+

@@ -31,6 +31,9 @@
     "pages/campusVerify/campusVerify",
     "pages/pintuanDetail/groupInfoForm/groupInfoForm",
     "pages/pintuanDetail/showContact/showContact",
+    "pages/pintuanDetail/paySuccess/paySuccess",
+    "pages/serviceCategory/serviceCategory",
+    "pages/order/orderList/orderList",
     "pages/subpage/subpage",
     "pages/score/topic_detail/score_topic_detail",
     "components/tag-item/index"

@@ -1,0 +1,80 @@
+<view class="service-page">
+  <!-- 自定义导航栏 -->
+  <view class="custom-navbar" style="height: {{navBarHeight}}px; padding-top: {{statusBarHeight}}px;">
+    <view class="navbar-content">
+      <view class="navbar-left">
+        <view class="navbar-back-btn" bindtap="goBack">
+          <text class="navbar-back-icon">‹</text>
+        </view>
+      </view>
+      <view class="navbar-center">
+        <text class="navbar-title">{{cateName}}</text>
+      </view>
+      <view class="navbar-right"></view>
+    </view>
+  </view>
+
+  <scroll-view scroll-y class="service-scroll" style="padding-top: {{navBarHeight}}px;">
+    <view class="service-body">
+      <view class="section-header">
+        <text class="section-sub">共 {{list.length}} 个 · 距离优先</text>
+      </view>
+
+      <view class="chip-row">
+        <block wx:for="{{chips}}" wx:key="key">
+          <view class="chip-filter {{item.active ? 'chip-filter--active' : ''}}" bindtap="onChipTap" data-key="{{item.key}}">
+            <text>{{item.text}}</text>
+          </view>
+        </block>
+      </view>
+
+      <view class="service-list">
+
+        <block wx:if="{{loading}}">
+          <block wx:for="{{[1,2,3]}}" wx:key="*this">
+            <view class="service-card skeleton-card">
+              <view class="service-card-content">
+                <view class="skeleton-img"></view>
+                <view class="skeleton-info">
+                  <view class="skeleton-line skeleton-line--lg"></view>
+                  <view class="skeleton-line"></view>
+                  <view class="skeleton-footer">
+                    <view class="skeleton-pill"></view>
+                    <view class="skeleton-pill skeleton-pill--sm"></view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </block>
+        </block>
+
+        <block wx:elif="{{list.length}}">
+          <view class="service-card" wx:for="{{list}}" wx:key="id" bindtap="onServiceTap" data-id="{{item.id}}">
+            <view class="service-card-content">
+              <view class="service-card-image">
+                <image class="service-image" src="{{item.img}}" mode="aspectFill" />
+              </view>
+              <view class="service-card-info">
+                <view class="service-title">{{item.title}}</view>
+                <view class="service-desc">{{item.desc}}</view>
+                <view class="service-footer">
+                  <view class="service-price">
+                    <text class="price-text">{{item.price}}</text>
+                  </view>
+                  <view class="service-distance">
+                    <text class="distance-text">{{item.distance}}</text>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </block>
+
+        <view wx:else class="empty-wrap">
+          <van-empty description="该分类暂无服务" />
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>
+
