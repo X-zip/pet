@@ -1,0 +1,155 @@
+@font-face {
+  font-family: "test";
+  src: url("https://wximg.qq.com/cityservices/font/FZFWQingYinTiJWD.TTF");
+}
+.intro {
+  margin: 90px 30px 30px;
+  text-align: center;
+}
+.snapshot-box {
+  font-family: "test";
+  padding: 20px 16px;
+}
+.poster-img {
+  width: 100%;
+}
+.poster-container-UM {
+  padding: 20px 16px;
+  border-radius: 10px;
+}
+
+.poster-container {
+    padding: 20px 16px;
+    border-radius: 10px;
+}
+
+.poster-header {
+    display: flex;
+    align-items: center; /* 垂直居中对齐 */
+    justify-content: space-between; /* 在主轴上将元素分开排列 */
+    padding: 10px; /* 根据需要调整内边距 */
+}
+.poster-header-text {
+  font-size: 24rpx;
+  line-height: 1.8;
+  color: black;
+  font-weight: 800;
+  padding-left: 20rpx;
+  text-align: left;
+}
+.head-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+.description {
+  margin: 20px 0;
+  padding: 20px 0;
+  /* background-color: #fff; */
+  border-radius: 10px;
+}
+.schedule-text {
+  font-size: 52rpx;
+  /* color: rgb(169 119 34); */
+  font-weight: bold;
+}
+.schedule-text .detail{
+  font-size: 40px;
+  font-weight: 500;
+  margin: 10px 0;
+}
+.schedule {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  position: relative;
+}
+.schedule-all {
+  width: 90%;
+  height: 14px;
+  background-color: #eeeeee;
+  border-radius: 20px;
+}
+.schedule-real {
+  position: absolute;
+  width: 80%;
+  height: 14px;
+  background: linear-gradient(90deg, #2fce7c, #229156);
+  border-radius: 20px;
+
+}
+.members {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.member {
+  margin: 10px;
+}
+.member view {
+  width: 48px;
+  background-color: #c5ebdd;
+  color: #07c160;
+  border-radius: 20px;
+  margin-top: -8px;
+  font-size: 12px;
+  line-height: 1.6;
+  padding: 0 6px;
+}
+.member view text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.member .leader {
+  background-color: #07c160;
+  color: #fff;
+}
+.snapshot-footer {
+  display: flex;
+}
+.snapshot-footer-desc {
+  flex: 1;
+  text-align: left;
+  padding-left: 10px;
+}
+
+.line {
+  display: flex;
+  flex-direction: row;
+  margin-left: -16px;
+  margin-right: -16px;
+}
+.real-line {
+  width: 90%;
+  border-bottom: solid 3px rgba(255, 255, 255, 0.1);
+  margin: 0 10px 10px 10px;
+}
+.left-line {
+  width: 10px;
+  height: 20px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 0 10px 10px 0; 
+}
+.right-line {
+  width: 10px;
+  height: 20px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 10px 0 0 10px; 
+}
+
+.qrcode {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+}
+.qrcode image{
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+}
+.qrcode text {
+  font-size: 28rpx;
+  /* color: rgb(169 119 34); */
+}

@@ -1,0 +1,8 @@
+/**index.wxss**/
+.select-box {
+  box-sizing: border-box;
+  padding: 0 20rpx;
+}
+.inline-select {
+  margin-top: 50rpx;
+}

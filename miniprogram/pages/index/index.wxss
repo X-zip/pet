@@ -1,0 +1,987 @@
+page {
+    /* background:linear-gradient(to right ,#f8a0a6,#F4F5F0); */
+    /* background:#859c88; */
+    /* 注意：组局内容区域需要背景色 #f2f2f2，通过 .gathering-content 设置 */
+}
+
+/* 当显示组局内容时，设置背景色（与原 group 页一致） */
+page .page-group-mode {
+    background-color: #f2f2f2;
+}
+
+/* 统一所有校园页面背景为宠物风暖黄色（背景图通过image标签显示） */
+.page {
+    position: relative;
+    min-height: 100vh;
+}
+
+.page-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.page-UM {
+    background: rgb(247, 223, 185);
+}
+
+.page-UTM {
+    background: rgb(247, 223, 185);
+}
+
+.page-MUST {
+    background: rgb(247, 223, 185);
+}
+
+.page-Other {
+    background: rgb(247, 223, 185);
+}
+
+.top-box {
+  background-color: white;
+}
+
+.search-box {
+  position:fixed;
+  top:var(--keyboard_height--);
+  padding-top: 100rpx;
+  width: 98%;
+  background-color: rgba(255, 248, 235, 0.95);
+  border-radius: 24rpx;
+  padding: 100rpx 20rpx 20rpx;
+  box-sizing: border-box;
+}
+
+
+.tag-box {
+  width: 100%;
+  text-align: center;
+  margin-top:var(--keyboard_height--);
+}
+
+.tag_col {
+  height: 100rpx;
+  /* line-height: 120rpx; */
+}
+/* =========================
+   可点击分类标签（优化版）
+   - 胶囊风格
+   - 与 watchNum/like/comment 严格同高对齐
+   ========================= */
+   .tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6rpx;                    /* 图标与文字间距 */
+    font-size: 24rpx;             /* 和其他 action 项一致 */
+    font-weight: 600;
+    color: rgb(139, 90, 43);      /* 暖棕色文字 */
+    background: rgba(255, 152, 0, 0.12);  /* 浅暖橙色背景 */
+    border-radius: 30rpx;
+    padding: 0 20rpx;             /* ✅ 只留左右 padding，避免撑高 */
+    height: 60rpx;                /* ✅ 与其他 action 项同高 */
+    line-height: 60rpx;           /* ✅ 垂直对齐 */
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+    text-decoration: none;
+  }
+  
+  .tag-icon {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    font-size: 22rpx;
+    color: rgb(139, 90, 43);
+  }
+  
+  .tag:active {
+    background: rgba(255, 152, 0, 0.2);
+    transform: scale(0.96);
+  }
+  
+  /* 轻微引导动画（播放 3 次后停止，避免干扰） */
+  @keyframes tagPulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 152, 0, .35); }
+    70% { box-shadow: 0 0 0 10rpx rgba(255, 152, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 152, 0, 0); }
+  }
+  .tag {
+    animation: tagPulse 2.2s ease-out 0s 3;  /* 播放 3 次 */
+  }
+
+.app-title {
+  text-align: center;
+  color: rgb(139, 90, 43);
+  font-weight: 600;
+  font-size: 32rpx;
+}
+
+.main-box {
+  margin-top:var(--keyboard_height--);
+  width: 100%;
+  height:100%;
+  padding-bottom: 200rpx;
+  position: relative;
+  z-index: 1;
+}
+
+.row1 {
+  height: 60rpx;
+  padding-top: 20rpx;
+  padding-bottom: 20rpx;
+}
+
+
+.avatar{
+    width: 60rpx;
+    height: 60rpx;
+    border-radius: 50%;
+    border-width: 4rpx 4rpx 4rpx 4rpx;
+    border-color: rgb(139, 90, 43);
+    border-style: solid;
+  }
+  
+  .avatar-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    
+    
+    .avatar-badge {
+      position: absolute;
+      width: 28rpx;
+      height: 28rpx;
+      bottom: 0rpx; /* 原为 0，改为 -4rpx 更靠外贴边 */
+      right: -16rpx;
+      border-radius: 50%;
+      background-color: white;
+      box-shadow: 0 0 4rpx rgba(0, 0, 0, 0.1); /* 可选，增强浮出感 */
+    }
+
+.userName {
+  color: rgb(139, 90, 43);
+  line-height: 60rpx;
+  font-size: 28rpx;
+  display: flex;
+  justify-content: flex-start;
+  font-weight: 500;
+}
+
+.userName-UM {
+  color: rgb(169, 119, 34);
+  line-height: 60rpx;
+  font-size: 28rpx;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.c_time {
+  color: rgb(139, 90, 43);
+  font-size: 20rpx;
+  line-height: 60rpx;
+  display: flex;
+  justify-content: flex-end;
+  opacity: 0.7;
+}
+
+.ellipsis{
+  color: rgb(139, 90, 43);
+  line-height: 60rpx;
+  opacity: 0.6;
+}
+
+.title {
+  padding: 10rpx 0 10rpx 0;
+  line-height:40rpx;
+  font-size: 30rpx;
+  color: rgb(51, 51, 51);
+  font-weight: 600;
+}
+
+.task-img {
+  padding: 20rpx 20rpx 20rpx 0;
+  width: 300rpx;
+}
+/* Action 行统一对齐：van-col 里都竖直居中 */
+.action {
+    height: 60rpx;
+    padding-top: 20rpx;
+    padding-bottom: 20rpx;
+  }
+  .action .van-col {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* 三项统一尺寸，和 tag 一致 */
+  .action .watchNum,
+  .action .like,
+  .action .comment {
+    font-size: 24rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    color: rgb(139, 90, 43);
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    opacity: 0.7;
+  }
+  .action .like .van-icon,
+  .action .comment .van-icon {
+    margin-right: 6rpx;
+  }
+  
+  /* ⚠️ 请删除或覆盖旧规则，避免把 tag 颜色改回灰色：
+     .action .tag { color:#929292; ... }
+  */
+  
+.collapse-box {
+  line-height: 50rpx;
+  width:20%;
+  left:100rpx;
+  top:0;
+}
+
+.collapse-item {
+  line-height: 50rpx;
+  width:20%;
+  right:0;
+  top:0;
+  position:fixed
+}
+
+.van-popup--top {
+  width:20%;
+  left:100rpx;
+  top:0;
+}
+
+.index-swiper {
+    width: 92%;
+    margin-left: 4%;
+    height: 360rpx;
+    border-radius: 24rpx;
+    overflow: hidden;
+    transform: translateY(0);
+    box-shadow: 0 8rpx 16rpx rgba(0,0,0,0.05);
+    margin-bottom: 16rpx;
+  }
+
+
+.slide-image {
+  height: 100%;
+  width: 100%;
+  border-radius: 24rpx;
+}
+
+/**index.wxss**/
+.select-box {
+  box-sizing: border-box;
+  padding: 0 20rpx;
+}
+.inline-select {
+  margin-top: 50rpx;
+}
+
+.van-tabs__nav {
+  width: 100%;
+  right: 0;
+  position: absolute;
+}
+.van-tabs__line {
+  width: 100%;
+  /* margin-top: -50rpx; */
+}
+
+.van-tag {
+  font-size: 28rpx !important;
+  height: 80rpx;
+}
+
+.zhiding {
+  height: 40rpx !important;
+  background-color: var(--tag-danger-color,#ee0a24) !important;
+  border-radius: var(--tag-border-radius,2px) !important;
+  color: var(--tag-text-color,#fff) !important;
+  /* display: inline-flex !important; */
+  font-size: 24rpx !important;
+}
+
+
+
+.scrollView {
+    width: 100%;
+    /* margin-left: 2%; */
+    background-color: white;
+    border-radius: 20rpx;
+    height: auto;
+}
+
+.scrollColor {
+    background-color:white;
+}
+.menu-wrp {
+    display: flex;
+    width: 100%;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20rpx;
+    padding: 20rpx 0 20rpx 4%;
+}
+  
+.menu-list {
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 胶囊按钮样式 */
+.menu-item {
+    position: relative;
+    padding: 16rpx 48rpx;
+    border-radius: 999rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 160rpx;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+/* 选中态 - 棕色背景、白色文字 */
+.menu-item--active {
+    background-color: rgb(139, 90, 43);
+    box-shadow: 0 4rpx 12rpx rgba(139, 90, 43, 0.3);
+    /* 给左上角爪印留空间，避免与文字重叠（scroll-view 会裁剪溢出，所以爪印必须在胶囊内） */
+    padding-left: 64rpx;
+}
+
+/* =========================
+   圈子顶部分类：一行展示 6 个
+   ========================= */
+.circle-menu-wrp {
+    /* 左右留白一致 */
+    box-sizing: border-box;
+    padding: 18rpx 20rpx;
+    /* 6 个 item：用 gap 均分，保证左右边距视觉一致 */
+    gap: 12rpx;
+    justify-content: flex-start;
+}
+
+.circle-menu-wrp .menu-list {
+    /* 等宽： (容器宽度 - 5个gap) / 6 */
+    flex: 0 0 calc((100% - 60rpx) / 6); /* 60rpx = 5 * 12rpx */
+    min-width: 0;
+}
+
+.circle-menu-wrp .menu-item {
+    width: 100%;
+    min-width: 0;
+    padding: 14rpx 0;
+    border-radius: 999rpx;
+    /* 字体/内容严格居中 */
+    justify-content: center;
+}
+
+.circle-menu-wrp .menu-paw {
+    top: 6rpx;
+    left: 8rpx;
+    width: 22rpx;
+    height: 22rpx;
+}
+
+.circle-menu-wrp .menu-desc {
+    font-size: 24rpx;
+    text-align: center;
+}
+
+/* 未选中态 - 浅色背景、深色文字 */
+.menu-item--inactive {
+    background-color: rgb(255, 248, 235);
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+
+/* 狗爪图标 - 仅在选中态显示，位于左上角 */
+.menu-paw {
+    position: absolute;
+    /* 注意：scroll-view 会裁剪溢出区域，不能使用负 top */
+    top: 10rpx;
+    left: 18rpx;
+    width: 30rpx;
+    height: 30rpx;
+    z-index: 1;
+    /* 使用 filter 将黑色图标调整为暖黄色系（#F8AE2B ~ #F9B63A） */
+    filter: brightness(1.4) sepia(1) hue-rotate(25deg) saturate(1.5);
+    opacity: 0.95;
+    /* 向左倾斜 45°（逆时针旋转） */
+    transform: rotate(-45deg);
+    /* 旋转中心设置为元素中心 */
+    transform-origin: center center;
+    pointer-events: none;
+}
+
+.menu-desc {
+    color: rgb(139, 90, 43);
+    text-align: center;
+    display: block;
+    font-size: 28rpx;
+    font-weight: 500;
+    position: relative;
+    z-index: 0;
+}
+
+/* 选中态文字颜色为白色 */
+.menu-item--active .menu-desc {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* 外层容器：两种状态都占满宽度，不做水平留白 */
+.topnav {
+    position: fixed;
+    top: var(--keyboard_height--);
+    left: 0;                 /* 🔒 锁死左边 */
+    right: 0;                /* 🔒 锁死右边 */
+    z-index: 98;
+    background-color: whitesmoke;
+    opacity: 0.85;
+    width: 100%;
+  }
+  
+  .normalnav {
+    width: 100%;
+    padding-top: 20rpx;
+  }
+  
+  /* 内层卡片：100% 宽 + 左右 padding 实现对称留白（替代 margin） */
+  .topcats {
+    width: 100%;
+    box-sizing: border-box;  /* 🔑 padding 不再把宽度“顶出”可视区 */
+    padding: 16rpx 24rpx;    /* ←→ 留白用 padding，推荐固定 rpx，避免 % 与 rpx 混用的舍入误差 */
+    background: #ffffff;
+    border-radius: 24rpx;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16rpx;
+    box-shadow: 0 8rpx 24rpx rgba(0,0,0,0.04);
+    margin: 0;               /* ❌ 禁止再用 margin 做左右居中 */
+  }
+  
+  /* 吸顶视觉（不要再改变宽/边距） */
+  .topcats--sticky {
+    background: #ffffff;
+  }
+  
+  /* 单项样式保持不变 */
+
+.van-dropdown-menu {
+    background-color: inherit !important;
+}
+
+.van-tabs__scroll {
+    background-color: inherit !important;
+}
+
+.van-tabs__wrap {
+    width: 96%;
+    margin-left: 2%;
+    margin-top: 20rpx;
+}
+
+.item {
+    font-size: 28rpx;
+}
+
+
+/* 统一所有校园帖子卡片背景为白色，与暖黄色背景协调 */
+.post-UM {
+    background: white !important;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.post-UTM {
+    background: white !important;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.post-MUST {
+    background: white !important;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.post-Other {
+    background: white !important;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.red-border {
+    border: 3px solid rgb(160, 0, 0) !important;
+    border-radius: 8px; 
+    box-shadow: 0 0 10px rgba(160, 0, 0, 0.5); 
+    box-sizing: border-box; 
+}
+
+.gold-border {
+    border: 3px solid rgb(217,162,27) !important;
+    border-radius: 8px; 
+    /* box-shadow: 0 0 10px rgba(217,162,27, 0.5);  */
+    box-sizing: border-box; 
+}
+
+.history-search-title {
+    font-size: 24rpx;
+    padding: 20rpx;
+}
+
+.history-box {
+    height: auto;
+}
+
+.history-content-box {
+    display: flex;
+    height: auto;
+    flex-wrap: wrap;
+}
+
+.history-search-content {
+    font-size: 20rpx;
+    padding: 5rpx 20rpx 5rpx 20rpx;
+    width: auto;
+
+}
+
+.clear-history {
+    font-size: 20rpx !important;
+    padding:0 2rpx 0 2rpx !important;
+    margin: 0 !important;
+    height: 40rpx;
+}
+
+/* 圈子子分类 tab 使用原来一级tab的样式（menu-item），已在上面定义 */
+
+.secondary-tabs-container .van-tabs {
+    background-color: transparent;
+}
+
+.secondary-tabs-container .van-tabs__wrap {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    margin-bottom: -1px; /* 贴合内容容器 */
+}
+
+/* =========================
+   修复圈子页全局样式对二级 tab 的影响
+   ========================= */
+
+/* 修复二级 tab 导航样式（覆盖圈子页全局样式） */
+
+/* =========================
+   评分模块样式
+   ========================= */
+.score-section {
+    padding: 20rpx 0 180rpx;
+}
+
+.score-filter-bar {
+    width: 96%;
+    margin: 0 auto 24rpx;
+    padding: 20rpx 24rpx 16rpx;
+    background-color: #ffffff;
+    border-radius: 20rpx;
+    box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.04);
+    box-sizing: border-box;
+}
+
+.score-sort {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16rpx;
+    margin-bottom: 12rpx;
+}
+
+.score-category-scroll {
+    white-space: nowrap;
+    display: flex;
+    padding-bottom: 4rpx;
+}
+
+.score-category-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.score-chip {
+    margin-right: 16rpx;
+    margin-bottom: 12rpx;
+    color: rgb(139, 90, 43);
+    background: rgba(255, 152, 0, 0.12);
+    animation: none;
+    transition: all 0.2s ease;
+}
+
+.score-sort-item,
+.score-category-item {
+    color: rgb(139, 90, 43);
+}
+
+.score-sort-item--active,
+.score-category-item--active {
+    background: rgba(255, 152, 0, 0.2);
+    color: rgb(139, 90, 43);
+    box-shadow: 0 6rpx 18rpx rgba(255, 152, 0, 0.15);
+}
+
+.score-sort-item--UM.score-sort-item--active {
+    background-color: rgb(169,119,34);
+    color: #ffffff;
+}
+
+.score-sort-item--UTM.score-sort-item--active {
+    background-color: rgb(75, 142, 204);
+    color: #ffffff;
+}
+
+.score-sort-item--MUST.score-sort-item--active {
+    background-color: rgb(93, 132, 155);
+    color: #ffffff;
+}
+
+.score-sort-item--Other.score-sort-item--active {
+    background-color: rgb(139, 90, 43);
+    color: #ffffff;
+}
+
+.score-category-item--UM.score-category-item--active {
+    background-color: rgb(169,119,34);
+}
+
+.score-category-item--UTM.score-category-item--active {
+    background-color: rgb(75, 142, 204);
+}
+
+.score-category-item--MUST.score-category-item--active {
+    background-color: rgb(93, 132, 155);
+}
+
+.score-category-item--Other.score-category-item--active {
+    background-color: rgb(139, 90, 43);
+}
+
+.score-skeleton {
+    padding: 0 24rpx;
+}
+
+.score-card-skeleton {
+    margin: 0 auto 20rpx;
+    width: 96%;
+}
+
+.score-card {
+    width: 96%;
+    margin: 0 auto 20rpx;
+    border-radius: 20rpx;
+    padding: 28rpx;
+    box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 24rpx;
+}
+
+.score-card__header {
+    display: flex;
+    gap: 24rpx;
+}
+
+.score-card__cover {
+    width: 140rpx;
+    height: 140rpx;
+    border-radius: 16rpx;
+    background-color: #f5f6f7;
+    overflow: hidden;
+}
+
+.score-card__cover--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.score-card__cover--placeholder image {
+    width: 80rpx;
+    height: 80rpx;
+    opacity: 0.4;
+}
+
+.score-card__meta {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16rpx;
+}
+
+.score-card__title {
+    font-size: 30rpx;
+    font-weight: 700;
+    color: rgb(51, 51, 51);
+}
+
+.score-card__meta-row {
+    display: flex;
+    align-items: center;
+    gap: 16rpx;
+    flex-wrap: wrap;
+}
+
+.score-card__meta-row--info .score-card__meta-text {
+    font-weight: 600;
+}
+
+.score-card__meta-text {
+    font-size: 24rpx;
+    color: rgb(139, 90, 43);
+    opacity: 0.7;
+}
+
+.score-card__category-chip {
+    padding: 0 20rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    font-size: 24rpx;
+    font-weight: 600;
+    color: rgb(139, 90, 43);
+    background: rgba(255, 152, 0, 0.12);
+    animation: none;
+}
+
+.score-card__rating-row {
+    display: flex;
+    align-items: center;
+    gap: 16rpx;
+}
+
+.score-card__rating-value {
+    font-size: 40rpx;
+    font-weight: 700;
+    color: rgb(139, 90, 43);
+}
+
+.score-card__options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12rpx;
+    border-top: 1px solid rgba(0,0,0,0.06);
+    padding-top: 16rpx;
+}
+
+.score-card__option-chip {
+    min-width: 200rpx;
+    height: auto;
+    line-height: 1.4;
+    padding: 12rpx 20rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4rpx;
+    animation: none;
+}
+
+.score-card__option-name {
+    font-size: 26rpx;
+    font-weight: 600;
+    color: #333333;
+}
+
+.score-card__option-meta {
+    font-size: 22rpx;
+    color: #646566;
+}
+
+.score-card__footer {
+    margin-top: 12rpx;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12rpx;
+    color: rgb(139, 90, 43);
+    font-size: 24rpx;
+}
+
+.score-card__cta {
+    font-weight: 600;
+}
+
+.score-footer-tip {
+    text-align: center;
+    font-size: 24rpx;
+    color: rgb(139, 90, 43);
+    opacity: 0.6;
+    padding: 16rpx 0 40rpx;
+}
+.secondary-tabs-container .van-tabs__nav {
+    width: auto !important;
+    right: auto !important;
+    position: relative !important;
+    background-color: #f2f2f2; /* 与内容容器一致 */
+    padding: 0;
+    display: flex;
+}
+
+/* Tab 项样式 - 书签式 */
+.secondary-tabs-container .van-tab {
+    flex: 0 0 auto;
+    background-color: transparent;
+    border-radius: 0;
+    padding: 12rpx 24rpx;
+    margin-right: 18rpx;
+    color: rgb(139, 90, 43); /* 暖棕色文字 */
+    font-size: 28rpx;
+    font-weight: 400;
+    transition: all 0.2s ease;
+    opacity: 0.7;
+}
+
+.secondary-tabs-container .van-tab:last-child {
+    margin-right: 0;
+}
+
+/* 选中态样式 - 书签式 */
+.secondary-tabs-container .van-tab--active {
+    background-color: #f2f2f2; /* 与内容容器一致 */
+    color: rgb(139, 90, 43); /* 暖棕色主色 */
+    font-weight: 600;
+    opacity: 1;
+    border-top-left-radius: 999px; /* 上圆角，与按钮一致 */
+    border-top-right-radius: 999px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-bottom: -1px; /* 贴合内容容器 */
+    position: relative;
+    z-index: 1;
+}
+
+/* 修复二级 tab 指示器样式 - 改为底边细线 */
+.secondary-tabs-container .van-tabs__line {
+    height: 2rpx !important;
+    background-color: rgba(139, 90, 43, 0.4) !important;
+    bottom: 0 !important;
+    width: auto !important;
+}
+
+/* =========================
+   组局内容容器（完全复用原 group 页样式）
+   对应原 group.wxss 中的 .main-box 和 page 样式
+   ========================= */
+.gathering-content {
+    /* 完全复用 .main-box 样式 */
+    margin-top: var(--keyboard_height--, 0);
+    width: 100%;
+    height: 100%;
+    padding-bottom: 200rpx;
+}
+
+.gathering-tab-content {
+    /* 子分类内容容器（对应原 .zuju 容器内内容） */
+    width: 100%;
+}
+
+/* =========================
+   复用组局页的全局样式（完全一致）
+   ========================= */
+
+/* 按钮样式（完全复用 group.wxss） */
+.gathering-content .my_button {
+    font-size: medium;
+    background-color: rgb(139, 90, 43);
+    color: white;
+    border-radius: var(--button-round-border-radius, 999px);
+    width: 150rpx;
+    font-size: 24rpx !important;
+}
+
+/* 统一所有 van-button 按钮背景色为暖棕色 */
+.van-button--info {
+    background-color: rgb(139, 90, 43) !important;
+    border-color: rgb(139, 90, 43) !important;
+}
+
+/* 搜索框按钮样式 */
+.search-col .van-button--info {
+    background-color: rgba(255, 248, 235, 0.9) !important;
+    border-color: rgb(139, 90, 43) !important;
+    color: rgb(139, 90, 43) !important;
+}
+
+/* 搜索弹窗中的按钮 */
+.search-box .van-button--info {
+    background-color: rgb(139, 90, 43) !important;
+    border-color: rgb(139, 90, 43) !important;
+    color: white !important;
+}
+
+/* 搜索框输入框背景 */
+.van-search__content {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    border-radius: 20rpx;
+}
+
+.van-search__action {
+    background-color: transparent !important;
+}
+
+/* Cell 样式（完全复用 group.wxss） */
+.gathering-content .van-cell__title {
+    width: 40% !important;
+}
+
+.gathering-content .van-cell__value {
+    overflow: visible !important;
+    width: 60% !important;
+    word-wrap: break-word;
+}
+
+.gathering-content .van-cell {
+    height: auto !important;
+}
+
+/* =========================
+   修复类别胶囊样式（覆盖圈子页全局 .van-tag 样式）
+   ========================= */
+.gathering-content .van-tag {
+    /* 恢复 Vant 默认 large 尺寸样式，覆盖圈子页全局样式 */
+    font-size: var(--tag-large-font-size, 14px) !important;
+    height: auto !important;
+    /* 其他样式（颜色、圆角、padding）由 Vant 组件默认处理 */
+}
+
+/* 当显示组局内容时，整个页面背景改为 #f2f2f2（与原 group 页完全一致） */
+.page-group-mode {
+    background-color: #f2f2f2 !important;
+}
+
+.page-group-mode.page-UM {
+    background-color: #f2f2f2 !important;
+}
+
+.page-group-mode.page-UTM {
+    background-color: #f2f2f2 !important;
+}
+
+.page-group-mode.page-MUST {
+    background-color: #f2f2f2 !important;
+}
+
+.page-group-mode.page-Other {
+    background-color: #f2f2f2 !important;
+}
+
+  
+

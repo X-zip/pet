@@ -1,0 +1,18 @@
+{
+    "usingComponents": {
+      "van-tag": "@vant/weapp/tag/index",
+      "van-row": "@vant/weapp/row/index",
+      "van-col": "@vant/weapp/col/index",
+      "van-icon": "@vant/weapp/icon/index",
+      "van-dropdown-menu": "@vant/weapp/dropdown-menu/index",
+      "van-dropdown-item": "@vant/weapp/dropdown-item/index",
+      "van-toast": "@vant/weapp/toast/index",
+      "tag-item": "/components/tag-item/index"
+    },
+    "backgroundColor": "#ffffff",
+    "backgroundTextStyle": "dark",
+    "disableScroll": false,
+    "enablePullDownRefresh": true,
+    "navigationStyle": "default"
+  }
+  

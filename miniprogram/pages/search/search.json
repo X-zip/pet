@@ -1,0 +1,26 @@
+{
+  "usingComponents": {
+    "SearchBar": "../../components/SearchBar/index",
+    "navigation": "/components/navi/navi",
+    "radial-menu": "/components/radial-menu/index",
+    "van-tag": "@vant/weapp/tag/index",
+    "van-popup": "@vant/weapp/popup/index",
+    "van-tab": "@vant/weapp/tab/index",
+    "van-tabs": "@vant/weapp/tabs/index",
+    "van-row": "@vant/weapp/row/index",
+    "van-col": "@vant/weapp/col/index",
+    "van-button": "@vant/weapp/button/index",
+    "van-icon": "@vant/weapp/icon/index",
+    "van-search": "@vant/weapp/search/index",
+    "van-skeleton": "@vant/weapp/skeleton/index",
+    "van-divider": "@vant/weapp/divider/index",
+    "van-image": "@vant/weapp/image/index",
+    "van-tabbar": "@vant/weapp/tabbar/index",
+    "van-tabbar-item": "@vant/weapp/tabbar-item/index",
+    "van-collapse": "@vant/weapp/collapse/index",
+    "van-collapse-item": "@vant/weapp/collapse-item/index",
+    "van-dropdown-menu": "@vant/weapp/dropdown-menu/index",
+    "van-dropdown-item": "@vant/weapp/dropdown-item/index",
+    "van-toast": "@vant/weapp/toast/index"
+  }
+}

@@ -1,0 +1,81 @@
+<!-- 背景图片 -->
+<image class="page-bg" src="../../images/BG.png" mode="aspectFill"></image>
+
+<!-- 自定义导航栏 -->
+<view class="custom-navbar" style="height:{{navBarHeight}}px; padding-top:{{statusBarHeight}}px;">
+    <view class="navbar-content">
+        <view class="navbar-left">
+            <image class="navbar-paw-icon" src="../../images/icon/paw.png" mode="aspectFit"></image>
+        </view>
+        <view class="navbar-center">
+            <text class="navbar-title">发布</text>
+        </view>
+        <view class="navbar-right">
+            <view class="navbar-icon-placeholder"></view>
+            <view class="navbar-icon-placeholder"></view>
+        </view>
+    </view>
+</view>
+
+<van-toast id="van-toast" />
+
+<!-- 圈子发布表单 -->
+<view class="post-form-pane post-form-circle" style="margin-top:{{navBarHeight}}px;">
+  <form bindsubmit="formSubmitCircle" bindreset="formReset" style="width: 100%;padding-bottom: 200rpx;">
+    <view class="post-main-card">
+      <!-- 表单内容区域 -->
+      <view class="post-main-body">
+      <van-cell-group inset>
+        <van-collapse value="{{ circleActiveNames }}" bind:change="onChangeCateCircle">
+          <van-collapse-item title="选择圈子分类" name="2" icon="bookmark-o">
+            <view class="tag-box">
+            <van-row gutter="12">
+              <block wx:for="{{ circleTags }}"wx:key="index" wx:for-item="tag" >
+                <van-col span="8" custom-class="tag_col">
+                  <view class="circle-tag-item {{tag.isSel==1 ? 'circle-tag-item--active' : ''}}" bindtap="selectTagCircle" data-id="{{ index }}">
+                    <van-image width="64rpx" height="64rpx" src="../../{{tag.img}}" mode="aspectFit"/>
+                    <text class="circle-tag-text">{{tag.name}}</text>
+                  </view>
+                </van-col>
+              </block>
+            </van-row>
+          </view>
+          </van-collapse-item>
+        </van-collapse>
+        <!-- <view class="item">
+            <van-cell title="扩散到其他学校" label="广州所有学校都可以看到这条消息哦~">
+                <van-switch checked="{{ circleCheckedAllCampus }}" bind:change="onChangeAllCampus" />
+            </van-cell> 
+        </view> -->
+        <view class="item">
+          <van-field
+            value="{{ circleMessage }}"
+            label="正文"
+            type="textarea"
+            placeholder="请在此处输入正文"
+            autosize
+            border="{{ false }}"
+            custom-class="content"
+            show-word-limit
+            maxlength="1000"
+            name="content"
+          />
+        </view>
+
+        <view class="item">
+            <van-uploader class="van-uploader-box" file-list="{{ circleFileList }}" deletable="true" catch:delete="deleteImgCircle" bind:after-read="afterReadCircle" max-count="4"/>
+            <canvas id="canvas" type="2d" style="width:{{cw}}px;height:{{ch}}px;position: absolute;left:-2000px;top:-2000px;"></canvas>
+        </view>
+
+        <view class="item">
+            <van-checkbox class="van-checkbox-box" value="{{ circleChecked }}" bind:change="onChangeCheckCircle" icon-size="20rpx" >阅读并同意《<text style="color: blue;" bindtap="showAgreement">服务协议</text>》</van-checkbox>
+        </view>     
+      </van-cell-group>
+      </view>
+    </view>
+    <view class="btn-area">
+      <button class="submit-btn" form-type="submit" wx:if="{{circlePhone}}">发布</button>
+      <button class="submit-btn" form-type="submit" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumberCircle" wx:else>发布</button>
+    </view>
+  </form>
+</view>

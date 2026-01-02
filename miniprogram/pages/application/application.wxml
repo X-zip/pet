@@ -1,0 +1,116 @@
+<!--pages/application/application.wxml-->
+<van-toast id="van-toast" />
+<view class="container">
+    <view style="padding: 30rpx 20rpx 20rpx 20rpx;">
+        <text style="font-size: 42rpx;font-weight: 600;color:mediumpurple;">成为跑腿员，兼职从此开始</text>
+    </view>
+    <view>
+        <text style="font-weight: 600;color:#CBBCCD">请填写真实信息</text>
+    </view>
+    <view class="detail-box">
+        <view class="item">
+            <van-cell-group >
+                <van-field class="van-field-box"
+                    value="{{ name }}"
+                    label="真实姓名"
+                    placeholder="真实姓名"
+                    input-align="right"
+                    bind:change="onChangeName"
+                />
+            </van-cell-group>
+        </view>
+        <view class="item">
+            <van-cell-group >
+                <van-field class="van-field-box"
+                    value="{{ phone }}"
+                    label="电话"
+                    placeholder="电话"
+                    input-align="right"
+                    bind:change="onChangePhone"
+                />
+            </van-cell-group>
+        </view>
+        <view class="item">
+            <van-cell-group >
+                <van-field class="van-field-box"
+                    value="{{ wechat }}"
+                    label="社交账号"
+                    placeholder="社交账号"
+                    input-align="right"
+                    bind:change="onChangeWechat"
+                />
+            </van-cell-group>
+        </view>
+        <view class="item">
+            <van-cell-group >
+                <van-field class="van-field-box"
+                    value="{{ campus }}"
+                    label="学校"
+                    placeholder="学校"
+                    input-align="right"
+                    bind:change="onChangeCampus"
+                />
+            </van-cell-group>
+        </view>
+        <view class="item">
+            <van-cell-group >
+                <van-field class="van-field-box"
+                    value="{{ school }}"
+                    label="学院或专业名"
+                    placeholder="学院或专业名"
+                    input-align="right"
+                    bind:change="onChangeSchool"
+                />
+            </van-cell-group>
+        </view>
+        <!-- <view class="item">
+            <van-cell-group >
+                <van-field class="van-field-box"
+                    value="{{ year }}"
+                    label="入学年份"
+                    placeholder="入学年份"
+                    input-align="right"
+                    bind:change="onChangeYear"
+                />
+            </van-cell-group>
+        </view> -->
+    </view>
+
+    <view class="detail-box">
+        <view style="padding: 30rpx 20rpx 20rpx 20rpx;">
+            <text style="font-weight: 600;">收集已下重要信息的原因</text>
+        </view>
+        <view style="padding: 10rpx 20rpx 10rpx 20rpx;">
+            <text style="font-weight: 600;color:#CBBCCD">1.为保障校园跑腿人身和货物安全进行验证</text>
+        </view>
+        <view style="padding: 10rpx 20rpx 10rpx 20rpx;">
+            <text style="font-weight: 600;color:#CBBCCD">2.为保障校园跑腿人员非校外人员</text>
+        </view>
+        <view class="item">
+            <van-cell-group >
+                <van-field class="van-field-box"
+                    value="{{ passport }}"
+                    label="证件号码"
+                    placeholder="证件号码"
+                    input-align="right"
+                    bind:change="onChangePassport"
+                />
+            </van-cell-group>
+        </view>
+        <view class="item">
+            <van-cell class="van-cell-box" title="学生证件"></van-cell>  
+            <van-uploader class="van-uploader-box" file-list="{{ fileListStudent }}" deletable="true" catch:delete="deleteImg" bind:after-read="afterRead" max-count="1" name="student" />
+        </view> 
+        <view class="item">
+            <van-cell class="van-cell-box" title="广州证件"></van-cell>  
+            <van-uploader class="van-uploader-box" file-list="{{ fileListFront }}" deletable="true" catch:delete="deleteImg1" bind:after-read="afterRead" max-count="1" name="front" />
+        </view> 
+        <!-- <view class="item">
+            <van-cell class="van-cell-box" title="证件背面照片（与证件号码一致）"></van-cell>  
+            <van-uploader class="van-uploader-box" file-list="{{ fileListBack }}" deletable="true" catch:delete="deleteImg2" bind:after-read="afterRead" max-count="1" name="back" />
+        </view>  -->
+    </view>
+    <view class="btn-area">
+        <button bindtap="submitApplication">提交</button>
+    </view>
+</view>

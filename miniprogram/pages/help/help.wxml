@@ -1,0 +1,124 @@
+<van-toast id="van-toast" />
+<view class="container">
+    <form bindsubmit="formSubmit" bindreset="formReset" style="width: 100%;padding-bottom: 200rpx;">
+        <van-cell-group inset class="detail-box">
+            <van-collapse value="{{ activeNames }}" bind:change="onChangeCate">
+            <van-collapse-item title="选择任务类型" name="2" icon="bookmark-o">
+                <view class="tag-box">
+                <van-row>
+                <block wx:for="{{ tags }}"wx:key="index" wx:for-item="tag" >
+                    <van-col span="6" custom-class="tag_col">
+                    <van-tag custom-class="tag" mark type="primary" color="white" text-color="black" wx:if="{{tag.isSel==0}}" bindtap="selectTag" data-id="{{ index }}">
+                        {{tag.name}}
+                    </van-tag>
+                    <van-tag custom-class="tag" mark type="primary" plain closeable wx:else bind:close="deselectTag" data-id="{{ index }}">
+                        {{tag.name}}
+                    </van-tag>
+                    </van-col>
+                </block>
+                </van-row>
+            </view>
+            </van-collapse-item>
+            </van-collapse>
+        </van-cell-group>
+        <!-- <scroll-view scroll-y="true" style="height: 100%;"> -->
+            <view class="address-box" wx:if="{{cateList[0] == '代取' || cateList[0] == '代寄'}}">
+                <view class="address">
+                    <view class="get"> <text>取</text> </view>
+                    <view class="text"><input type="text" name="address_from" placeholder="请输入取货地址" /></view>
+                    <view class="image-box"><image src="../../images/write.png" mode="widthFix" class="image"/></view>
+                </view>
+                <view class="address">
+                    <view class="send">送</view>
+                    <view class="text"><input type="text" name="address_to" placeholder="请输入送货地址" /></view>
+                    <view class="image-box"><image src="../../images/write.png" mode="widthFix" class="image" /></view>
+                </view>
+            </view>
+            <view class="detail-box">
+                <view class="item">
+                    <van-cell class="van-cell-box" title="设定完成日期" value="{{ date }}" bind:click="onDisplayDate" is-link/>
+                    <van-calendar type="single" showConfirm="false" show="{{ showDate }}" bind:close="onCloseDate" bind:select="onConfirmDate" />
+                </view>
+                <view class="item">
+                    <van-cell class="van-cell-box" title="设定完成时间" value="{{ currentTime }}" bind:click="onDisplayTime" is-link/>
+                    <van-datetime-picker
+                        type="time"
+                        style="display:{{showTime? 'block' :'none'}}"
+
+                        bind:confirm="onInputTime"
+                        />
+                </view>
+                <view class="item">
+                    <van-cell-group>
+                        <van-field class="van-field-box"
+                            value="{{ name }}"
+                            label="收件人"
+                            placeholder="姓名"
+                            input-align="right"
+                            name="name"
+                        />
+                    </van-cell-group>
+                </view>
+                <view class="item">
+                    <van-cell-group >
+                        <van-field class="van-field-box"
+                            value="{{ phone }}"
+                            label="手机号"
+                            placeholder="手机号码"
+                            input-align="right"
+                            name="phone"
+                        />
+                    </van-cell-group>
+                </view>
+                <view class="item">
+                    <van-cell-group >
+                        <van-field class="van-field-box"
+                            value="{{ wechat }}"
+                            label="备用联系方式"
+                            placeholder="跑腿员可以联系的社交账号"
+                            input-align="right"
+                            name="wechat"
+                        />
+                    </van-cell-group>
+                </view>
+                <view class="item" wx:if="{{cateList[0] != '其他'}}">
+                    <van-cell class="van-cell-box" title="数量（件）">
+                        <van-stepper value="{{ count }}" class="van-stepper" bind:change="onChangeCount" />
+                    </van-cell>               
+                </view>
+                <view class="item" wx:if="{{cateList[0] != '其他'}}">
+                    <van-cell class="van-cell-box" title="总重量（千克）">
+                        <van-stepper value="{{ weight }}" class="van-stepper" step="0.5" bind:change="onChangeWeight" />
+                    </van-cell>               
+                </view>
+                <view class="item">
+                    <van-cell class="van-cell-box" title="设定赏金（元）">
+                        <van-stepper value="{{ fee }}" class="van-stepper" min="3" bind:change="onChangeFee" />
+                    </van-cell>               
+                </view>
+                <view class="item">
+                    <van-cell-group>
+                    <van-field class="van-field-box"
+                        value="{{ message }}"
+                        label="详细信息"
+                        type="textarea"
+                        placeholder="为保护个人隐私请不要填写手机号微信号"
+                        autosize
+                        name="message"
+                    />
+                    </van-cell-group>
+                </view>
+                <view class="item">
+                    <van-cell class="van-cell-box" title="上传图片"></van-cell>  
+                    <van-uploader class="van-uploader-box" file-list="{{ fileList }}" deletable="true" catch:delete="deleteImg" bind:after-read="afterRead" max-count="3"/>
+                </view> 
+                <view class="item">
+                    <van-checkbox class="van-checkbox-box" value="{{ checked }}" bind:change="onChangeCheck" icon-size="20rpx" >阅读并同意《<text style="color: blue;" bindtap="showAgreement">服务协议</text>》</van-checkbox>
+                </view>       
+            </view>   
+        <!-- </scroll-view> -->
+        <view class="btn-area">
+            <van-button round type="info" form-type="submit" custom-class="btn">发布</van-button>
+        </view>
+    </form>
+</view>

@@ -1,0 +1,40 @@
+{
+  "light": {
+    "navBackgroundColor":"#f6f6f6",
+    "navTextStyle": "black",
+    "bgTxtStyle": "light",
+    "tabFontColor": "#000000",
+    "tabSelectedColor": "#4b6a62",
+    "tabBgColor": "#ffffff",
+    "tabBorderStyle": "black",
+    "iconPath1": "images/circle.png",
+    "selectedIconPath1": "images/circle_hl.png",
+    "iconPath2": "images/notice.png",
+    "selectedIconPath2": "images/notice_hl.png",
+    "iconPath3": "images/add.png",
+    "selectedIconPath3": "images/add_hl.png",
+    "iconPath4": "images/group.png",
+    "selectedIconPath4": "images/group_hl.png",
+    "iconPath5": "images/my.png",
+    "selectedIconPath5": "images/my_hl.png"
+  },
+  "dark": {
+    "navBackgroundColor":"#f6f6f6",
+    "navTextStyle": "black",
+    "bgTxtStyle": "light",
+    "tabFontColor": "#000000",
+    "tabSelectedColor": "#b0e0e6",
+    "tabBgColor": "#ffffff",
+    "tabBorderStyle": "black",
+    "iconPath1": "images/circle.png",
+    "selectedIconPath1": "images/circle_hl.png",
+    "iconPath2": "images/notice.png",
+    "selectedIconPath2": "images/notice_hl.png",
+    "iconPath3": "images/add.png",
+    "selectedIconPath3": "images/add_hl.png",
+    "iconPath4": "images/group.png",
+    "selectedIconPath4": "images/group_hl.png",
+    "iconPath5": "images/my.png",
+    "selectedIconPath5": "images/my_hl.png"
+  }
+}

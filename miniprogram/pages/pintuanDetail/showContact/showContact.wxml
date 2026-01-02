@@ -1,0 +1,10 @@
+<view class="page">
+  <view class="title">信息提交成功！</view>
+  <view class="tip">👇 请长按或截图保存下方二维码，添加客服完成拼团 👇</view>
+
+  <image class="qr" src="{{qr_pic}}" mode="widthFix" bindtap="previewQr" />
+
+  <view class="note">二维码有效期有限，请尽快联系完成拼团流程</view>
+
+  <van-button type="primary" block round bindtap="backHome" custom-style="background-color: #859c88;">返回首页</van-button>
+</view>

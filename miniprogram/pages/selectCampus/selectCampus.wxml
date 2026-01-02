@@ -1,0 +1,47 @@
+<!-- 背景图片 -->
+<image class="page-bg" src="../../images/BG.png" mode="aspectFill"></image>
+
+<!-- 自定义导航栏 -->
+<view class="custom-navbar" style="height:{{navBarHeight}}px; padding-top:{{statusBarHeight}}px;">
+    <view class="navbar-content">
+        <view class="navbar-left">
+            <view class="navbar-back-btn" bindtap="goBack">
+                <text class="navbar-back-icon">‹</text>
+            </view>
+            <image class="navbar-paw-icon" src="../../images/icon/paw.png" mode="aspectFit"></image>
+        </view>
+        <view class="navbar-center">
+            <text class="navbar-title">选择地区</text>
+        </view>
+        <view class="navbar-right">
+            <view class="navbar-icon-placeholder"></view>
+            <view class="navbar-icon-placeholder"></view>
+        </view>
+    </view>
+</view>
+
+<view class="box" style="margin-top:{{navBarHeight}}px;">
+  <!-- 当前选择卡片 -->
+  <view class="current-select-card">
+    <view class="current-select-label">当前选择</view>
+    <view class="current-select-value">{{activeName || '暂未选择'}}</view>
+  </view>
+
+  <!-- 选择器卡片 -->
+  <view class="select-card">
+    <van-tree-select
+      items="{{ items }}"
+      main-active-index="{{ mainActiveIndex }}"
+      active-id="{{ activeId }}"
+      bind:click-nav="onClickNav"
+      bind:click-item="onClickItem"
+    />
+  </view>
+
+  <!-- 确认按钮 -->
+  <view class="submit-wrap">
+    <button class="submit-btn" bindtap="openApp">确认</button>
+  </view>
+</view>
+
+<van-toast id="van-toast" />

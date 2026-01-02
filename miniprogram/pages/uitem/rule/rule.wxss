@@ -1,0 +1,4 @@
+/* pages/uitem/rule/rule.wxss */
+.van-button {
+  width: 50%;
+}

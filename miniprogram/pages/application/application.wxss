@@ -1,0 +1,45 @@
+/* pages/application/application.wxss */
+page {
+    background-color: #f2f2f2;
+}
+.container {
+    padding-bottom: 200rpx;
+    width:100%;
+}
+.detail-box {
+    width:90%;
+    background-color: white;
+    border-radius: 20rpx;
+    padding-top: 20rpx;
+    padding-bottom: 20rpx;
+    margin-top: 20rpx;
+}
+
+.form-box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.van-cell-box {
+    font-weight: 600;
+}
+.van-uploader-box{
+    display: flex;
+    justify-content: center;
+}
+.btn-area {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 180rpx;
+    width: 100%;
+    background-color: white;
+}
+
+.submit {
+    margin-top: 20rpx;
+    border-radius: 20rpx;
+    background-color: mediumpurple;
+    color: white;
+}

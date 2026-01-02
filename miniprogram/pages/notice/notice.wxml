@@ -1,0 +1,174 @@
+<!--pages/notice/notice.wxml-->
+<wxs module = "getDate" src="../../WXS/sub_date.wxs"></wxs>
+<wxs module='tools' src='../../WXS/tools.wxs'></wxs>
+<wxs src="../../WXS/subutil_content.wxs" module="content_tools" />
+<wxs src="../../WXS/subutil_title.wxs" module="title_tools" />
+<wxs src="../../WXS/subutil_title_long.wxs" module="title_tools_long" />
+<wxs src="../../WXS/subutil_name.wxs" module="name_tools" />
+<wxs src="../../WXS/subutil_radioToCate.wxs" module="radioToCate" />
+
+<van-row>
+  <van-col span="4">
+    <view style="display:flex;flex-direction: column;height:50vh;justify-content:space-around;width:100%;">
+        <block wx:for="{{items}}" wx:key="index" wx:for-item="item" style="width: 100%;">
+            <view style="width: 100%;justify-content: center;align-items: center;text-align: center;"data-index="{{index}}" bindtap="selectNav">
+                <image src="{{item.src_hl}}" mode="widthFix" style="width: 64rpx;height: 64rpx;" wx:if="{{item.isSelect}}"/>
+                <image src="{{item.src}}" mode="widthFix" style="width: 64rpx;height: 64rpx;" wx:else/>
+            </view>
+        </block>
+    </view>
+  </van-col>
+  <van-col span="20">
+    <scroll-view scroll-y="true" scroll-x="false" style="display:flex;flex-direction: column;height:100vh;background-color: white;width: 100%;">
+        <view class='container' wx:if="{{items[0].isSelect}}">
+            <!--等待框-->
+            <loading hidden="{{!loading}}">加载中...</loading>
+            <!--顶部标题栏-->
+            <!-- <view class='page-header'>
+                <text  class='page-title'>好友列表</text>
+            </view> -->
+            <!--列表-->
+            <view class='page-body' wx:for="{{list}}" wx:key="id" >
+                <!--类型判断,显示不同的数据-->
+                <van-swipe-cell id="swipe-cell" right-width="{{ 80 }}" async-close bind:close="stopUserPM" data-openid='{{item.f_openid}}'>
+                    <van-cell-group>
+                        <block>
+                            <view class='item'  bindtap="chat" data-openid='{{item.f_openid}}' data-status='{{item.status}}' data-id='{{item.id}}' data-f_avatar='{{item.f_avatar}}'>
+                            <view class="avatar">
+                                <image class='poster' src='{{item.f_avatar}}'></image>
+                                <view class="redDot" wx:if="{{item.is_read == 0}}"></view>
+                            </view>
+                            <view class='meta' style="position: relative;overflow: hidden;">
+                                <text  class='title'>{{item.f_nickname}}</text>
+                                <view style="overflow:hidden;white-space: nowrap;text-overflow:ellipsis;color:#ccc">
+                                    <block wx:if="{{item.content}}">{{item.content}}</block>
+                                    <block wx:elif="{{item.status == 0}}">对方向您发送私信申请</block>
+                                    <block wx:elif="{{item.status == 1}}">私信通道已开启</block>
+                                </view>
+                                <view style="position: absolute;color: #ccc; right: 0px; top: 0px; font-size: 24rpx;">{{getDate.getGap(item.update_time)}}</view>
+                            </view>
+                            </view>
+                        </block>
+                    </van-cell-group>
+                    <view slot="right" class="van-swipe-cell__right">
+                        <van-button type="danger" custom-class="delete" >删除</van-button>
+                    </view>
+                </van-swipe-cell>
+            </view>
+            <!-- <view wx:else>
+                <van-empty description="暂无私聊请求" />
+            </view> -->
+        </view>
+        <view class='container' wx:elif="{{items[1].isSelect}}">
+            <view id="stories-list" style="width: 100%;">
+                <block wx:for="{{ tasks }}" wx:key="index" wx:for-item="task" >
+                    <view style="background: white;">
+                    <van-row >
+                        <van-col span="24">
+                        <van-row gutter="24" custom-class="row1" >
+                            <van-col span="3" offset="1" custom-class="avatar-box" ><image class="avatar-task" src="{{ task.avatar }}" mode="aspectFit" ></image></van-col>
+                            <van-col span="8" custom-class="userName-task" data-id="{{ task.id }}" bindtap="goToStoryDetail" >{{ name_tools.sub(task.userName)}}</van-col>
+                            <van-col span="8" custom-class="c_time-task" data-id="{{ task.id }}" bindtap="goToStoryDetail">{{getDate.getGap(task.c_time)}}</van-col>
+                        </van-row>
+                        <van-row gutter="24" data-id="{{ task.id }}" bindtap="goToStoryDetail">
+                            <van-col span="22" offset="1" custom-class="title-task" >{{ title_tools_long.sub(task.title)}}</van-col>
+                        </van-row>
+                        <van-row gutter="24" wx:if="{{ task.img[0] }}" data-id="{{ task.id }}" bindtap="goToStoryDetail">
+                            <van-col span="8" offset="1"><image class="task-img" src='{{ task.img[0]+"?imageView2/2/w/200" }}' mode='widthFix' data-id="{{ task.id }}"></image></van-col>
+                        </van-row>
+                        <van-row gutter="24" custom-class="action">
+                            <van-col span="5" offset="1"  custom-class="tag" data-id="{{ task.id }}" bindtap="goToStoryDetail">
+                            #{{radioToCate.radioToCate(task.radioGroup)}}</van-col>
+                            <van-col span="6" custom-class="watchNum" data-id="{{ task.id }}" bindtap="goToStoryDetail">
+                            {{task.watchNum}}人围观</van-col>
+                            <van-col span="4" offset="3" custom-class="like" bindtap='goToStoryDetail' data-id="{{ task.id }}" data-index="{{ index }}" wx:if="{{ task.state }}">
+                            <van-icon name="like" /><text  >({{ task.likeNum }})</text>
+                            </van-col>
+                            <van-col span="4" offset="3" custom-class="like" bindtap='goToStoryDetail' data-id="{{ task.id }}" data-index="{{ index }}" wx:else>
+                            <van-icon name="like-o" /><text  >({{ task.likeNum }})</text>
+                            </van-col>
+                            <van-col span="4" custom-class="comment" data-id="{{ task.id }}" bindtap="goToStoryDetail">
+                            <van-icon name="chat-o" /><text  >({{ task.commentNum }})</text>
+                            </van-col>
+                        </van-row>
+                        </van-col>
+                    </van-row>
+                    </view>    
+                    <van-divider />
+                </block>
+                
+                </view>
+        </view>
+        <view class='container' wx:elif="{{items[2].isSelect}}">
+            <view id="stories-list" style="width: 100%;">
+                <block wx:for="{{ tasks }}" wx:key="index" wx:for-item="task" >
+                    <view style="background: white;">
+                    <van-row >
+                        <van-col span="24">
+                        <van-row gutter="24" custom-class="row1" >
+                            <van-col span="3" offset="1" custom-class="avatar-box" ><image class="avatar-task" src="{{ task.avatar }}" mode="aspectFit" ></image></van-col>
+                            <van-col span="8" custom-class="userName-task" data-id="{{ task.id }}" bindtap="goToStoryDetail" >{{ name_tools.sub(task.userName)}}</van-col>
+                            <van-col span="8" custom-class="c_time-task" data-id="{{ task.id }}" bindtap="goToStoryDetail">{{getDate.getGap(task.c_time)}}</van-col>
+                        </van-row>
+                        <van-row gutter="24" data-id="{{ task.id }}" bindtap="goToStoryDetail">
+                            <van-col span="22" offset="1" custom-class="title-task" >{{ title_tools_long.sub(task.title)}}</van-col>
+                        </van-row>
+                        <van-row gutter="24" wx:if="{{ task.img[0] }}" data-id="{{ task.id }}" bindtap="goToStoryDetail">
+                            <van-col span="8" offset="1"><image class="task-img" src='{{ task.img[0]+"?imageView2/2/w/200" }}' mode='widthFix' data-id="{{ task.id }}"></image></van-col>
+                        </van-row>
+                        <van-row gutter="24" custom-class="action">
+                            <van-col span="5" offset="1"  custom-class="tag" data-id="{{ task.id }}" bindtap="goToStoryDetail">
+                            #{{radioToCate.radioToCate(task.radioGroup)}}</van-col>
+                            <van-col span="6" custom-class="watchNum" data-id="{{ task.id }}" bindtap="goToStoryDetail">
+                            {{task.watchNum}}人围观</van-col>
+                            <van-col span="4" offset="3" custom-class="like" bindtap='goToStoryDetail' data-id="{{ task.id }}" data-index="{{ index }}" wx:if="{{ task.state }}">
+                            <van-icon name="like" /><text  >({{ task.likeNum }})</text>
+                            </van-col>
+                            <van-col span="4" offset="3" custom-class="like" bindtap='goToStoryDetail' data-id="{{ task.id }}" data-index="{{ index }}" wx:else>
+                            <van-icon name="like-o" /><text  >({{ task.likeNum }})</text>
+                            </van-col>
+                            <van-col span="4" custom-class="comment" data-id="{{ task.id }}" bindtap="goToStoryDetail">
+                            <van-icon name="chat-o" /><text  >({{ task.commentNum }})</text>
+                            </van-col>
+                        </van-row>
+                        </van-col>
+                    </van-row>
+                    </view>    
+                    <van-divider />
+                </block> 
+                </view>
+        </view>
+        <view class='container' wx:elif="{{items[3].isSelect}}">
+            <view id="stories-list" bindtouchstart="bindTouchStart" bindtouchend="bindTouchEnd" bindtap="goToStoryDetail" bindlongtap='delete_detail' style="width: 100%;">
+                <block wx:for="{{ tasks }}" wx:key="{{ index }}" wx:for-item="task">
+                    <view class="task-list-item" data-id="{{ task.id }}" data-detail="{{ task.pk }}">
+                        <view class="box-left" data-id="{{ task.id }}" data-detail="{{ task.pk }}">
+                            <text  class="task_title" data-id="{{ task.id }}" data-detail="{{ task.pk }}">{{ title_tools.sub(task.comment)}}</text>
+                        </view>
+                    </view>
+                </block>
+            </view>
+        </view>
+        <view class='container' wx:elif="{{items[4].isSelect}}">
+            <view id="stories-list" bindtouchstart="bindTouchStart" bindtouchend="bindTouchEnd" bindtap="goToStoryDetail" bindlongtap='delete_detail' style="width: 100%;">
+                <block wx:for="{{ tasks }}" wx:key="{{ index }}" wx:for-item="task">
+                    <view class="task-list-item" data-id="{{ task.id }}" data-detail="{{ task.pk }}">
+                        <view class="box-left" data-id="{{ task.id }}" data-detail="{{ task.pk }}">
+                            <text  class="task_title" data-id="{{ task.id }}" data-detail="{{ task.pk }}">{{ title_tools.sub(task.comment)}}</text>
+                        </view>
+                    </view>
+                </block>
+            </view>
+        </view>
+    </scroll-view>
+  </van-col>
+</van-row>
+
+<!-- <van-grid>
+  <van-grid-item icon="https://imgbf.yqtech.ltd/campusIcon/post.png" text="我发布的" clickable bind:click="toMytask" />
+  <van-grid-item icon="https://imgbf.yqtech.ltd/campusIcon/like.png" text="我喜欢的" clickable bind:click="toMylike" />
+  <van-grid-item icon="https://imgbf.yqtech.ltd/campusIcon/comment.png" text="我评论的" clickable bind:click="toComment" />
+  <van-grid-item icon="https://imgbf.yqtech.ltd/campusIcon/reply.png" text="我回复的" clickable bind:click="toReply" />
+</van-grid> -->
+<!--列表页-->
+<van-toast id="van-toast" />

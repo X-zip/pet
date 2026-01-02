@@ -1,0 +1,9 @@
+<view
+  class="tag custom-class"
+  hover-class="tag-active"
+  data-cate="{{ cate || text }}"
+  bindtap="onTap"
+>
+  <van-icon wx:if="{{ showIcon }}" name="{{ icon }}" class="tag-icon" size="22rpx" />
+  <text class="tag-text">#{{ text || cate }}</text>
+</view>

@@ -1,0 +1,33 @@
+.page {
+    padding: 60rpx 30rpx;
+    text-align: center;
+    background-color: #ffffff;
+  }
+  
+  .title {
+    font-size: 36rpx;
+    font-weight: bold;
+    margin-bottom: 20rpx;
+    color: #333;
+  }
+  
+  .tip {
+    font-size: 28rpx;
+    color: #666;
+    margin-bottom: 40rpx;
+  }
+  
+  .qr {
+    width: 300rpx;
+    height: 300rpx;
+    border-radius: 16rpx;
+    margin: 0 auto 40rpx;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+  }
+  
+  .note {
+    font-size: 24rpx;
+    color: #999;
+    margin-bottom: 60rpx;
+  }
+  

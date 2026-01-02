@@ -1,0 +1,209 @@
+/* page {
+  background: #E9E9E9;
+} */
+
+.main-box {
+  background-color: white;
+  width: 100%;
+  height:100%;
+  overflow-x:hidden;  
+  min-height: 300rpx;
+}
+
+
+.row1 {
+  height: 60rpx;
+}
+
+.avatar{
+    width: 60rpx;
+    height: 60rpx;
+    border-radius: 50%;
+    border-width: 4rpx 4rpx 4rpx 4rpx;
+    border-color: #929292;
+    border-style: solid;
+  }
+  
+.avatar-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+
+.avatar-badge {
+    position: absolute;
+    width: 28rpx;
+    height: 28rpx;
+    bottom: 0rpx; /* 原为 0，改为 -4rpx 更靠外贴边 */
+    right: -16rpx;
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 0 0 4rpx rgba(0, 0, 0, 0.1); /* 可选，增强浮出感 */
+}
+
+.userName {
+  color: rgb(91, 120, 173);
+  line-height: 60rpx;
+}
+
+.c_time {
+  color: #929292;
+  font-size: 20rpx;
+  line-height: 60rpx;
+}
+
+.ellipsis{
+  color: #929292;
+  line-height: 60rpx;
+}
+
+.title {
+  padding: 10rpx 0 10rpx 0;
+  line-height:50rpx;
+}
+
+.task-img {
+  padding: 20rpx 20rpx 20rpx 0;
+  width: 300rpx;
+}
+
+.action {
+  height: 60rpx;
+}
+.action .tag {
+  font-size: 24rpx;
+  line-height:60rpx;
+  height: 60rpx;
+  color:#929292;
+}
+.action .watchNum {
+  font-size: 24rpx;
+  line-height:60rpx;
+  height: 60rpx;
+  color:#929292;
+}
+
+.action .like {
+  color: #929292;
+  font-size: 24rpx;
+  line-height:60rpx;
+}
+
+.action .comment {
+  color: rgb(91, 120, 173);
+  font-size: 26rpx;
+  line-height:60rpx;
+  text-decoration-line: underline;
+}
+
+.comment-box {
+  background-color: white;
+  margin-top: 20rpx;
+  width: 100%;
+  padding-bottom: 350rpx;
+  overflow-x:hidden;  
+  min-height: 600rpx;
+}
+
+.comment-avatar {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  border-width: 4rpx 4rpx 4rpx 4rpx;
+  border-color: #c2c2c2;
+  border-style: solid;
+}
+
+.comment-avatar-badge {
+    position: absolute;
+    width: 24rpx;
+    height: 24rpx;
+    bottom: 0rpx; /* 原为 0，改为 -4rpx 更靠外贴边 */
+    right: 0rpx;
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 0 0 4rpx rgba(0, 0, 0, 0.1); /* 可选，增强浮出感 */
+}
+
+.van-row {
+    /* overflow-x:hidden !important;   */
+}
+
+
+.release {
+  align-items: flex-end; /*底部对齐*/
+  box-sizing: border-box;
+  position: fixed;
+  height: auto;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 18rpx 0 40rpx 30rpx;
+  background-color: #f9f9f9;
+  font-size: 28rpx;
+  z-index: 999;
+}
+
+.van-button {
+  height: 64rpx !important;
+}
+
+.send-row {
+  padding: 30rpx 0rpx 30rpx 0;
+}
+
+.release .submit {
+  width: 150rpx;
+  height: 64rpx;
+  line-height: 64rpx;
+  text-align: center;
+  color: white;
+  font-weight:600;
+  margin: 0 3px;
+  padding: 0;
+  background-color: #4b6a62;
+}
+
+.comment-userName {
+  color: rgb(91, 120, 173);
+  font-size: 28rpx;
+  line-height: 60rpx;
+}
+
+
+.collapse-item {
+  line-height: 50rpx;
+  width:20%;
+  right:0;
+  top:0;
+  position:fixed
+}
+
+.van-popup--top {
+  width:20%;
+  left:100rpx;
+  top:0;
+}
+.van-tabs__nav {
+  width: 50%;
+  right: 0;
+  position:absolute !important;
+  right: 0;
+}
+.van-tabs__line {
+  width: 50%;
+  /* margin-top: -50rpx; */
+}
+
+.image-comment {
+  width: 100%;
+}
+
+.louzhu {
+  margin-left: 10rpx;
+}
+
+.comment-inside {
+    min-height: 250rpx;
+}

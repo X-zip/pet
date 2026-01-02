@@ -1,0 +1,17 @@
+<view class="select-box">
+  <!-- 外部下拉菜单 -->
+  <view class="outside-select">
+    <view class="label"># 外部下拉菜单</view>
+    <view class="content">
+      <outside-select data-type="outside-select" bindselect="handleSelect" />
+    </view>
+  </view>
+
+  <!-- 内联下拉菜单 -->
+  <view class="inline-select">
+    <view class="label"># 内联下拉菜单</view>
+    <view class="content">
+      <inside-select data-type="inside-select" bindselect="handleSelect" />
+    </view>
+  </view>
+</view>

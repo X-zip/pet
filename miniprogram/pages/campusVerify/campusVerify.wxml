@@ -1,0 +1,71 @@
+<van-toast id="van-toast" />
+<view class="container">
+  <view style="padding: 30rpx 20rpx 20rpx 20rpx;">
+    <text style="font-size: 42rpx;font-weight: 600;color:#4b6a62;">校园验证</text>
+  </view>
+  <view>
+    <text style="font-weight: 600;color:#CBBCCD">请输入校园邮箱并完成验证</text>
+  </view>
+
+  <view class="detail-box">
+    <!-- 邮箱用户名 -->
+    <view class="item">
+      <van-cell-group>
+        <van-field
+          class="van-field-box"
+          value="{{ emailUser }}"
+          label="邮箱前缀"
+          placeholder="例如：yourname"
+          input-align="right"
+          bind:change="onEmailUserInput"
+        />
+      </van-cell-group>
+    </view>
+
+    <!-- 邮箱后缀选择 -->
+    <view class="item">
+      <van-cell title="选择后缀" value="{{ emailDomain }}" is-link bind:tap="onPickDomain" />
+      <van-popup show="{{ showPicker }}" position="bottom" bind:close="onClosePicker">
+        <van-picker
+          show-toolbar
+          columns="{{ emailDomains }}"
+          bind:confirm="onDomainConfirm"
+          bind:cancel="onClosePicker"
+        />
+      </van-popup>
+    </view>
+
+    <!-- 输入验证码 -->
+    <view class="item">
+      <van-cell-group>
+        <van-field
+          class="van-field-box"
+          value="{{ emailCode }}"
+          label="验证码"
+          placeholder="6位数字"
+          input-align="right"
+          maxlength="6"
+          bind:change="onCodeInput"
+        />
+      </van-cell-group>
+    </view>
+
+    <view class="item button-row">
+        <van-button round  type="primary" size="small" custom-class="btn-left" bind:tap="sendEmailCode" disabled="{{ countdown > 0 }}">
+            {{ countdown > 0 ? "重新发送(" + countdown + "s)" : "发送验证码" }}
+        </van-button>
+
+        <van-button round  type="info" size="small" custom-class="btn-right" bind:tap="verifyEmailCode">
+            验证
+        </van-button>
+    </view>
+
+
+    <view class="item" wx:if="{{ verificationStatus === true }}">
+      <text style="color:green;text-align:center;display:block;margin-top:20rpx;">✅ 验证成功</text>
+    </view>
+    <view class="item" wx:if="{{ verificationStatus === false }}">
+      <text style="color:red;text-align:center;display:block;margin-top:20rpx;">❌ 验证失败</text>
+    </view>
+  </view>
+</view>

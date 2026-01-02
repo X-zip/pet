@@ -1,0 +1,78 @@
+<!--index.wxml-->
+<wxs module="indexofStr">
+	module.exports.includes = function (str, str_) {
+		return str.indexOf(str_);
+	}
+</wxs>
+
+<van-toast id="van-toast" />
+
+<!-- 背景图片 -->
+<image class="page-bg" src="../../images/BG.png" mode="aspectFill"></image>
+
+<!-- 自定义导航栏 -->
+<view class="custom-navbar" style="height:{{navBarHeight}}px; padding-top:{{statusBarHeight}}px;">
+    <view class="navbar-content">
+        <view class="navbar-left">
+            <image class="navbar-paw-icon" src="../../images/icon/paw.png" mode="aspectFit"></image>
+        </view>
+        <view class="navbar-center">
+            <text class="navbar-title">拼团活动</text>
+        </view>
+        <view class="navbar-right">
+            <view class="navbar-icon-placeholder"></view>
+            <view class="navbar-icon-placeholder"></view>
+        </view>
+    </view>
+</view>
+
+<view class="main-box" style="margin-top:{{navBarHeight}}px;">
+    <!-- 只保留 pintuan 板块 -->
+    <view class="pintun">
+        <!-- 拼团列表 -->
+        <view class="group-list-container">
+            <block wx:if="{{taskList.length > 0}}">
+                <block wx:for="{{taskList}}" wx:key="index" wx:for-item="task">
+                    <view class="pt-card-wrapper">
+                        <!-- 顶部时间条 -->
+                        <view class="pt-card-time">
+                            <text class="pt-card-time-text">剩余 20:00:00</text>
+                        </view>
+                        <!-- 白色主体内容卡 -->
+                        <view class="pt-card-body">
+                            <!-- 内层容器（白色区域，左边留空形成缺口） -->
+                            <view class="pt-card-inner" bindtap="goDetailPintuan" data-id="{{task.id}}">
+                                <!-- 左侧图片 -->
+                                <view class="group-card-image-wrapper">
+                                    <image class="group-card-image" src="{{task.main_pic ? task.main_pic : '../../images/pic.png'}}" mode="aspectFill"></image>
+                                </view>
+                                <!-- 右侧内容 -->
+                                <view class="group-card-content">
+                                    <!-- 标题 -->
+                                    <view class="group-card-title">{{task.name}}</view>
+                                    <!-- 描述 -->
+                                    <view class="group-card-desc">{{task.description}}</view>
+                                    <!-- 活动标签 -->
+                                    <view class="group-card-activity-tag">满{{task.current_price >= 80 ? '80' : '160'}}减{{task.current_price >= 80 ? '20' : '80'}}活动</view>
+                                    <!-- 价格和按钮区域 -->
+                                    <view class="group-card-footer">
+                                        <view class="group-card-price-wrapper">
+                                            <text class="group-card-price-symbol">￥</text>
+                                            <text class="group-card-price">{{task.current_price}}</text>
+                                            <text class="group-card-origin-price" wx:if="{{task.ori_price}}">原价 {{task.ori_price}}</text>
+                                        </view>
+                                        <button class="group-card-button">立即拼团</button>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </block>
+            </block>
+            <block wx:else>
+                <van-empty description="暂无拼团活动，快来发起第一个吧~" />
+            </block>
+        </view>
+    </view>
+</view>
+

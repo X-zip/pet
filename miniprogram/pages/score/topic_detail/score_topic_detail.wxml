@@ -1,0 +1,241 @@
+<van-toast id="van-toast" />
+
+<view class="score-detail-page">
+  <view wx:if="{{topic}}" class="score-detail-header {{cardThemeClass}}">
+    <view class="score-detail-header__top">
+      <image class="score-detail-cover" src="{{topic.cover}}" mode="aspectFill" wx:if="{{topic.cover}}"></image>
+      <view class="score-detail-cover score-detail-cover--placeholder" wx:else>
+        <image src="../../../images/pic.png" mode="aspectFit" />
+      </view>
+      <view class="score-detail-meta">
+        <view class="score-detail-title">{{topic.title}}</view>
+        <van-tag type="primary" plain size="small">{{topic.category}}</van-tag>
+        <view class="score-detail-stats">
+          <text>{{topic.agg.n_ratings || 0}} 次评分</text>
+          <text>{{topic.agg.n_participants || 0}} 人参与</text>
+          <text>最近活跃：{{topic.agg.last_rated_text || topic.agg.last_rated_at || '—'}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="score-detail-desc" wx:if="{{topic.description}}">
+      {{topic.description}}
+    </view>
+  </view>
+  <view wx:elif="{{topicLoading}}" class="score-detail-skeleton">
+    <van-skeleton title row="4" loading />
+  </view>
+  <view wx:else class="score-detail-empty">
+    <van-empty description="榜单不存在或已下架" />
+  </view>
+
+  <view wx:if="{{topic && topic.category == '人物'}}" class="score-detail-warning">
+    请基于公开体验理性评价，禁止泄露隐私、人身攻击或歧视性语言。
+  </view>
+
+  <view wx:if="{{topic}}" class="score-detail-toolbar">
+    <view class="score-detail-sorts">
+      <block wx:for="{{optionSortTabs}}" wx:key="value" wx:for-item="tab">
+        <view
+          class="score-detail-sort-item {{optionSort === tab.value ? 'score-detail-sort-item--active' : ''}}"
+          style="background-color: {{optionSort === tab.value ? scorePrimaryColor : '#f5f6f7'}};color: {{optionSort === tab.value ? '#ffffff' : '#666666'}};"
+          data-sort="{{tab.value}}"
+          bindtap="onOptionSortChange"
+        >
+          {{tab.label}}
+        </view>
+      </block>
+    </view>
+    <view class="score-detail-owner-action" wx:if="{{topic.is_owner}}">
+      <van-button size="small" plain type="primary" color="{{scorePrimaryColor}}" bindtap="onOwnerAddOption">
+        + 新增选项
+      </van-button>
+    </view>
+  </view>
+
+  <view wx:if="{{optionsLoading && options.length === 0}}" class="score-option-skeleton">
+    <block wx:for="{{optionSkeleton}}" wx:key="index">
+      <van-skeleton title row="3" loading />
+    </block>
+  </view>
+  <view wx:elif="{{options.length === 0}}" class="score-option-empty">
+    <van-empty description="暂无评分选项" />
+  </view>
+  <view wx:else>
+    <block wx:for="{{options}}" wx:key="id" wx:for-item="option" wx:for-index="optIndex">
+      <view class="score-option-card {{cardThemeClass}}">
+        <view class="score-option-card__header">
+          <view class="score-option-card__title">{{option.name}}</view>
+          <van-tag
+            wx:for="{{option.tags}}"
+            wx:key="*this"
+            type="primary"
+            plain
+            size="small"
+          >
+            {{item}}
+          </van-tag>
+        </view>
+        <view class="score-option-card__stats">
+          <view class="score-option-card__stat">
+            <van-rate readonly allow-half value="{{option.avgScoreValue || 0}}" color="{{scorePrimaryColor}}" void-color="#d8d8d8" />
+            <text class="score-option-card__score-text">
+              {{option.avgScoreDisplay}}
+            </text>
+          </view>
+          <text class="score-option-card__meta">{{option.ratingsCount || 0}} 次评分</text>
+          <text class="score-option-card__meta">最近活跃：{{option.agg.last_rated_text || option.agg.last_rated_at || '—'}}</text>
+        </view>
+        <view class="score-option-card__latest" wx:if="{{option.latest_vote}}">
+          <view class="score-option-card__latest-title">最新评分</view>
+          <view class="score-option-card__latest-content">
+            <text class="score-option-card__latest-text">{{option.latest_vote.comment || '暂无文字'}}</text>
+            <view class="score-option-card__latest-images" wx:if="{{option.latest_vote.images && option.latest_vote.images.length}}">
+              <image
+                wx:for="{{option.latest_vote.images}}"
+                wx:key="*this"
+                src="{{item}}"
+                mode="aspectFill"
+              />
+            </view>
+          </view>
+        </view>
+        <view class="score-option-card__my" wx:if="{{option.my_rated}}">
+          <van-tag type="success" plain size="small">我已评</van-tag>
+          <view class="score-option-card__my-content" wx:if="{{option.my_rating}}">
+            <van-rate readonly allow-half value="{{option.my_rating.stars || 0}}" color="{{scorePrimaryColor}}" void-color="#d8d8d8" />
+            <text class="score-option-card__my-text">
+              {{option.myRatingScoreText ? option.myRatingScoreText + ' · ' : ''}}{{option.my_rating.comment || '未填写文字'}}
+            </text>
+          </view>
+        </view>
+        <view class="score-option-card__actions">
+          <van-button
+            wx:if="{{!option.my_rated}}"
+            type="primary"
+            round
+            color="{{scorePrimaryColor}}"
+            size="small"
+            data-id="{{option.id}}"
+            bindtap="openRatingSheet"
+          >
+            打分
+          </van-button>
+          <van-button wx:else type="default" size="small" round disabled>我已评</van-button>
+          <view class="score-option-card__owner" wx:if="{{topic.is_owner}}">
+            <van-icon name="ellipsis" data-id="{{option.id}}" bindtap="onOwnerOptionAction" />
+          </view>
+        </view>
+        <view class="score-option-card__toggle" bindtap="toggleOptionVotes" data-id="{{option.id}}">
+          <text>{{option.expanded ? '收起评分' : '展开评分'}}</text>
+          <van-icon name="{{option.expanded ? 'arrow-up' : 'arrow-down'}}" />
+        </view>
+        <view class="score-option-card__votes" wx:if="{{option.expanded}}">
+          <view class="score-option-card__votes-toolbar">
+            <van-switch
+              size="20"
+              active-color="{{scorePrimaryColor}}"
+              checked="{{option.onlyMine}}"
+              bind:change="onToggleOnlyMine"
+              data-id="{{option.id}}"
+            />
+            <text class="score-option-card__votes-filter">只看我的评分</text>
+          </view>
+          <view wx:if="{{option.voteLoading && option.votes.length === 0}}" class="score-option-card__votes-loading">
+            <van-loading size="24px" color="{{scorePrimaryColor}}" /> 加载中...
+          </view>
+          <view wx:elif="{{option.votes.length === 0}}" class="score-option-card__votes-empty">
+            <van-empty description="暂无评分记录" />
+          </view>
+          <block wx:else>
+            <block wx:for="{{option.votes}}" wx:key="id" wx:for-item="vote" wx:for-index="voteIndex">
+              <view class="score-vote-item">
+                <view class="score-vote-item__header">
+                  <image class="score-vote-item__avatar" src="{{vote.anonymous ? 'http://img.yqtech.ltd/macao/avatar/anonymous.png' : vote.avatar}}" mode="aspectFill" />
+                  <view class="score-vote-item__meta">
+                    <text class="score-vote-item__name">{{vote.anonymous ? '匿名用户' : vote.user_name}}</text>
+                    <text class="score-vote-item__time">{{vote.created_at}}</text>
+                  </view>
+                  <van-button size="mini" type="danger" plain data-id="{{vote.id}}" bindtap="onReportVote">举报</van-button>
+                </view>
+                <view class="score-vote-item__content">
+                  <van-rate readonly allow-half value="{{vote.stars || 0}}" color="{{scorePrimaryColor}}" void-color="#d8d8d8" size="18" />
+                  <text class="score-vote-item__text">{{vote.comment || '（未填写文字）'}}</text>
+                  <view class="score-vote-item__images" wx:if="{{vote.images && vote.images.length}}">
+                    <image
+                      wx:for="{{vote.images}}"
+                      wx:key="*this"
+                      wx:for-index="imgIndex"
+                      src="{{item}}"
+                      mode="aspectFill"
+                      data-option-id="{{option.id}}"
+                      data-vote-index="{{voteIndex}}"
+                      data-index="{{imgIndex}}"
+                      bindtap="onPreviewVoteImage"
+                    />
+                  </view>
+                </view>
+              </view>
+            </block>
+            <view class="score-option-card__votes-footer">
+              <text wx:if="{{option.voteLoading}}">加载中...</text>
+              <text wx:elif="{{option.voteNoMore}}">没有更多评分了</text>
+              <text wx:else data-id="{{option.id}}" bindtap="onLoadMoreVotes">加载更多</text>
+            </view>
+          </block>
+        </view>
+      </view>
+    </block>
+    <view class="score-options-footer">
+      <text wx:if="{{optionsLoading}}">加载中...</text>
+      <text wx:elif="{{optionsNoMore}}">已经到底啦</text>
+    </view>
+  </view>
+</view>
+
+<van-popup
+  show="{{ratingSheetVisible}}"
+  position="bottom"
+  round
+  custom-style="padding: 32rpx 32rpx 48rpx;"
+  bind:close="closeRatingSheet"
+>
+  <view class="rating-sheet">
+    <view class="rating-sheet__title">为该选项打分</view>
+    <view class="rating-sheet__stars">
+      <van-rate allow-half value="{{ratingStars}}" color="{{scorePrimaryColor}}" void-color="#d8d8d8" bind:change="onRatingStarChange" />
+      <text class="rating-sheet__score">
+        {{ratingStarsText}}
+      </text>
+    </view>
+    <view class="rating-sheet__field">
+      <van-field
+        label="文字"
+        type="textarea"
+        placeholder="写下你对该选项的真实评价（可选，最多140字）"
+        maxlength="140"
+        value="{{ratingComment}}"
+        bind:change="onRatingCommentChange"
+        show-word-limit
+        autosize
+      />
+    </view>
+    <view class="rating-sheet__field">
+      <view class="rating-sheet__label">图片（最多3张）</view>
+      <van-uploader
+        file-list="{{ratingImages}}"
+        max-count="{{ratingMaxImages}}"
+        bind:after-read="afterReadRatingImage"
+        bind:delete="onDeleteRatingImage"
+      />
+    </view>
+    <view class="rating-sheet__field rating-sheet__anonymous">
+      <text>匿名展示</text>
+      <van-switch checked="{{ratingAnonymous}}" bind:change="onRatingAnonymousChange" active-color="{{scorePrimaryColor}}" />
+    </view>
+    <view class="rating-sheet__actions">
+      <van-button round size="small" type="default" bindtap="closeRatingSheet" disabled="{{ratingSubmitting}}">取消</van-button>
+      <van-button round size="small" type="info" color="{{scorePrimaryColor}}" bindtap="submitRating" loading="{{ratingSubmitting}}">提交评分</van-button>
+    </view>
+  </view>
+</van-popup>
+

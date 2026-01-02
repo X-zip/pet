@@ -1,0 +1,9 @@
+/**app.wxss**/
+.label {
+  font-weight: bolder;
+  font-size: 32rpx;
+}
+
+.content {
+  margin: 20rpx 0;
+}

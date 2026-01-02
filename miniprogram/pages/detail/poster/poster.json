@@ -1,0 +1,15 @@
+{
+  "usingComponents": {},
+  "lazyCodeLoading": "requiredComponents",
+  "componentFramework": "glass-easel",
+  "rendererOptions": {
+    "skyline": {
+        "disableABTest": true,
+        "iosVersionBegin": "x.y.z", 
+        "iosVersionEnd": "15.255.255", 
+        "androidVersionBegin": "x.y.z", 
+        "androidVersionEnd": "15.255.255" 
+    }
+  },
+  "renderer": "skyline"
+}

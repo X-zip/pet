@@ -1,0 +1,137 @@
+<!-- 背景图片 -->
+<image class="page-bg" src="../../images/BG.png" mode="aspectFill"></image>
+
+<view class="page">
+  <!-- 顶部大图轮播（参考截图） -->
+  <view class="hero">
+    <swiper class="hero-swiper" autoplay circular indicator-dots indicator-color="rgba(255,255,255,0.5)" indicator-active-color="rgba(255,255,255,0.95)">
+      <swiper-item>
+        <image src="{{main_pic}}" class="hero-img" mode="aspectFill"></image>
+      </swiper-item>
+    </swiper>
+
+    <!-- 图片上方浮层：返回/收藏/分享 -->
+    <view class="hero-topbar" style="padding-top: {{statusBarHeight}}px; height: {{navBarHeight}}px;">
+      <view class="hero-topbar-inner">
+        <view class="hero-icon-btn" bindtap="goBack">
+          <text class="hero-icon-text">‹</text>
+        </view>
+        <view class="hero-topbar-right">
+          <view class="hero-icon-btn" bindtap="onTapFav">
+            <text class="hero-icon-text">☆</text>
+          </view>
+          <view class="hero-icon-btn" bindtap="onTapShare">
+            <text class="hero-icon-text">↗</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 价格 Banner（单一背景容器） -->
+  <view class="price-banner">
+    <view class="price-left">
+      <view class="price-main">
+        <text class="price-symbol">¥</text>
+        <text class="current-price">{{current_price}}</text>
+      </view>
+      <view class="price-sub">
+        <text class="ori-price" wx:if="{{ori_price}}">¥{{ori_price}}</text>
+        <text class="sold-text">已售{{soldCount}}</text>
+      </view>
+    </view>
+    <view class="price-right">
+      <view class="price-badge">
+        <text class="price-tag">社区拼团价</text>
+        <text class="price-tag-sub">特价团</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 商品信息卡（白底，下圆角衔接） -->
+  <view class="card product-card">
+    <view class="product-title">【威尔逊】{{name}}</view>
+    <view class="product-meta">
+      <text class="meta-item">{{locationText}}</text>
+      <text class="meta-sep">|</text>
+      <text class="meta-item">{{shippingText}}</text>
+    </view>
+
+    <view class="rank-row">
+      <text class="rank-dot">🔥</text>
+      <text class="rank-text">{{rankText}}</text>
+      <text class="rank-arrow">›</text>
+    </view>
+
+    <view class="thumb-row">
+      <view class="thumbs">
+        <block wx:for="{{thumb_list}}" wx:key="index">
+          <image class="thumb-img" src="{{item}}" mode="aspectFill"></image>
+        </block>
+      </view>
+      <view class="spec-btn">
+        <text class="spec-btn-text">选规格</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 商品参数 -->
+  <view class="card section-card">
+    <view class="section-hd">
+      <text class="section-title">商品参数</text>
+    </view>
+    <view class="params-table">
+      <block wx:for="{{mockParams}}" wx:key="k">
+        <view class="param-row">
+          <view class="param-k">{{item.k}}</view>
+          <view class="param-v">{{item.v}}</view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 评价 -->
+  <view class="card section-card">
+    <view class="section-hd section-hd--between">
+      <text class="section-title">评价 · 2万+</text>
+      <text class="section-more">查看全部 ›</text>
+    </view>
+    <view class="review-list">
+      <block wx:for="{{mockReviews}}" wx:key="id">
+        <view class="review-item">
+          <view class="review-top">
+            <text class="review-name">{{item.name}}</text>
+            <view class="review-stars">
+              <block wx:for="{{[1,2,3,4,5]}}" wx:key="star">
+                <text class="star {{star <= item.stars ? 'star--on' : ''}}">★</text>
+              </block>
+            </view>
+          </view>
+          <text class="review-time">{{item.time}}</text>
+          <text class="review-content">{{item.content}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 商品详情图（复用海报列表） -->
+  <view class="card section-card section-card--detail">
+    <view class="section-hd">
+      <text class="section-title">商品详情</text>
+    </view>
+    <view class="detail-images">
+      <block wx:for="{{poster_list}}" wx:key="index">
+        <image src="{{item}}" mode="widthFix" class="detail-img" />
+      </block>
+    </view>
+  </view>
+
+  <!-- 吸底操作栏 -->
+  <view class="bottom-actions">
+    <button class="action-icon-btn" open-type="contact">
+      <text class="action-icon">•••</text>
+      <text class="action-text">客服</text>
+    </button>
+    <button class="action-main-btn" bindtap="submitInfo" data-id="{{id}}">立即下单</button>
+  </view>
+</view>

@@ -1,0 +1,7 @@
+{
+  "disableScroll": true,
+  "usingComponents": {
+    "outside-select": "/components/outside-select",
+    "inside-select": "/components/inside-select"
+  }
+}

@@ -1,0 +1,227 @@
+page {
+    background: white;
+} 
+ .container{
+    padding:0px;
+    padding-bottom: 250rpx;
+    width: 100%;
+  }
+  .page-header {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    border-bottom: 1rpx solid #ccc;
+  }
+  .avatar{
+    position: relative;
+  }
+  .avatar span{
+    position: absolute;
+    background-color: red;
+    right: 5px;
+    top:0px;
+    font-size: 14px;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    text-align: center;
+    color:#fff;
+  }
+  .page-title {
+    padding: 20rpx 40rpx;
+    color: #999;
+    font-size: 38rpx;
+    text-align: center;
+  }
+  .page-body {
+    width: 100%;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    
+  }
+  .item {
+    display: flex;
+    padding: 20rpx 40rpx;
+    border-bottom: 1rpx solid #eee;
+    cursor: pointer;
+  }
+  .item .poster {
+    width: 100rpx;
+    height: 100rpx;
+    margin-right: 20rpx;
+    border-radius: 20rpx;
+  }
+  .item .meta {
+    flex: 1;
+  }
+  .biaoqingclass{
+    display: inline;
+  }
+  .item .meta .title,.item .meta .sub-title {
+    display: block;
+    margin-bottom: 15rpx;
+  }
+  .item .meta .title {
+    font-size: 32rpx;
+  }
+  .item .meta .sub-title {
+    font-size: 30rpx;
+    color: #c0c0c0;
+  }
+  .item .meta .artists {
+    font-size: 26rpx;
+    color: #999;
+  }
+  .item .rating {
+    font-size: 28rpx;
+    font-weight: bold;
+    color: #f74c31;
+  }
+  .tips {
+    font-size: 28rpx;
+    text-align: center;
+    padding: 50rpx;
+    color: #ccc;
+  }
+  .tips image {
+    width: 40rpx;
+    height: 40rpx;
+    margin-right: 20rpx;
+  }
+  .tips image,.tips text {
+    vertical-align: middle;
+  }
+  
+  .redDot {
+    position: absolute;
+    top: 0rpx;
+    right: 10rpx;
+    background: red;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    vertical-align: super;
+  }
+
+  .delete {
+    width: 80px !important;
+    height: 75px !important;
+    padding: 20rpx 40rpx !important;
+  }
+
+.avatar-task{
+    width: 60rpx;
+    height: 60rpx;
+    border-radius: 50%;
+    border-width: 4rpx 4rpx 4rpx 4rpx;
+    border-color: #929292;
+    border-style: solid;
+}
+
+
+.userName-task {
+    color: rgb(91, 120, 173);
+    line-height: 60rpx;
+    font-size: 28rpx;
+    display: flex;
+    justify-content: flex-start;
+}
+  
+.c_time-task {
+    color: #929292;
+    font-size: 20rpx;
+    line-height: 60rpx;
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+.title-task {
+    padding: 10rpx 0 10rpx 0;
+    line-height:40rpx;
+}
+  
+  .task-img {
+    padding: 20rpx 20rpx 20rpx 0;
+    width: 300rpx;
+  }
+
+  
+.action {
+    height: 60rpx;
+  }
+  .action .tag {
+    font-size: 24rpx;
+    line-height:60rpx;
+    height: 60rpx;
+    color:#929292;
+  }
+  .action .watchNum {
+    font-size: 24rpx;
+    line-height:60rpx;
+    height: 60rpx;
+    color:#929292;
+  }
+  
+  .action .like {
+    color: #929292;
+    font-size: 24rpx;
+    line-height:60rpx;
+  }
+  .action .comment {
+    color: #929292;
+    font-size: 24rpx;
+    line-height:60rpx;
+  }
+  .collapse-box {
+    line-height: 50rpx;
+    width:20%;
+    left:100rpx;
+    top:0;
+  }
+  
+  .collapse-item {
+    line-height: 50rpx;
+    width:20%;
+    right:0;
+    top:0;
+    position:fixed
+  }
+
+  
+.van-popup--top {
+    width:20%;
+    left:100rpx;
+    top:0;
+  }
+
+ .task-list-item {
+    width: 100%;
+    /* margin: 5%; */
+    margin-top: 20rpx;
+    background: #f6f6f6;
+    border-radius: 20rpx;
+    height: 100rpx;
+}
+
+.box-left {
+    width: 100%;
+    height: 100%;
+    float: left;
+    line-height: 100rpx;
+  }
+
+  .task_title{
+    margin-left: 20rpx;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: #999;
+    width: 90%;
+  }
+
+  
+  
+  
+
+  

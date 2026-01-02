@@ -1,0 +1,115 @@
+/**app.wxss**/
+
+/* =========================
+   全局配色系统（从 index 页面提取）
+   ========================= */
+/* 
+页面主背景色（Page BG）: rgb(247, 223, 185) / #F7DFB9（浅暖黄）
+卡片背景色（Card BG）: #FFFFFF 或极浅奶油色 rgba(255, 248, 235, 0.95)
+主文字色（Primary Text）: rgb(139, 90, 43) / #8B5A2B（深暖棕）
+次级文字色（Secondary Text）: rgb(139, 90, 43) opacity 0.7（中灰棕）
+弱文案/提示文字色（Placeholder）: rgb(139, 90, 43) opacity 0.6（浅灰棕）
+主按钮色（Primary Button）: rgb(139, 90, 43) / 渐变 rgb(139, 90, 43) → rgb(160, 110, 60)
+强调标签色/高亮色（Accent）: rgba(255, 152, 0, 0.12) 背景 + rgb(139, 90, 43) 文字
+分割线/边框色（Divider）: rgba(0, 0, 0, 0.06) ~ rgba(0, 0, 0, 0.12)
+*/
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+} 
+
+button {
+  background: initial;
+}
+
+button:focus{
+  outline: 0;
+}
+
+button::after{
+  border: none;
+}
+
+/* 统一所有 van-button info 类型按钮为暖棕色 */
+.van-button--info {
+    background-color: rgb(139, 90, 43) !important;
+    border-color: rgb(139, 90, 43) !important;
+    color: #ffffff !important;
+}
+
+.van-button--info.van-button--plain {
+    background-color: transparent !important;
+    color: rgb(139, 90, 43) !important;
+    border-color: rgb(139, 90, 43) !important;
+}
+
+/* =========================
+   统一主按钮样式（参考首页"发布/立即拼团"按钮）
+   ========================= */
+.btn-primary-pet {
+    background: linear-gradient(135deg, rgb(139, 90, 43) 0%, rgb(160, 110, 60) 100%) !important;
+    color: #FFFFFF !important;
+    border-radius: 999rpx !important;
+    font-weight: 600 !important;
+    border: none !important;
+    box-shadow: 0 4rpx 12rpx rgba(139, 90, 43, 0.35) !important;
+}
+
+.btn-primary-pet::after {
+    border: none !important;
+}
+
+/* 统一所有 van-button primary 类型按钮为暖棕色渐变 */
+.van-button--primary {
+    background: linear-gradient(135deg, rgb(139, 90, 43) 0%, rgb(160, 110, 60) 100%) !important;
+    border: none !important;
+    color: #ffffff !important;
+    box-shadow: 0 4rpx 12rpx rgba(139, 90, 43, 0.35) !important;
+}
+
+.van-button--primary.van-button--plain {
+    background-color: transparent !important;
+    color: rgb(139, 90, 43) !important;
+    border-color: rgb(139, 90, 43) !important;
+    box-shadow: none !important;
+}
+
+/* 统一所有 van-tag primary 类型标签为暖色系 */
+.van-tag--primary {
+    background-color: rgba(255, 152, 0, 0.12) !important;
+    color: rgb(139, 90, 43) !important;
+    border-color: rgba(255, 152, 0, 0.2) !important;
+}
+
+.label {
+  font-weight: bolder;
+  font-size: 32rpx;
+  color: rgb(139, 90, 43);
+}
+
+.content {
+  margin: 20rpx 0;
+  color: rgb(51, 51, 51);
+}
+
+/* 全局页面背景统一为暖黄色 */
+page {
+  background: rgb(247, 223, 185);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  color: rgb(51, 51, 51);
+}
+
+/* 全局文字颜色统一 */
+text {
+  color: rgb(51, 51, 51);
+}
+
+/* 全局链接颜色 */
+a, .link {
+  color: rgb(139, 90, 43);
+}

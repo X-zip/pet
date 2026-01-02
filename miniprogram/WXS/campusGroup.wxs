@@ -1,0 +1,18 @@
+module.exports = {
+    getCampusName: function (group) {
+      if (group === '0') {
+        return "Macau";
+      } else if (group === '1') {
+        return "UM";
+      } else if (group === '2') {
+        return "MUST";
+      } else if (group === '3') {
+        return "CityU";
+      } else if (group === '4') {
+        return "MPU";
+      } else if (group === '5') {
+        return "UTM";
+      }   
+    }
+  };
+  

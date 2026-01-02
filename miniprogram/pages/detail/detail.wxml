@@ -1,0 +1,677 @@
+<!--pages/detail/detail.wxml-->
+<wxs module='tools' src='../../WXS/tools.wxs'></wxs>
+<wxs src="../../WXS/subutil_content.wxs" module="content_tools" />
+<wxs src="../../WXS/subutil_title.wxs" module="title_tools" />
+<wxs src="../../WXS/subutil_title_long.wxs" module="title_tools_long" />
+<wxs src="../../WXS/subutil_name.wxs" module="name_tools" />
+<wxs src="../../WXS/subutil_radioToCate.wxs" module="radioToCate" />
+<wxs module = "getDate" src="../../WXS/sub_date.wxs"></wxs>
+<wxs module="indexofStr">
+	module.exports.includes = function (str, str_) {
+		return str.indexOf(str_);
+	}
+</wxs>
+<view style="margin-top:10rpx;border-radius: 20rpx;">
+    <official-account></official-account>
+</view>
+
+<van-share-sheet
+  show="{{ showShare }}"
+  title="立即分享给好友"
+  options="{{ options }}"
+  bind:select="onSelectShare"
+  bind:close="onCloseShare"
+/>
+
+<poster id="poster" config="{{posterConfig}}" bind:success="onPosterSuccess" bind:fail="onPosterFail"></poster>
+
+<van-notice-bar mode="closeable" text="此条帖子被标记为敏感内容，请同学们注意甄别" wx:if="{{ task[0].is_complaint }}" />
+
+<van-toast id="van-toast" />
+<view class="main-box">
+  <van-row >
+    <van-col span="24">
+      <van-row gutter="24" custom-class="row1" >
+        <van-col span="3" offset="1" custom-class="avatar-box">
+            <view class="avatar-wrapper">
+                <image
+                class="avatar"
+                src="{{ task[0].avatar }}"
+                mode="aspectFit"
+                style="{{ task[0].identity == 3 ? 'border-color: rgb(217,162,27);' : '' }}"
+                />
+                <!-- 条件渲染校园认证角标 -->
+                <image
+                wx:if="{{ task[0].identity == 3 }}"
+                class="avatar-badge"
+                src="http://imgbf.yqtech.ltd/campusIcon/macaoVerify.png"
+                mode="aspectFit"
+                />
+            </view>
+        </van-col>
+        <van-col span="8" custom-class="userName" >{{ name_tools.sub(task[0].userName)}}</van-col>
+        <van-col span="7" custom-class="c_time" >{{getDate.getGap(task[0].c_time)}}</van-col>
+        <van-col span="4" custom-class="ellipsis">
+          <van-dropdown-menu overlay="false" custom-class="collapse-box">
+            <van-dropdown-item id="item" title="{{ itemTitle }}" custom-class="collapse-item">
+                <van-row>
+                  <van-col span="24"><button style="font-size: 28rpx;" data-id="{{ task[0].id }}" data-title="{{ task[0].title }}" bindtap="onClickShare" >分享</button></van-col>
+                </van-row>
+                <van-row>
+                  <van-col span="24" ><button style="font-size: 28rpx;" data-openid="{{ task[0].openid }}" bindtap="sendMsg">私信</button></van-col>
+                </van-row>
+                <van-row>
+                  <van-col span="24" ><button style="font-size: 28rpx;" bindtap="toSuggestion" >举报</button></van-col>
+                </van-row>
+                <van-row>
+                  <van-col span="24" ><button style="font-size: 28rpx;" bindtap="delete_detail" data-id="{{ task[0].id }}" wx:if="{{ is_self || isdel}}" >删除</button></van-col>
+                </van-row>
+                <van-row>
+                  <van-col span="24" ><button style="font-size: 28rpx;" bindtap="addBlackList" data-openid="{{ task[0].openid }}" wx:if="{{ isdel}}" >拉黑</button></van-col>
+                </van-row>
+                <van-row>
+                  <van-col span="24" ><button style="font-size: 28rpx;" bindtap="addTop" data-openid="{{ task[0].openid }}" wx:if="{{ isdel && task[0].c_time < '2120/01/01'}}" >置顶</button></van-col>
+                </van-row>
+                <van-row>
+                  <van-col span="24" ><button style="font-size: 28rpx;" bindtap="cancelTop" data-openid="{{ task[0].openid }}" wx:if="{{ isdel && task[0].c_time > '2120/01/01'}}" >取消</button></van-col>
+                </van-row>
+            </van-dropdown-item>
+          </van-dropdown-menu>
+        </van-col>
+      </van-row>
+      <van-row gutter="24">
+        <van-col span="22" offset="1" custom-class="title">
+        <text user-select="true" >{{ task[0].content}}</text>
+        </van-col>
+      </van-row>
+      <van-row gutter="24" wx:if="{{ img != '' }}">
+        <van-col span="8" offset="1"><image class="task-img"  wx:for-items="{{ img }}" src="{{ item + '?imageView2/2/w/700'}}" mode='widthFix' data-id="{{ task[0].id }}" data-src="{{item}}" bindtap="imgYu"></image></van-col>
+      </van-row>
+      <van-row gutter="24" custom-class="action">
+        <!-- <van-col span="5" offset="1" custom-class="tag">#{{radioToCate.radioToCate(task[0].radioGroup)}}</van-col> -->
+        <van-col span="6" offset="1">
+            <tag-item
+            cate="{{ radioToCate.radioToCate(task[0].radioGroup) }}"
+            toSubpage="{{ true }}"
+            custom-class="tag" 
+            />
+        </van-col>
+        <van-col span="4" offset="8" custom-class="like" bindtap='thumbsup' wx:if="{{ state }}">
+          <van-icon name="like" /><text>({{ task[0].likeNum }})</text>
+        </van-col>
+        <van-col span="4" offset="8" custom-class="like" bindtap='thumbsup' wx:else>
+          <van-icon name="like-o" /><text>({{ task[0].likeNum }})</text>
+        </van-col>
+        <van-col span="4" custom-class="comment" bindtap="replyAll" data-id="{{item.openid}}" data-user="{{item.userName}}" data-pid="{{item.id}}"><van-icon name="chat-o" />评论</van-col>
+      </van-row>
+      
+    </van-col>
+  </van-row>   
+</view>
+<van-divider />
+<view class="comment-box">
+  <van-tabs bind:disabled="onClickDisabled" swipeable bind:change="onChange">
+    <view slot="nav-left" style="width: 200rpx;text-align: center;line-height: var(--tabs-line-height,44px);">
+      <text style="font-size: large;font-weight: 600;">评论区</text>
+    </view>
+    <van-tab title="正序">
+      <view wx:for="{{ list }}" wx:key="index" style="padding: 20rpx 0rpx 0rpx 0rpx;overflow-x:hidden !important;">
+        <van-divider />
+        <van-row custom-class="comment-inside">
+            <van-col span="2" offset="1" custom-class="avatar-box">
+            <view class="avatar-wrapper">
+                <image
+                class="comment-avatar"
+                src="{{ item.avatar }}"
+                mode="aspectFit"
+                />
+                <!-- 条件渲染校园认证角标 -->
+                <image
+                wx:if="{{ item.identity_openid == 3 }}"
+                class="comment-avatar-badge"
+                src="http://imgbf.yqtech.ltd/campusIcon/macaoVerify.png"
+                mode="aspectFit"
+                />
+            </view>
+        </van-col>
+          <van-col span="21">
+            <van-row gutter="20" custom-class="row1" >
+              <van-col span="16" custom-class="comment-userName" >{{ name_tools.sub(item.userName)}}<van-tag wx:if="{{item.openid ==task[0].openid}}" type="primary" custom-class="louzhu" >楼主</van-tag></van-col>
+              <van-col span="2" offset="2" custom-class="ellipsis">
+                <van-dropdown-menu overlay="false" custom-class="collapse-box" data-id="{{ item.id }}" bindtap="setTaskId">
+                    <van-dropdown-item id="item-{{ item.id }}0" title="{{ itemTitle }}" custom-class="collapse-item">
+                      <van-row>
+                        <van-col span="24" ><button style="font-size: 28rpx;" data-openid="{{ item.openid }}" bindtap="sendMsg">私信</button></van-col>
+                      </van-row>
+                      <van-row>
+                        <van-col span="24" ><button style="font-size: 28rpx;" bindtap="toSuggestion" >举报</button></van-col>
+                      </van-row>
+                      <van-row>
+                        <van-col span="24" ><button style="font-size: 28rpx;" bindtap="delete_comment" data-id="{{ item.id }}" wx:if="{{current_openid == item.openid || isdel}}" >删除</button></van-col>
+                      </van-row>
+                  </van-dropdown-item>
+                </van-dropdown-menu>
+              </van-col>
+            </van-row>
+            <van-row gutter="20">
+              <van-col span="22" custom-class="title">{{ item.comment }}</van-col>
+            </van-row>
+            <van-row wx:if="{{ item.img }}">
+              <van-col span="8"><image class="image-comment" wx:if="{{item.img}}" src="{{ item.img + '?imageView2/2/w/200'}}" mode="widthFix" data-src="{{item.img}}" bindtap="commentYu"></image></van-col>
+            </van-row>
+            <van-row gutter="24" custom-class="action">
+              <van-col span="8" custom-class="c_time" >{{getDate.getGap(item.c_time)}}</van-col>
+              <van-col span="8"  custom-class="like" bindtap="unClickComment" data-id="{{item.id}}" wx:if="{{indexofStr.includes(clickList,item.id)>-1}}" ><van-icon name="like" />Like<text wx:if="{{ item.like_num!=0 }}">({{ item.like_num }})</text></van-col>
+              <van-col span="8"  custom-class="like" bindtap="clickComment" data-id="{{item.id}}" wx:else><van-icon name="like-o" />Like<text wx:if="{{ item.like_num!=0 }}">({{ item.like_num }})</text></van-col>
+              <van-col span="8" custom-class="comment" bindtap="reply" data-id="{{item.openid}}" data-user="{{item.userName}}" data-pid="{{item.id}}"><van-icon name="chat-o" />评论</van-col>
+            </van-row>
+            <view wx:if="{{!item.fold}}">
+              <block wx:for="{{ item.commentList }}" wx:for-index="childindex" wx:for-item="secondLevel" class="second-level" >
+                <van-divider /> 
+                <van-row custom-class="comment-inside">
+                    <van-col span="2" offset="1" custom-class="avatar-box">
+                        <view class="avatar-wrapper">
+                            <image
+                            class="comment-avatar"
+                            src="{{ secondLevel.avatar }}"
+                            mode="aspectFit"
+                            />
+                            <!-- 条件渲染校园认证角标 -->
+                            <image
+                            wx:if="{{ secondLevel.identity_openid == 3 }}"
+                            class="comment-avatar-badge"
+                            src="http://imgbf.yqtech.ltd/campusIcon/macaoVerify.png"
+                            mode="aspectFit"
+                            />
+                        </view>
+                    </van-col>
+                  <van-col span="21">
+                    <van-row gutter="20" custom-class="row1" >
+                      <van-col span="16" custom-class="comment-userName" >{{ name_tools.sub(secondLevel.userName)}}<van-tag wx:if="{{secondLevel.openid ==task[0].openid}}" type="primary" custom-class="louzhu" >楼主</van-tag></van-col>
+                      <van-col span="2" offset="2" custom-class="ellipsis">
+                        <van-dropdown-menu overlay="false" custom-class="collapse-box" data-id="{{ secondLevel.id }}" bindtap="setTaskId">
+                          <van-dropdown-item id="item-{{ secondLevel.id }}" title="{{ itemTitle }}" custom-class="collapse-item">
+                              <van-row>
+                                <van-col span="24" ><button style="font-size: 28rpx;" data-openid="{{ secondLevel.openid }}" bindtap="sendMsg">私信</button></van-col>
+                              </van-row>
+                              <van-row>
+                                <van-col span="24" ><button style="font-size: 28rpx;" bindtap="toSuggestion" >举报</button></van-col>
+                              </van-row>
+                              <van-row>
+                                <van-col span="24" ><button style="font-size: 28rpx;" bindtap="delete_comment" data-id="{{ secondLevel.id }}" wx:if="{{current_openid == secondLevel.openid || isdel}}" >删除</button></van-col>
+                              </van-row>
+                          </van-dropdown-item>
+                        </van-dropdown-menu>
+                      </van-col>
+                    </van-row>
+                    <van-row gutter="20">
+                      <van-col span="22" custom-class="title">{{ secondLevel.comment }}</van-col>
+                    </van-row>
+                    <van-row gutter="20" wx:if="{{ secondLevel.img }}">
+                      <van-col span="8"><image class="image-comment" wx:if="{{secondLevel.img}}" src="{{ secondLevel.img + '?imageView2/2/w/200'}}" mode="widthFix" data-src="{{secondLevel.img}}" bindtap="commentYu"></image></van-col>
+                    </van-row>
+                    <van-row gutter="24" custom-class="action">
+                      <van-col span="8" custom-class="c_time" >{{getDate.getGap(secondLevel.c_time)}}</van-col>
+                      <van-col span="8" custom-class="like" bindtap="unClickComment" data-id="{{secondLevel.id}}" wx:if="{{indexofStr.includes(clickList,secondLevel.id)>-1}}"><van-icon name="like" />Like<text wx:if="{{ secondLevel.like_num!=0 }}">({{ secondLevel.like_num }})</text></van-col>
+                      <van-col span="8" custom-class="like" bindtap="clickComment" data-id="{{secondLevel.id}}" wx:else><van-icon name="like-o" />Like<text wx:if="{{ secondLevel.like_num!=0 }}">({{ secondLevel.like_num }})</text></van-col>
+                      <van-col span="8" bindtap="reply" custom-class="comment" data-id="{{secondLevel.openid}}" data-user="{{secondLevel.userName}}" data-pid="{{item.id}}" data-second="{{index}}"><van-icon name="chat-o" />评论</van-col>
+                    </van-row>   
+                  </van-col>
+                </van-row>      
+              </block>
+            </view>
+            <view wx:else>
+              <block class="second-level" >
+                <van-divider /> 
+                <van-row custom-class="comment-inside">
+                    <van-col span="2" offset="1" custom-class="avatar-box">
+                        <view class="avatar-wrapper">
+                            <image
+                            class="comment-avatar"
+                            src="{{ item.commentList[0].avatar }}"
+                            mode="aspectFit"
+                            />
+                            <!-- 条件渲染校园认证角标 -->
+                            <image
+                            wx:if="{{ item.commentList[0].identity_openid == 3 }}"
+                            class="comment-avatar-badge"
+                            src="http://imgbf.yqtech.ltd/campusIcon/macaoVerify.png"
+                            mode="aspectFit"
+                            />
+                        </view>
+                    </van-col>
+                  <van-col span="21">
+                    <van-row gutter="20" custom-class="row1" >
+                      <van-col span="16" custom-class="comment-userName" >{{ name_tools.sub(item.commentList[0].userName)}}<van-tag wx:if="{{item.commentList[0].openid ==task[0].openid}}" type="primary" custom-class="louzhu" >楼主</van-tag></van-col>
+                      <van-col span="2" offset="2" custom-class="ellipsis">
+                        <van-dropdown-menu overlay="false" custom-class="collapse-box" data-id="{{ item.commentList[0].id }}" bindtap="setTaskId">
+                          <van-dropdown-item id="item-{{ item.commentList[0].id }}" title="{{ itemTitle }}" custom-class="collapse-item">
+                              <van-row>
+                                <van-col span="24" ><button style="font-size: 28rpx;" data-openid="{{ item.commentList[0].openid }}" bindtap="sendMsg">私信</button></van-col>
+                              </van-row>
+                              <van-row>
+                                <van-col span="24" ><button style="font-size: 28rpx;" bindtap="toSuggestion" >举报</button></van-col>
+                              </van-row>
+                              <van-row>
+                                <van-col span="24" ><button style="font-size: 28rpx;" bindtap="delete_comment" data-id="{{ item.commentList[0].id }}" wx:if="{{current_openid == item.commentList[0].openid || isdel}}" >删除</button></van-col>
+                              </van-row>
+                          </van-dropdown-item>
+                        </van-dropdown-menu>
+                      </van-col>
+                    </van-row>
+                    <van-row gutter="20">
+                      <van-col span="22" custom-class="title">{{ item.commentList[0].comment }}</van-col>
+                    </van-row>
+                    <van-row gutter="20" wx:if="{{ item.commentList[0].img }}">
+                      <van-col span="8"><image class="image-comment" wx:if="{{item.commentList[0].img}}" src="{{ item.commentList[0].img + '?imageView2/2/w/200'}}" mode="widthFix" data-src="{{item.commentList[0].img}}" bindtap="commentYu"></image></van-col>
+                    </van-row>
+                    <van-row gutter="24" custom-class="action">
+                      <van-col span="8" custom-class="c_time" >{{getDate.getGap(item.commentList[0].c_time)}}</van-col>
+                      <van-col span="8" custom-class="like" bindtap="unClickComment" data-id="{{item.commentList[0].id}}" wx:if="{{indexofStr.includes(clickList,item.commentList[0].id)>-1}}"><van-icon name="like" />Like<text wx:if="{{ item.commentList[0].like_num!=0 }}">({{ item.commentList[0].like_num }})</text></van-col>
+                      <van-col span="8" custom-class="like" bindtap="clickComment" data-id="{{item.commentList[0].id}}" wx:else><van-icon name="like-o" />Like<text wx:if="{{ item.commentList[0].like_num!=0 }}">({{ item.commentList[0].like_num }})</text></van-col>
+                      <van-col span="8" bindtap="reply" custom-class="comment" data-id="{{item.commentList[0].openid}}" data-user="{{item.commentList[0].userName}}" data-pid="{{item.id}}" data-second="{{index}}"><van-icon name="chat-o" />评论</van-col>
+                    </van-row>   
+                  </van-col>
+                </van-row>      
+              </block>
+              <text style="color: #1989fa; border-color: #1989fa; font-size: 24rpx;text-align: center;display: flex; justify-content: center;margin-top: 20rpx;" data-id="{{ item.id }}" bindtap="unfold">展开剩下{{item.secondLength}}条评论</text>
+            </view>
+            
+          </van-col>
+        </van-row> 
+      </view>
+    </van-tab>
+    <van-tab title="倒序">
+        <view wx:for="{{ list }}" wx:key="index" style="padding: 20rpx 0rpx 0rpx 0rpx;">
+        <van-divider />
+        <van-row custom-class="comment-inside">
+            <van-col span="2" offset="1" custom-class="avatar-box">
+            <view class="avatar-wrapper">
+                <image
+                class="comment-avatar"
+                src="{{ item.avatar }}"
+                mode="aspectFit"
+                />
+                <!-- 条件渲染校园认证角标 -->
+                <image
+                wx:if="{{ item.identity_openid == 3 }}"
+                class="comment-avatar-badge"
+                src="http://imgbf.yqtech.ltd/campusIcon/macaoVerify.png"
+                mode="aspectFit"
+                />
+            </view>
+        </van-col>
+          <van-col span="21">
+            <van-row gutter="20" custom-class="row1" >
+              <van-col span="16" custom-class="comment-userName" >{{ name_tools.sub(item.userName)}}<van-tag wx:if="{{item.openid ==task[0].openid}}" type="primary" custom-class="louzhu" >楼主</van-tag></van-col>
+              <van-col span="2" offset="2" custom-class="ellipsis">
+                <van-dropdown-menu overlay="false" custom-class="collapse-box" data-id="{{ item.id }}" bindtap="setTaskId">
+                    <van-dropdown-item id="item-{{ item.id }}0" title="{{ itemTitle }}" custom-class="collapse-item">
+                      <van-row>
+                        <van-col span="24" ><button style="font-size: 28rpx;" data-openid="{{ item.openid }}" bindtap="sendMsg">私信</button></van-col>
+                      </van-row>
+                      <van-row>
+                        <van-col span="24" ><button style="font-size: 28rpx;" bindtap="toSuggestion" >举报</button></van-col>
+                      </van-row>
+                      <van-row>
+                        <van-col span="24" ><button style="font-size: 28rpx;" bindtap="delete_comment" data-id="{{ item.id }}" wx:if="{{current_openid == item.openid || isdel}}" >删除</button></van-col>
+                      </van-row>
+                  </van-dropdown-item>
+                </van-dropdown-menu>
+              </van-col>
+            </van-row>
+            <van-row gutter="20">
+              <van-col span="22" custom-class="title">{{ item.comment }}</van-col>
+            </van-row>
+            <van-row wx:if="{{ item.img }}">
+              <van-col span="8"><image class="image-comment" wx:if="{{item.img}}" src="{{ item.img + '?imageView2/2/w/200'}}" mode="widthFix" data-src="{{item.img}}" bindtap="commentYu"></image></van-col>
+            </van-row>
+            <van-row gutter="24" custom-class="action">
+              <van-col span="8" custom-class="c_time" >{{getDate.getGap(item.c_time)}}</van-col>
+              <van-col span="8"  custom-class="like" bindtap="unClickComment" data-id="{{item.id}}" wx:if="{{indexofStr.includes(clickList,item.id)>-1}}" ><van-icon name="like" />Like<text wx:if="{{ item.like_num!=0 }}">({{ item.like_num }})</text></van-col>
+              <van-col span="8"  custom-class="like" bindtap="clickComment" data-id="{{item.id}}" wx:else><van-icon name="like-o" />Like<text wx:if="{{ item.like_num!=0 }}">({{ item.like_num }})</text></van-col>
+              <van-col span="8" custom-class="comment" bindtap="reply" data-id="{{item.openid}}" data-user="{{item.userName}}" data-pid="{{item.id}}"><van-icon name="chat-o" />评论</van-col>
+            </van-row>
+            <view wx:if="{{!item.fold}}">
+              <block wx:for="{{ item.commentList }}" wx:for-index="childindex" wx:for-item="secondLevel" class="second-level" >
+                <van-divider /> 
+                <van-row custom-class="comment-inside">
+                    <van-col span="2" offset="1" custom-class="avatar-box">
+                        <view class="avatar-wrapper">
+                            <image
+                            class="comment-avatar"
+                            src="{{ secondLevel.avatar }}"
+                            mode="aspectFit"
+                            />
+                            <!-- 条件渲染校园认证角标 -->
+                            <image
+                            wx:if="{{ secondLevel.identity_openid == 3 }}"
+                            class="comment-avatar-badge"
+                            src="http://imgbf.yqtech.ltd/campusIcon/macaoVerify.png"
+                            mode="aspectFit"
+                            />
+                        </view>
+                    </van-col>
+                  <van-col span="21">
+                    <van-row gutter="20" custom-class="row1" >
+                      <van-col span="16" custom-class="comment-userName" >{{ name_tools.sub(secondLevel.userName)}}<van-tag wx:if="{{secondLevel.openid ==task[0].openid}}" type="primary" custom-class="louzhu" >楼主</van-tag></van-col>
+                      <van-col span="2" offset="2" custom-class="ellipsis">
+                        <van-dropdown-menu overlay="false" custom-class="collapse-box" data-id="{{ secondLevel.id }}" bindtap="setTaskId">
+                          <van-dropdown-item id="item-{{ secondLevel.id }}" title="{{ itemTitle }}" custom-class="collapse-item">
+                              <van-row>
+                                <van-col span="24" ><button style="font-size: 28rpx;" data-openid="{{ secondLevel.openid }}" bindtap="sendMsg">私信</button></van-col>
+                              </van-row>
+                              <van-row>
+                                <van-col span="24" ><button style="font-size: 28rpx;" bindtap="toSuggestion" >举报</button></van-col>
+                              </van-row>
+                              <van-row>
+                                <van-col span="24" ><button style="font-size: 28rpx;" bindtap="delete_comment" data-id="{{ secondLevel.id }}" wx:if="{{current_openid == secondLevel.openid || isdel}}" >删除</button></van-col>
+                              </van-row>
+                          </van-dropdown-item>
+                        </van-dropdown-menu>
+                      </van-col>
+                    </van-row>
+                    <van-row gutter="20">
+                      <van-col span="22" custom-class="title">{{ secondLevel.comment }}</van-col>
+                    </van-row>
+                    <van-row gutter="20" wx:if="{{ secondLevel.img }}">
+                      <van-col span="8"><image class="image-comment" wx:if="{{secondLevel.img}}" src="{{ secondLevel.img + '?imageView2/2/w/200'}}" mode="widthFix" data-src="{{secondLevel.img}}" bindtap="commentYu"></image></van-col>
+                    </van-row>
+                    <van-row gutter="24" custom-class="action">
+                      <van-col span="8" custom-class="c_time" >{{getDate.getGap(secondLevel.c_time)}}</van-col>
+                      <van-col span="8" custom-class="like" bindtap="unClickComment" data-id="{{secondLevel.id}}" wx:if="{{indexofStr.includes(clickList,secondLevel.id)>-1}}"><van-icon name="like" />Like<text wx:if="{{ secondLevel.like_num!=0 }}">({{ secondLevel.like_num }})</text></van-col>
+                      <van-col span="8" custom-class="like" bindtap="clickComment" data-id="{{secondLevel.id}}" wx:else><van-icon name="like-o" />Like<text wx:if="{{ secondLevel.like_num!=0 }}">({{ secondLevel.like_num }})</text></van-col>
+                      <van-col span="8" bindtap="reply" custom-class="comment" data-id="{{secondLevel.openid}}" data-user="{{secondLevel.userName}}" data-pid="{{item.id}}" data-second="{{index}}"><van-icon name="chat-o" />评论</van-col>
+                    </van-row>   
+                  </van-col>
+                </van-row>      
+              </block>
+            </view>
+            <view wx:else>
+              <block class="second-level" >
+                <van-divider /> 
+                <van-row custom-class="comment-inside">
+                    <van-col span="2" offset="1" custom-class="avatar-box">
+                        <view class="avatar-wrapper">
+                            <image
+                            class="comment-avatar"
+                            src="{{ item.commentList[0].avatar }}"
+                            mode="aspectFit"
+                            />
+                            <!-- 条件渲染校园认证角标 -->
+                            <image
+                            wx:if="{{ item.commentList[0].identity_openid == 3 }}"
+                            class="comment-avatar-badge"
+                            src="http://imgbf.yqtech.ltd/campusIcon/macaoVerify.png"
+                            mode="aspectFit"
+                            />
+                        </view>
+                    </van-col>
+                  <van-col span="21">
+                    <van-row gutter="20" custom-class="row1" >
+                      <van-col span="16" custom-class="comment-userName" >{{ name_tools.sub(item.commentList[0].userName)}}<van-tag wx:if="{{item.commentList[0].openid ==task[0].openid}}" type="primary" custom-class="louzhu" >楼主</van-tag></van-col>
+                      <van-col span="2" offset="2" custom-class="ellipsis">
+                        <van-dropdown-menu overlay="false" custom-class="collapse-box" data-id="{{ item.commentList[0].id }}" bindtap="setTaskId">
+                          <van-dropdown-item id="item-{{ item.commentList[0].id }}" title="{{ itemTitle }}" custom-class="collapse-item">
+                              <van-row>
+                                <van-col span="24" ><button style="font-size: 28rpx;" data-openid="{{ item.commentList[0].openid }}" bindtap="sendMsg">私信</button></van-col>
+                              </van-row>
+                              <van-row>
+                                <van-col span="24" ><button style="font-size: 28rpx;" bindtap="toSuggestion" >举报</button></van-col>
+                              </van-row>
+                              <van-row>
+                                <van-col span="24" ><button style="font-size: 28rpx;" bindtap="delete_comment" data-id="{{ item.commentList[0].id }}" wx:if="{{current_openid == item.commentList[0].openid || isdel}}" >删除</button></van-col>
+                              </van-row>
+                          </van-dropdown-item>
+                        </van-dropdown-menu>
+                      </van-col>
+                    </van-row>
+                    <van-row gutter="20">
+                      <van-col span="22" custom-class="title">{{ item.commentList[0].comment }}</van-col>
+                    </van-row>
+                    <van-row gutter="20" wx:if="{{ item.commentList[0].img }}">
+                      <van-col span="8"><image class="image-comment" wx:if="{{item.commentList[0].img}}" src="{{ item.commentList[0].img + '?imageView2/2/w/200'}}" mode="widthFix" data-src="{{item.commentList[0].img}}" bindtap="commentYu"></image></van-col>
+                    </van-row>
+                    <van-row gutter="24" custom-class="action">
+                      <van-col span="8" custom-class="c_time" >{{getDate.getGap(item.commentList[0].c_time)}}</van-col>
+                      <van-col span="8" custom-class="like" bindtap="unClickComment" data-id="{{item.commentList[0].id}}" wx:if="{{indexofStr.includes(clickList,item.commentList[0].id)>-1}}"><van-icon name="like" />Like<text wx:if="{{ item.commentList[0].like_num!=0 }}">({{ item.commentList[0].like_num }})</text></van-col>
+                      <van-col span="8" custom-class="like" bindtap="clickComment" data-id="{{item.commentList[0].id}}" wx:else><van-icon name="like-o" />Like<text wx:if="{{ item.commentList[0].like_num!=0 }}">({{ item.commentList[0].like_num }})</text></van-col>
+                      <van-col span="8" bindtap="reply" custom-class="comment" data-id="{{item.commentList[0].openid}}" data-user="{{item.commentList[0].userName}}" data-pid="{{item.id}}" data-second="{{index}}"><van-icon name="chat-o" />评论</van-col>
+                    </van-row>   
+                  </van-col>
+                </van-row>      
+              </block>
+              <text style="color: #1989fa; border-color: #1989fa; font-size: 24rpx;text-align: center;display: flex; justify-content: center;margin-top: 20rpx;" data-id="{{ item.id }}" bindtap="unfold">展开剩下{{item.secondLength}}条评论</text>
+            </view>
+            
+          </van-col>
+        </van-row> 
+      </view>
+    </van-tab>
+    <van-tab title="最热">
+        <view wx:for="{{ list }}" wx:key="index" style="padding: 20rpx 0rpx 0rpx 0rpx;">
+        <van-divider />
+        <van-row custom-class="comment-inside">
+            <van-col span="2" offset="1" custom-class="avatar-box">
+            <view class="avatar-wrapper">
+                <image
+                class="comment-avatar"
+                src="{{ item.avatar }}"
+                mode="aspectFit"
+                />
+                <!-- 条件渲染校园认证角标 -->
+                <image
+                wx:if="{{ item.identity_openid == 3 }}"
+                class="comment-avatar-badge"
+                src="http://imgbf.yqtech.ltd/campusIcon/macaoVerify.png"
+                mode="aspectFit"
+                />
+            </view>
+        </van-col>
+          <van-col span="21">
+            <van-row gutter="20" custom-class="row1" >
+              <van-col span="16" custom-class="comment-userName" >{{ name_tools.sub(item.userName)}}<van-tag wx:if="{{item.openid ==task[0].openid}}" type="primary" custom-class="louzhu" >楼主</van-tag></van-col>
+              <van-col span="2" offset="2" custom-class="ellipsis">
+                <van-dropdown-menu overlay="false" custom-class="collapse-box" data-id="{{ item.id }}" bindtap="setTaskId">
+                    <van-dropdown-item id="item-{{ item.id }}0" title="{{ itemTitle }}" custom-class="collapse-item">
+                      <van-row>
+                        <van-col span="24" ><button style="font-size: 28rpx;" data-openid="{{ item.openid }}" bindtap="sendMsg">私信</button></van-col>
+                      </van-row>
+                      <van-row>
+                        <van-col span="24" ><button style="font-size: 28rpx;" bindtap="toSuggestion" >举报</button></van-col>
+                      </van-row>
+                      <van-row>
+                        <van-col span="24" ><button style="font-size: 28rpx;" bindtap="delete_comment" data-id="{{ item.id }}" wx:if="{{current_openid == item.openid || isdel}}" >删除</button></van-col>
+                      </van-row>
+                  </van-dropdown-item>
+                </van-dropdown-menu>
+              </van-col>
+            </van-row>
+            <van-row gutter="20">
+              <van-col span="22" custom-class="title">{{ item.comment }}</van-col>
+            </van-row>
+            <van-row wx:if="{{ item.img }}">
+              <van-col span="8"><image class="image-comment" wx:if="{{item.img}}" src="{{ item.img + '?imageView2/2/w/200'}}" mode="widthFix" data-src="{{item.img}}" bindtap="commentYu"></image></van-col>
+            </van-row>
+            <van-row gutter="24" custom-class="action">
+              <van-col span="8" custom-class="c_time" >{{getDate.getGap(item.c_time)}}</van-col>
+              <van-col span="8"  custom-class="like" bindtap="unClickComment" data-id="{{item.id}}" wx:if="{{indexofStr.includes(clickList,item.id)>-1}}" ><van-icon name="like" />Like<text wx:if="{{ item.like_num!=0 }}">({{ item.like_num }})</text></van-col>
+              <van-col span="8"  custom-class="like" bindtap="clickComment" data-id="{{item.id}}" wx:else><van-icon name="like-o" />Like<text wx:if="{{ item.like_num!=0 }}">({{ item.like_num }})</text></van-col>
+              <van-col span="8" custom-class="comment" bindtap="reply" data-id="{{item.openid}}" data-user="{{item.userName}}" data-pid="{{item.id}}"><van-icon name="chat-o" />评论</van-col>
+            </van-row>
+            <view wx:if="{{!item.fold}}">
+              <block wx:for="{{ item.commentList }}" wx:for-index="childindex" wx:for-item="secondLevel" class="second-level" >
+                <van-divider /> 
+                <van-row custom-class="comment-inside">
+                    <van-col span="2" offset="1" custom-class="avatar-box">
+                        <view class="avatar-wrapper">
+                            <image
+                            class="comment-avatar"
+                            src="{{ secondLevel.avatar }}"
+                            mode="aspectFit"
+                            />
+                            <!-- 条件渲染校园认证角标 -->
+                            <image
+                            wx:if="{{ secondLevel.identity_openid == 3 }}"
+                            class="comment-avatar-badge"
+                            src="http://imgbf.yqtech.ltd/campusIcon/macaoVerify.png"
+                            mode="aspectFit"
+                            />
+                        </view>
+                    </van-col>
+                  <van-col span="21">
+                    <van-row gutter="20" custom-class="row1" >
+                      <van-col span="16" custom-class="comment-userName" >{{ name_tools.sub(secondLevel.userName)}}<van-tag wx:if="{{secondLevel.openid ==task[0].openid}}" type="primary" custom-class="louzhu" >楼主</van-tag></van-col>
+                      <van-col span="2" offset="2" custom-class="ellipsis">
+                        <van-dropdown-menu overlay="false" custom-class="collapse-box" data-id="{{ secondLevel.id }}" bindtap="setTaskId">
+                          <van-dropdown-item id="item-{{ secondLevel.id }}" title="{{ itemTitle }}" custom-class="collapse-item">
+                              <van-row>
+                                <van-col span="24" ><button style="font-size: 28rpx;" data-openid="{{ secondLevel.openid }}" bindtap="sendMsg">私信</button></van-col>
+                              </van-row>
+                              <van-row>
+                                <van-col span="24" ><button style="font-size: 28rpx;" bindtap="toSuggestion" >举报</button></van-col>
+                              </van-row>
+                              <van-row>
+                                <van-col span="24" ><button style="font-size: 28rpx;" bindtap="delete_comment" data-id="{{ secondLevel.id }}" wx:if="{{current_openid == secondLevel.openid || isdel}}" >删除</button></van-col>
+                              </van-row>
+                          </van-dropdown-item>
+                        </van-dropdown-menu>
+                      </van-col>
+                    </van-row>
+                    <van-row gutter="20">
+                      <van-col span="22" custom-class="title">{{ secondLevel.comment }}</van-col>
+                    </van-row>
+                    <van-row gutter="20" wx:if="{{ secondLevel.img }}">
+                      <van-col span="8"><image class="image-comment" wx:if="{{secondLevel.img}}" src="{{ secondLevel.img + '?imageView2/2/w/200'}}" mode="widthFix" data-src="{{secondLevel.img}}" bindtap="commentYu"></image></van-col>
+                    </van-row>
+                    <van-row gutter="24" custom-class="action">
+                      <van-col span="8" custom-class="c_time" >{{getDate.getGap(secondLevel.c_time)}}</van-col>
+                      <van-col span="8" custom-class="like" bindtap="unClickComment" data-id="{{secondLevel.id}}" wx:if="{{indexofStr.includes(clickList,secondLevel.id)>-1}}"><van-icon name="like" />Like<text wx:if="{{ secondLevel.like_num!=0 }}">({{ secondLevel.like_num }})</text></van-col>
+                      <van-col span="8" custom-class="like" bindtap="clickComment" data-id="{{secondLevel.id}}" wx:else><van-icon name="like-o" />Like<text wx:if="{{ secondLevel.like_num!=0 }}">({{ secondLevel.like_num }})</text></van-col>
+                      <van-col span="8" bindtap="reply" custom-class="comment" data-id="{{secondLevel.openid}}" data-user="{{secondLevel.userName}}" data-pid="{{item.id}}" data-second="{{index}}"><van-icon name="chat-o" />评论</van-col>
+                    </van-row>   
+                  </van-col>
+                </van-row>      
+              </block>
+            </view>
+            <view wx:else>
+              <block class="second-level" >
+                <van-divider /> 
+                <van-row custom-class="comment-inside">
+                    <van-col span="2" offset="1" custom-class="avatar-box">
+                        <view class="avatar-wrapper">
+                            <image
+                            class="comment-avatar"
+                            src="{{ item.commentList[0].avatar }}"
+                            mode="aspectFit"
+                            />
+                            <!-- 条件渲染校园认证角标 -->
+                            <image
+                            wx:if="{{ item.commentList[0].identity_openid == 3 }}"
+                            class="comment-avatar-badge"
+                            src="http://imgbf.yqtech.ltd/campusIcon/macaoVerify.png"
+                            mode="aspectFit"
+                            />
+                        </view>
+                    </van-col>
+                  <van-col span="21">
+                    <van-row gutter="20" custom-class="row1" >
+                      <van-col span="16" custom-class="comment-userName" >{{ name_tools.sub(item.commentList[0].userName)}}<van-tag wx:if="{{item.commentList[0].openid ==task[0].openid}}" type="primary" custom-class="louzhu" >楼主</van-tag></van-col>
+                      <van-col span="2" offset="2" custom-class="ellipsis">
+                        <van-dropdown-menu overlay="false" custom-class="collapse-box" data-id="{{ item.commentList[0].id }}" bindtap="setTaskId">
+                          <van-dropdown-item id="item-{{ item.commentList[0].id }}" title="{{ itemTitle }}" custom-class="collapse-item">
+                              <van-row>
+                                <van-col span="24" ><button style="font-size: 28rpx;" data-openid="{{ item.commentList[0].openid }}" bindtap="sendMsg">私信</button></van-col>
+                              </van-row>
+                              <van-row>
+                                <van-col span="24" ><button style="font-size: 28rpx;" bindtap="toSuggestion" >举报</button></van-col>
+                              </van-row>
+                              <van-row>
+                                <van-col span="24" ><button style="font-size: 28rpx;" bindtap="delete_comment" data-id="{{ item.commentList[0].id }}" wx:if="{{current_openid == item.commentList[0].openid || isdel}}" >删除</button></van-col>
+                              </van-row>
+                          </van-dropdown-item>
+                        </van-dropdown-menu>
+                      </van-col>
+                    </van-row>
+                    <van-row gutter="20">
+                      <van-col span="22" custom-class="title">{{ item.commentList[0].comment }}</van-col>
+                    </van-row>
+                    <van-row gutter="20" wx:if="{{ item.commentList[0].img }}">
+                      <van-col span="8"><image class="image-comment" wx:if="{{item.commentList[0].img}}" src="{{ item.commentList[0].img + '?imageView2/2/w/200'}}" mode="widthFix" data-src="{{item.commentList[0].img}}" bindtap="commentYu"></image></van-col>
+                    </van-row>
+                    <van-row gutter="24" custom-class="action">
+                      <van-col span="8" custom-class="c_time" >{{getDate.getGap(item.commentList[0].c_time)}}</van-col>
+                      <van-col span="8" custom-class="like" bindtap="unClickComment" data-id="{{item.commentList[0].id}}" wx:if="{{indexofStr.includes(clickList,item.commentList[0].id)>-1}}"><van-icon name="like" />Like<text wx:if="{{ item.commentList[0].like_num!=0 }}">({{ item.commentList[0].like_num }})</text></van-col>
+                      <van-col span="8" custom-class="like" bindtap="clickComment" data-id="{{item.commentList[0].id}}" wx:else><van-icon name="like-o" />Like<text wx:if="{{ item.commentList[0].like_num!=0 }}">({{ item.commentList[0].like_num }})</text></van-col>
+                      <van-col span="8" bindtap="reply" custom-class="comment" data-id="{{item.commentList[0].openid}}" data-user="{{item.commentList[0].userName}}" data-pid="{{item.id}}" data-second="{{index}}"><van-icon name="chat-o" />评论</van-col>
+                    </van-row>   
+                  </van-col>
+                </van-row>      
+              </block>
+              <text style="color: #1989fa; border-color: #1989fa; font-size: 24rpx;text-align: center;display: flex; justify-content: center;margin-top: 20rpx;" data-id="{{ item.id }}" bindtap="unfold">展开剩下{{item.secondLength}}条评论</text>
+            </view>
+            
+          </van-col>
+        </van-row> 
+      </view>
+    </van-tab>
+</van-tabs>  
+<van-divider contentPosition="center" wx:if="{{noMore}}">没有更多了</van-divider>
+</view>
+
+
+<form bindsubmit="submitForm" report-submit="true" wx:if="{{!showShare}}">
+  <view class="release {{ darkMode ? 'dark-box' : ''}}">
+    <view class="replyinfo {{ darkMode ? 'dark-box' : ''}}">
+      <van-row wx:if="{{reply}}" custom-class="reply-row" style="{{darkStyle}}">
+        <van-col span="23" custom-class="reply-col">
+          <van-cell-group custom-class="reply-cell">
+            <van-field
+              value='{{form_info}}'
+              type="textarea"
+              placeholder="回复{{replyName}}："
+              bind:change="onChangeComment"
+              name="comment"
+              border="{{ false }}"
+              autosize
+            />
+          </van-cell-group>
+        </van-col>
+      </van-row>
+      <van-row wx:else  custom-class="reply-row" style="{{darkStyle}}">
+        <van-col span="23"  custom-class="reply-col">
+          <van-cell-group custom-class="reply-cell">
+            <van-field
+              value="{{ form_info }}"
+              type="textarea"
+              placeholder="写下我的评论..."
+              bind:change="onChangeComment"
+              name="comment"
+              border="{{ false }}"
+              autosize
+            />
+          </van-cell-group>
+        </van-col>
+      </van-row>
+      <van-row custom-class="send-row" style="{{darkStyle}}">
+        <van-col span="4" >
+          <image src="../../images/pic.png"  bindtap="takePhoto" style="width: 64rpx;height: 64rpx;" mode="aspectFit" wx:if="{{imgOriList.length == 0}}"></image>
+          <image src="{{imgOriList[0] + '?imageView2/2/w/50'}}"  style="width: 64rpx;height: 64rpx;" bindtap="takePhoto" mode="aspectFit"wx:else></image>  
+          <canvas id="attendCanvasId" type="2d" style="width:{{canvasWidth}}px;height:{{canvasHeight}}px;position: absolute;left:-2000px;top:-2000px;"></canvas>
+        </van-col>
+        <!-- <van-col span="4" >
+            <view style="height: 32px;line-height: 32px;color: rgba(128,128,128,90%);">树洞模式</view>
+        </van-col> -->
+        <!-- <van-col span="6" offset="1">
+            <van-switch checked="{{ checkedTreehole }}" bind:change="onChangeTreehole" />
+        </van-col> -->
+        <van-col span="6" offset="14">
+          <van-button round type="info" form-type="submit" small wx:if="{{phone}}">发送</van-button>
+          <van-button round type="info" form-type="submit" small open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" wx:else>发送</van-button>
+        </van-col>
+      </van-row>
+    </view>
+  </view>
+</form>
+
+

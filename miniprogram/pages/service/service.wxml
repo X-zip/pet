@@ -1,0 +1,90 @@
+<!--pages/service/service.wxml-->
+<view class="service-page">
+  <!-- 顶部自定义导航栏 -->
+  <view class="custom-navbar" style="height: {{navBarHeight}}px; padding-top: {{statusBarHeight}}px;">
+    <view class="navbar-content">
+      <view class="navbar-left">
+        <view class="navbar-back-btn" bindtap="goBack">
+          <text class="navbar-back-icon">‹</text>
+        </view>
+      </view>
+      <view class="navbar-center">
+        <text class="navbar-title">附近服务</text>
+      </view>
+      <view class="navbar-right">
+        <van-icon name="ellipsis" size="20px" color="rgb(139, 90, 43)" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 可滚动内容区域 -->
+  <scroll-view scroll-y class="service-scroll" style="padding-top: {{navBarHeight}}px;">
+    <!-- 顶部 Banner -->
+    <view class="service-banner-wrapper">
+      <image 
+        class="service-banner" 
+        src="https://img.yzcdn.cn/vant/cat.jpeg" 
+        mode="aspectFill" 
+      />
+      <view class="banner-overlay">
+        <view class="banner-title">2024 宠物服务专题</view>
+        <view class="banner-subtitle">发现身边的优质宠物服务</view>
+      </view>
+    </view>
+
+    <!-- 功能宫格区域 -->
+    <view class="service-feature-grid">
+      <van-row gutter="20">
+        <van-col 
+          wx:for="{{featureGrid}}" 
+          wx:key="id" 
+          span="6"
+          custom-class="feature-col"
+        >
+          <view class="feature-item" bindtap="onFeatureTap" data-id="{{item.id}}">
+            <view class="feature-icon-wrapper">
+              <image class="feature-icon" src="{{item.icon}}" mode="aspectFit" />
+            </view>
+            <text class="feature-name">{{item.name}}</text>
+          </view>
+        </van-col>
+      </van-row>
+    </view>
+
+    <!-- 服务列表 -->
+    <view class="service-list">
+      <view class="service-list-header">
+        <text class="list-title">推荐服务</text>
+      </view>
+      
+      <view class="service-card" wx:for="{{mockServiceList}}" wx:key="id" bindtap="onServiceTap" data-id="{{item.id}}">
+        <view class="service-card-content">
+          <!-- 左侧图片 -->
+          <view class="service-card-image">
+            <image 
+              class="service-image" 
+              src="{{item.img}}" 
+              mode="aspectFill"
+            />
+          </view>
+          
+          <!-- 右侧内容 -->
+          <view class="service-card-info">
+            <view class="service-title">{{item.title}}</view>
+            <view class="service-desc">{{item.desc}}</view>
+            <view class="service-footer">
+              <view class="service-price">
+                <text class="price-text">{{item.price}}</text>
+              </view>
+              <view class="service-distance">
+                <van-icon name="location-o" size="28rpx" color="rgb(139, 90, 43)" />
+                <text class="distance-text">{{item.distance}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>
+

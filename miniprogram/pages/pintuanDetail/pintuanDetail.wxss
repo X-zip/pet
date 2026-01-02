@@ -1,0 +1,523 @@
+/* pages/pintuanDetail/pintuanDetail.wxss */
+
+/* =========================
+   主题变量（与参考图严格对齐）
+   ========================= */
+page {
+  --bg-page: #FBE6B3;
+  --bg-card: #FFFFFF;
+  --color-primary: #F5B233;
+  --text-main: #333333;
+  --text-normal: #666666;
+  --text-muted: #999999;
+  --border-light: #F1E2C3;
+  --radius-card: 16rpx;
+}
+
+/* =========================
+   背景图片样式
+   ========================= */
+.page-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    /* 设计图为干净奶油底：背景纹理完全不参与视觉 */
+    opacity: 0;
+}
+
+/* =========================
+   页面主体样式
+   ========================= */
+.page {
+    background-color: var(--bg-page);
+    padding-bottom: calc(200rpx + env(safe-area-inset-bottom));
+    font-family: "PingFang SC", sans-serif;
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+}
+
+/* =========================
+   顶部大图 + 浮层按钮（参考截图）
+   ========================= */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 760rpx;
+  overflow: hidden;
+  background: var(--bg-page);
+}
+
+.hero-swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-img {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 5;
+  box-sizing: border-box;
+}
+
+.hero-topbar-inner {
+  height: 100%;
+  padding: 0 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.hero-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.hero-icon-btn {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.78);
+  /* 低饱和、低对比：不压主图 */
+  box-shadow: 0 6rpx 18rpx rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+}
+
+.hero-icon-btn:active {
+  transform: scale(0.96);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.hero-icon-text {
+  font-size: 34rpx;
+  color: rgba(51, 51, 51, 0.88);
+  line-height: 1;
+}
+
+/* =========================
+   价格 Banner（单一背景容器）
+   ========================= */
+.price-banner {
+  margin: -48rpx 24rpx 18rpx;
+  padding: 20rpx 24rpx;
+  border-radius: 24rpx;
+  background:
+    radial-gradient(circle at 85% 20%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 55%),
+    linear-gradient(180deg, #FBE7B6 0%, #F7DDB8 100%);
+  border: 1rpx solid rgba(139, 90, 43, 0.12);
+  box-shadow: 0 6rpx 16rpx rgba(139, 90, 43, 0.08);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20rpx;
+  position: relative;
+  z-index: 3;
+}
+
+.price-left {
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  flex: 1;
+}
+
+.price-main {
+  display: flex;
+  align-items: baseline;
+  gap: 6rpx;
+}
+
+.price-symbol {
+  font-size: 32rpx;
+  color: #8B5A2B;
+  font-weight: 800;
+}
+
+.current-price {
+  font-size: 52rpx;
+  color: #8B5A2B;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.price-sub {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  flex-wrap: wrap;
+}
+
+.ori-price {
+  font-size: 28rpx;
+  color: rgba(139, 90, 43, 0.45);
+  text-decoration: line-through;
+  text-decoration-thickness: 2rpx;
+}
+
+.sold-text {
+  font-size: 24rpx;
+  color: rgba(139, 90, 43, 0.72);
+}
+
+.price-right {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+  align-items: flex-end;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.price-badge {
+  border-radius: 999rpx;
+  padding: 8rpx 16rpx;
+  border: 1rpx solid rgba(139, 90, 43, 0.18);
+  background: rgba(255, 255, 255, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2rpx;
+  box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.04);
+}
+
+.price-tag {
+  font-size: 32rpx;
+  color: #8B5A2B;
+  font-weight: 900;
+  letter-spacing: 1rpx;
+}
+
+.price-tag-sub {
+  font-size: 24rpx;
+  color: #8B5A2B;
+  font-weight: 700;
+  opacity: 0.85;
+  letter-spacing: 0.5rpx;
+}
+
+/* =========================
+   通用卡片
+   ========================= */
+.card {
+  background: var(--bg-card);
+  border-radius: 12rpx 12rpx 20rpx 20rpx;
+  /* 设计图卡片更“摆盘”：阴影更轻、更干净 */
+  box-shadow: 0 6rpx 16rpx rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+}
+
+.product-card {
+  margin: 0 24rpx 18rpx;
+  padding: 22rpx 22rpx 20rpx;
+  background: linear-gradient(180deg, #ffffff 0%, #fff7e8 100%);
+}
+
+.product-title {
+  font-size: 30rpx;
+  /* 食品包装逻辑：不过分夸张，semibold 即可 */
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.45;
+}
+
+.product-meta {
+  margin-top: 10rpx;
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  color: var(--text-normal);
+  font-size: 24rpx;
+}
+
+.meta-sep {
+  opacity: 0.5;
+}
+
+.rank-row {
+  margin-top: 14rpx;
+  padding: 12rpx 14rpx;
+  border-radius: 12rpx;
+  background: rgba(245, 178, 51, 0.12);
+  border: 1rpx solid var(--border-light);
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.rank-dot {
+  font-size: 24rpx;
+}
+
+.rank-text {
+  flex: 1;
+  font-size: 24rpx;
+  color: var(--text-normal);
+  font-weight: 600;
+}
+
+.rank-arrow {
+  font-size: 26rpx;
+  color: var(--text-muted);
+}
+
+.thumb-row {
+  margin-top: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.thumbs {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  min-width: 0;
+}
+
+.thumb-img {
+  width: 92rpx;
+  height: 92rpx;
+  border-radius: 12rpx;
+  background: rgba(0,0,0,0.04);
+}
+
+.spec-btn {
+  flex: 0 0 auto;
+  padding: 14rpx 20rpx;
+  border-radius: 999rpx;
+  background: var(--color-primary);
+  border: none;
+  box-shadow: 0 6rpx 12rpx rgba(245, 178, 51, 0.26);
+}
+
+.spec-btn-text {
+  font-size: 24rpx;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* =========================
+   分区卡片：参数/评价/详情
+   ========================= */
+.section-card {
+  margin: 0 24rpx 18rpx;
+  padding: 18rpx 18rpx 10rpx;
+}
+
+.section-card--detail {
+  padding-bottom: 18rpx;
+}
+
+.section-hd {
+  padding: 6rpx 6rpx 14rpx;
+}
+
+.section-hd--between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-title {
+  font-size: 26rpx;
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.section-more {
+  font-size: 24rpx;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.params-table {
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  border: 1rpx solid var(--border-light);
+}
+
+.param-row {
+  display: flex;
+  align-items: stretch;
+}
+
+.param-row:not(:last-child) {
+  border-bottom: 1rpx solid var(--border-light);
+}
+
+.param-k {
+  width: 34%;
+  padding: 16rpx 14rpx;
+  font-size: 24rpx;
+  color: var(--text-muted);
+  background: rgba(251, 230, 179, 0.30);
+  box-sizing: border-box;
+}
+
+.param-v {
+  width: 66%;
+  padding: 16rpx 14rpx;
+  font-size: 24rpx;
+  color: var(--text-normal);
+  background: var(--bg-card);
+  box-sizing: border-box;
+  font-weight: 600;
+}
+
+.review-list {
+  padding: 0 6rpx 10rpx;
+}
+
+.review-item {
+  padding: 14rpx 6rpx 16rpx;
+}
+
+.review-item:not(:last-child) {
+  border-bottom: 1rpx solid var(--border-light);
+}
+
+.review-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10rpx;
+}
+
+.review-name {
+  font-size: 24rpx;
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.review-stars .star {
+  font-size: 22rpx;
+  color: rgba(0, 0, 0, 0.16);
+  margin-left: 2rpx;
+}
+
+.review-stars .star--on {
+  color: var(--color-primary);
+}
+
+.review-time {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 22rpx;
+  color: var(--text-muted);
+}
+
+.review-content {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: var(--text-normal);
+  /* 设计图更松弛的“说明感” */
+  line-height: 1.65;
+}
+
+.detail-images {
+  padding: 0 6rpx;
+}
+
+.detail-img {
+  width: 100%;
+  border-radius: var(--radius-card);
+  margin-bottom: 14rpx;
+  display: block;
+  background: rgba(0,0,0,0.03);
+}
+
+/* =========================
+   吸底操作栏（客服 + 立即下单）
+   ========================= */
+.bottom-actions {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 -10rpx 26rpx rgba(0, 0, 0, 0.06);
+  padding: 18rpx 24rpx;
+  padding-bottom: calc(18rpx + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  box-sizing: border-box;
+}
+
+.action-icon-btn {
+  width: 112rpx;
+  height: 88rpx;
+  border-radius: var(--radius-card);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1rpx solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* 这里使用边框即可，不叠加阴影 */
+}
+
+.action-icon-btn::after {
+  border: none;
+}
+
+.action-icon {
+  font-size: 28rpx;
+  color: var(--text-normal);
+  line-height: 1.1;
+}
+
+.action-text {
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: var(--text-normal);
+  font-weight: 600;
+}
+
+.action-main-btn {
+  flex: 1;
+  /* 设计图按钮更“适中”，不压迫内容 */
+  height: 88rpx;
+  /* 与卡片统一圆角，避免“系统组件感” */
+  border-radius: var(--radius-card);
+  background: var(--color-primary);
+  color: #ffffff;
+  font-size: 32rpx;
+  font-weight: 700;
+  letter-spacing: 2rpx;
+  box-shadow: 0 10rpx 22rpx rgba(245, 178, 51, 0.26);
+}
+
+.action-main-btn::after {
+  border: none;
+}
+
+.action-main-btn:active {
+  transform: scale(0.985);
+  box-shadow: 0 6rpx 14rpx rgba(245, 178, 51, 0.20);
+}

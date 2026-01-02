@@ -1,0 +1,42 @@
+page {
+    background-color: #f2f2f2;
+  }
+  
+  .container {
+    padding-bottom: 200rpx;
+    width: 100%;
+  }
+  
+  .detail-box {
+    width: 90%;
+    background-color: white;
+    border-radius: 20rpx;
+    padding-top: 20rpx;
+    padding-bottom: 20rpx;
+    margin-top: 20rpx;
+  }
+  
+  .van-field-box {
+    font-weight: 600;
+  }
+  
+  .item {
+    margin: 10rpx 20rpx;
+  }
+
+  .button-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10rpx 20rpx;
+  }
+  
+  .btn-left,
+  .btn-right {
+    flex: 1;
+  }
+  
+  .btn-left {
+    margin-right: 20rpx;
+  }
+  
+  

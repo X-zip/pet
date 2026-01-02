@@ -1,0 +1,128 @@
+<van-toast id="van-toast" />
+<view class="header-wrap" style="height: {{navH*2+20}}px;">
+    <!-- 顶部自定义栏 - 渐变背景 -->
+    <view class="nav-title" style="line-height: {{navH*2+44}}px;">我的</view>
+</view>
+<view class="content">
+  <!-- 个人信息卡片 -->
+  <view class="card profile-card">
+    <view class="profile-left">
+      <view class="avatar-wrapper">
+        <image class="avatar-img" src="{{avatar+'?imageView2/2/w/100'}}" bindtap="navLogin"></image>
+        <view class="progress-ring">
+          <view class="progress-ring-bg"></view>
+        <view class="progress-ring-fill" style="background: conic-gradient(from 0deg, rgb(139, 90, 43) 0deg 90deg, rgba(139, 90, 43, 0.18) 90deg 360deg);"></view>
+        </view>
+      </view>
+    </view>
+    <view class="profile-center">
+      <view class="user-name" bindtap="navLogin">
+        <text>{{userName || '微信用户'}}</text>
+      </view>
+      <view class="user-status">
+        <view class="status-dot"></view>
+        <text class="status-text">未完善资料</text>
+      </view>
+    </view>
+    <view class="profile-right">
+      <view class="edit-btn" bindtap="navLogin">
+        <text class="edit-icon">✏️</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 数据统计条 -->
+  <view class="card stats-card">
+    <view class="stat-item" bindtap="toMylike">
+      <view class="stat-number">0</view>
+      <view class="stat-label">我喜欢的</view>
+    </view>
+    <view class="stat-item">
+      <view class="stat-number">0</view>
+      <view class="stat-label">喜欢我的</view>
+    </view>
+    <view class="stat-item">
+      <view class="stat-number">0</view>
+      <view class="stat-label">最近来访</view>
+    </view>
+    <view class="boost-btn">
+      <text class="boost-text">提升人气</text>
+    </view>
+  </view>
+
+  <!-- 快捷入口 -->
+  <view class="card quick-actions-card">
+    <view class="quick-action" bindtap="toMytask">
+      <view class="action-icon">
+        <van-image width="48rpx" height="48rpx" fit="contain" src="https://imgbf.yqtech.ltd/campusIcon/post.png" />
+      </view>
+      <view class="action-text">我发布的</view>
+    </view>
+    <view class="quick-action" bindtap="toMylike">
+      <view class="action-icon">
+        <van-image width="48rpx" height="48rpx" fit="contain" src="https://imgbf.yqtech.ltd/campusIcon/like.png" />
+      </view>
+      <view class="action-text">我喜欢的</view>
+    </view>
+    <view class="quick-action" bindtap="toComment">
+      <view class="action-icon">
+        <van-image width="48rpx" height="48rpx" fit="contain" src="https://imgbf.yqtech.ltd/campusIcon/comment.png" />
+      </view>
+      <view class="action-text">我评论的</view>
+    </view>
+    <view class="quick-action" bindtap="toReply">
+      <view class="action-icon">
+        <van-image width="48rpx" height="48rpx" fit="contain" src="https://imgbf.yqtech.ltd/campusIcon/reply.png" />
+      </view>
+      <view class="action-text">我的回复</view>
+    </view>
+  </view>
+
+  <!-- 切换学校按钮 -->
+  <!-- <view class="campus-switch-card">
+    <van-button plain round size="small" type="info" bind:click="selectCampus" custom-class="campus-btn">切换学校</van-button>
+  </view> -->
+
+  <!-- <view class="middle">
+    <view class="middle-content">
+        <view class="communication">
+            <view class="desc-text">
+                <view class="title1">孔明灯</view>
+                <view class="detail1">让心事飘向远方！</view>
+            </view>
+            <view class="desc-img1">
+                <image src="../../images/communication.png"></image>
+            </view>
+        </view>
+        <view class="division">
+            <view class="vertical-line">
+                <image src="../../images/vertical.png"></image>
+            </view>
+        </view>
+
+        <view class="shop">
+            <view class="desc-text">
+                <view class="title2">鹅毛交易区</view>
+                <view class="detail2">带上鹅毛，拥有天下！</view>
+            </view>
+            <view class="desc-img2 ">
+                <image src="../../images/trade.png"></image>
+            </view>
+        </view>
+    </view>
+  </view> -->
+
+  <!-- 功能列表卡片 -->
+  <view class="card menu-card">
+    <van-cell-group custom-class="menu-cell-group">
+      <van-cell title="联系我们" is-link clickable icon="https://imgbf.yqtech.ltd/campusIcon/contact.png" bind:click="toContact" custom-class="menu-cell" />
+      <van-cell title="意见反馈" is-link clickable icon="https://imgbf.yqtech.ltd/campusIcon/feedback.png" bind:click="toSuggestion" custom-class="menu-cell" />
+      <van-cell title="社区规范" is-link clickable icon="https://imgbf.yqtech.ltd/campusIcon/standard.png" bind:click="toRule" custom-class="menu-cell" />
+      <van-cell title="在线客服" is-link clickable icon="https://imgbf.yqtech.ltd/campusIcon/kefu.png" open-type='contact' custom-class="menu-cell" />
+      <van-button type="default" open-type="contact" custom-class="kefuButton">默认按钮</van-button>
+    </van-cell-group>
+  </view>
+</view>
+
+
+

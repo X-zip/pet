@@ -1,0 +1,170 @@
+<wxs module='tools' src='../../WXS/tools.wxs'></wxs>
+<wxs src="../../WXS/subutil_content.wxs" module="content_tools" />
+<wxs src="../../WXS/subutil_title.wxs" module="title_tools" />
+<wxs src="../../WXS/subutil_title_long.wxs" module="title_tools_long" />
+<wxs src="../../WXS/subutil_name.wxs" module="name_tools" />
+<wxs src="../../WXS/subutil_radioToCate.wxs" module="radioToCate" />
+<wxs module = "getDate" src="../../WXS/sub_date.wxs"></wxs>
+<wxs module="campusGroup" src="../../WXS/campusGroup.wxs"></wxs>
+<wxs src="../../WXS/random.wxs" module="random" />
+<wxs module="indexofStr">
+	module.exports.includes = function (str, str_) {
+		return str.indexOf(str_);
+	}
+</wxs>
+<van-toast id="van-toast" />
+<view class="page">
+    <image class="page-bg" src="../../images/BG.png" mode="aspectFill"></image>
+    <view class="top-box">
+    <!-- <radial-menu 
+        run="{{ false }}" 
+        speed="{{ 100000 }}"
+        items="{{ items }}" 
+        midIcon="../../images/add.png" 
+        bindclick="click"
+        id="radial-menu"
+    /> -->
+    <navigation class="{{ top>0 ? 'navColor' : ''}} navBG">
+        <van-row>
+        <van-col span="8" custom-class="search-col">
+            <van-button icon="search"  round type="info" size="small" bind:click="showPopup" class="" color=""><view style = "margin-bottom: 4rpx; "> | 搜索</view></van-button>
+        </van-col>
+        <van-col span="7"  custom-class="app-title">{{campusName}}</van-col>
+        </van-row>
+        <van-popup show="{{ show }}" position="top" custom-style="height: 600rpx;" bind:close="onClose" overlay="False">
+            <view class="search-box" style="--keyboard_height--:calc({{bottomEdge}}rpx - 10rpx);height: auto;">
+                <van-search
+                value="{{ value }}"
+                placeholder="请输入搜索关键词"
+                use-action-slot
+                bind:change="onSearchChange"
+                bind:search="onSearch"
+                >
+                <view slot="action" bind:tap="search"><van-button type="info" round size="small">搜索</van-button></view>
+                </van-search>
+                <view class="history-box">
+                    <view class="history-search-title">历史记录  <van-tag color="#DEDEDE" style="margin-left: 50rpx;" plain size="small" custom-class	="clear-history" bind:tap="clear_history">清空</van-tag></view>
+                    <view class="history-content-box">
+                        <view wx:for="{{ history_list }}" wx:key="index" wx:for-item="history">
+                            <view class="history-search-content" bindtap="selectSearch" data-id="{{ index }}">
+                                <text>{{history}}</text>
+                            </view>  
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="tag-box" style="--keyboard_height--:calc({{bottomEdge}}rpx + 100rpx);">
+            </view>     
+        </van-popup>
+    </navigation>
+    </view>
+
+    <swiper class="index-swiper" style="margin-top:{{navBarHeight}}px;" indicator-dots="{{indicatorDots}}" catchtap="onSwiperTap" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" wx:if="{{showBanner}}">
+        <block wx:for="{{bannerList}}" class="slide-block">
+            <swiper-item>
+            <image src="{{item.imageUrl}}" class="slide-image" mode="aspectFill" data-id="{{item.navUrl}}" />
+            </swiper-item>
+        </block>
+    </swiper>
+    
+    <!-- 圈子子分类 tab（使用一级tab位置和样式） -->
+    <view style="background-color: white;">
+        <view style="width:100%;" class="{{ top>100 ? 'topnav' : 'normalnav'}}" style="--keyboard_height--:{{bottomEdge}}px;">
+            <scroll-view class="scrollView {{ top>100 ? 'scrollColor' : ''}}" scroll-x="false">
+            <view class="menu-wrp circle-menu-wrp" >
+                <view class="menu-list" wx:for="{{circleCategories}}" wx:key="index" wx:for-item="category">
+                    <view class="menu-item {{secondaryTabCircle === category.index ? 'menu-item--active' : 'menu-item--inactive'}}" data-index="{{category.index}}" bindtap="onChangeCircleTab">
+                        <!-- 狗爪图标 - 仅在选中态显示 -->
+                        <image class="menu-paw" src="../../images/icon/paw.png" mode="aspectFit" wx:if="{{secondaryTabCircle === category.index}}"></image>
+                        <view class="menu-desc">{{category.name}}</view>
+                    </view>
+                </view>
+            </view>
+            </scroll-view>
+        </view>
+    </view>
+
+
+    <view class="main-box">
+        <!-- 圈子内容 -->
+        <view id="stories-list" style="margin-top: 20rpx;">
+            <block wx:for="{{ tasks }}" wx:key="index" wx:for-item="task" >
+            <view style="margin-bottom: 20rpx;overflow-x:hidden !important;width: 96%;margin-left: 2%;border-radius: 20rpx;" class="post-Other {{task.is_complaint ? 'red-border' : ''}} {{ task.identity == 3 ? 'gold-border' : '' }} ">
+                <van-row >
+                <van-col span="24">
+                    <van-row gutter="24" custom-class="row1" >
+                    <van-col span="3" offset="1" custom-class="avatar-box">
+                        <view class="avatar-wrapper">
+                            <image
+                            class="avatar"
+                            src="{{ task.avatar }}"
+                            mode="aspectFit"
+                            style="{{ task.identity == 3 ? 'border-color: rgb(217,162,27);' : '' }}"
+                            />
+                            <!-- 条件渲染校园认证角标 -->
+                            <image
+                            wx:if="{{ task.identity == 3 }}"
+                            class="avatar-badge"
+                            src="http://imgbf.yqtech.ltd/campusIcon/macaoVerify.png"
+                            mode="aspectFit"
+                            />
+                        </view>
+                    </van-col>
+                    <van-col span="10" custom-class="{{campusName == 'UM鼠鼠论坛'? 'userName-UM':'userName'}}" data-id="{{ task.id }}" bindtap="goToStoryDetail" >{{ name_tools.sub(task.userName)}}</van-col>
+
+                    <van-col span="6" custom-class="c_time" data-id="{{ task.id }}" bindtap="goToStoryDetail" wx:if="{{getDate.getGap(task.c_time) == '置顶'}}"><van-tag plain type="danger" round custom-class="zhiding">置顶</van-tag></van-col>
+                    <van-col span="6" custom-class="c_time" data-id="{{ task.id }}" bindtap="goToStoryDetail" wx:else>{{getDate.getGap(task.c_time)}}</van-col>
+                    <van-col span="4" custom-class="ellipsis">
+                        <van-dropdown-menu overlay="true" custom-class="collapse-box" data-id="{{ task.id }}" bindtap="setTaskId">
+                        <van-dropdown-item id="item-{{ task.id }}0" title="{{ itemTitle }}" custom-class="collapse-item">
+                            <van-row>
+                                <van-col span="24"><button style="font-size: 28rpx;" data-id="{{ task.id }}" data-title="{{ task.title }}" open-type="share">分享</button></van-col>
+                            </van-row>
+                            <van-row>
+                                <van-col span="24" ><button style="font-size: 28rpx;" bindtap="toSuggestion" >举报</button></van-col>
+                            </van-row>
+                        </van-dropdown-item>
+                        </van-dropdown-menu>
+                    </van-col>
+                    </van-row>
+                    <van-row gutter="24" data-id="{{ task.id }}" bindtap="goToStoryDetail">
+                    <van-col span="22" offset="1" custom-class="title" >{{ title_tools_long.sub(task.title)}}</van-col>
+                    </van-row>
+                    <van-row gutter="24" wx:if="{{ task.img[0] }}" data-id="{{ task.id }}"  bindtap="goToStoryDetail">
+                    <van-col span="8" offset="1"><image class="task-img" catchtap="imgYu" data-src="{{task.img[0]}}" src='{{ task.img[0]+"?imageView2/2/w/200" }}' mode='widthFix' data-id="{{ task.id }}"></image></van-col>
+                    </van-row>
+                    <van-row gutter="24" custom-class="action">
+                    <van-col span="6" offset="1">
+                        <tag-item
+                        cate="{{ radioToCate.radioToCate(task.radioGroup) }}"
+                        toSubpage="{{ true }}"
+                        custom-class="tag" 
+                        />
+                    </van-col>
+                    <van-col span="6" custom-class="watchNum" data-id="{{ task.id }}" bindtap="goToStoryDetail">
+                    {{random.random(task.watchNum,UV,task.c_time)}}人围观</van-col>
+                    <van-col span="4" offset="2" custom-class="like" bindtap='thumbsup' data-id="{{ task.id }}" data-index="{{ index }}" wx:if="{{ task.state }}">
+                        <van-icon name="like" /><text  >({{ task.likeNum }})</text>
+                    </van-col>
+                    <van-col span="4" offset="2" custom-class="like" bindtap='thumbsup' data-id="{{ task.id }}" data-index="{{ index }}" wx:else>
+                        <van-icon name="like-o" /><text  >({{ task.likeNum }})</text>
+                    </van-col>
+                    <van-col span="4" custom-class="comment" data-id="{{ task.id }}" bindtap="goToStoryDetail">
+                        <van-icon name="chat-o" /><text  >({{ task.commentNum }})</text>
+                    </van-col>
+                    </van-row>
+                </van-col>
+                </van-row>
+            </view>
+            </block>
+        </view>
+
+        <!-- 已移除：评分功能（按需求确保首页不再报错） -->
+    </view>
+</view>
+
+
+
+
+
+

@@ -1,0 +1,49 @@
+<wxs module='tools' src='../../../WXS/tools.wxs'></wxs>
+<wxs src="../../../WXS/subutil_content.wxs" module="content_tools" />
+<wxs src="../../../WXS/subutil_title.wxs" module="title_tools" />
+<wxs src="../../../WXS/subutil_title_long.wxs" module="title_tools_long" />
+<wxs src="../../../WXS/subutil_name.wxs" module="name_tools" />
+<wxs src="../../../WXS/subutil_radioToCate.wxs" module="radioToCate" />
+<wxs module = "getDate" src="../../../WXS/sub_date.wxs"></wxs>
+
+
+
+<view id="stories-list">
+  <block wx:for="{{ tasks }}" wx:key="index" wx:for-item="task" >
+    <view style="background: white;">
+      <van-row >
+        <van-col span="24">
+          <van-row gutter="24" custom-class="row1" >
+            <van-col span="3" offset="1" custom-class="avatar-box" ><image class="avatar" src="{{ task.avatar }}" mode="aspectFit" ></image></van-col>
+            <van-col span="8" custom-class="userName" data-id="{{ task.id }}" bindtap="goToStoryDetail" >{{ name_tools.sub(task.userName)}}</van-col>
+            <van-col span="8" custom-class="c_time" data-id="{{ task.id }}" bindtap="goToStoryDetail" wx:if="{{getDate.getGap(task.c_time) == '置顶'}}"><van-tag plain type="danger" round custom-class="zhiding">置顶</van-tag></van-col>
+            <van-col span="8" custom-class="c_time" data-id="{{ task.id }}" bindtap="goToStoryDetail" wx:else>{{getDate.getGap(task.c_time)}}</van-col>
+          </van-row>
+          <van-row gutter="24" data-id="{{ task.id }}" bindtap="goToStoryDetail">
+            <van-col span="22" offset="1" custom-class="title" >{{ title_tools_long.sub(task.title)}}</van-col>
+          </van-row>
+          <van-row gutter="24" wx:if="{{ task.img[0] }}" data-id="{{ task.id }}" bindtap="goToStoryDetail">
+            <van-col span="8" offset="1"><image class="task-img" src='{{ task.img[0]+"?imageView2/2/w/200" }}' mode='widthFix' data-id="{{ task.id }}"></image></van-col>
+          </van-row>
+          <van-row gutter="24" custom-class="action">
+            <van-col span="5" offset="1"  custom-class="tag" data-id="{{ task.id }}" bindtap="goToStoryDetail">
+            #{{radioToCate.radioToCate(task.radioGroup)}}</van-col>
+            <van-col span="6" custom-class="watchNum" data-id="{{ task.id }}" bindtap="goToStoryDetail">
+            {{task.watchNum}}人围观</van-col>
+            <van-col span="4" offset="3" custom-class="like" bindtap='goToStoryDetail' data-id="{{ task.id }}" data-index="{{ index }}" wx:if="{{ task.state }}">
+              <van-icon name="like" /><text >({{ task.likeNum }})</text>
+            </van-col>
+            <van-col span="4" offset="3" custom-class="like" bindtap='goToStoryDetail' data-id="{{ task.id }}" data-index="{{ index }}" wx:else>
+              <van-icon name="like-o" /><text >({{ task.likeNum }})</text>
+            </van-col>
+            <van-col span="4" custom-class="comment" data-id="{{ task.id }}" bindtap="goToStoryDetail">
+              <van-icon name="chat-o" /><text >({{ task.commentNum }})</text>
+            </van-col>
+          </van-row>
+        </van-col>
+      </van-row>
+    </view>    
+    <van-divider />
+  </block>
+ 
+</view>

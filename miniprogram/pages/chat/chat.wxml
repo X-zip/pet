@@ -1,0 +1,62 @@
+<van-dialog id="van-dialog" />
+<van-toast id="van-toast" />
+<view class='view-page'>
+    <van-notice-bar mode="closeable" text="如需退出组局，请返回并点击退出按钮" wx:if="{{isGroupChat}}" />
+    <view class="comments cu-chat" id="x_chat">
+        <scroll-view scroll-y="{{true}}" scroll-with-animation='{{true}}' scroll-into-view="{{toLast}}"
+        style="width:100%;height:{{windowHeight}}px;"
+        refresher-enabled="{{true}}"
+        refresher-threshold="{{200}}"
+        refresher-default-style="black"
+        refresher-triggered="{{triggered}}"
+        bindrefresherpulling="onPulling"
+        bindrefresherrefresh="onRefresh"
+        bindrefresherrestore="onRestore"
+        bindrefresherabort="onAbort"
+        >
+        <view wx:for="{{list}}" wx:key="index" id="item{{index+1}}">
+        <!-- <view class='messageTime'>{{item.c_time}}</view> -->
+        <view class="cu-item self" wx:if="{{item.openid == sendOpenId}}">
+            <view class="main">
+            <image wx:if="{{item.requestId!=null}}" class="sending" src="./login/images/loading.png"></image>
+            <view class="bg-green content  shadow" style="width: auto !important;">
+                <view >{{item.content}}</view>
+            </view>
+            </view>
+            <image class="cu-avatar" src="{{sendAvatar}}"/>
+        </view>
+        <view class="cu-item"  wx:if="{{item.openid != sendOpenId}}">
+            <image class="cu-avatar" src="{{item.avatar}}"/>
+            <view class="main">
+            <view class="bg-white content  shadow">
+                <block>{{item.content}}</block>
+            </view>
+            </view>
+        </view>
+        </view>
+        <view id="toLast" style="height:{{paddingBottom}}px"></view>
+    </scroll-view>
+    </view>
+    <view class="release" wx:if="{{status != 0}}">
+        <view class="replyinfo">
+            <van-row>
+                <van-col span="20">
+                    <van-cell-group>
+                        <van-field
+                        value="{{ comment }}"
+                        type="textarea"
+                        placeholder="输入"
+                        bind:change="onChangeComment"
+                        name="comment"
+                        border="{{ false }}"
+                        disable-default-padding = "true"
+                        />
+                    </van-cell-group>
+                </van-col>
+                <van-col span="4">
+                    <van-button round type="info" bind:click="sendMessage" small>发送</van-button>
+                </van-col>
+            </van-row>
+        </view>
+    </view>
+</view>

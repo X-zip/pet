@@ -1,0 +1,11 @@
+{
+  "usingComponents": {
+    "van-tree-select": "@vant/weapp/tree-select/index",
+    "van-cell": "@vant/weapp/cell/index",
+    "van-cell-group": "@vant/weapp/cell-group/index",
+    "van-button": "@vant/weapp/button/index",
+    "van-toast": "@vant/weapp/toast/index"
+  },
+  "navigationBarTitleText": "选择地区",
+  "navigationStyle": "custom"
+}

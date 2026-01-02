@@ -1,0 +1,26 @@
+<!--pages/suggestion/suggestion.wxml-->
+<view class="task">
+  <form bindsubmit="formSubmit" bindreset="formReset">
+
+    <!-- <view class="section">
+      <textarea class="text__bar__content" name="Content" placeholder="感谢您的信息，谢谢." minlength="0" maxlength="500" bindinput="inputs" />
+    </view> -->
+    <van-field
+        value="{{ message }}"
+        label="内容"
+        type="textarea"
+        placeholder="请在此处输入正文"
+        autosize
+        border="{{ false }}"
+        custom-class="content"
+        show-word-limit
+        maxlength="1000"
+        name="content"
+    />
+
+    <view class="btn-area">
+      <van-button round type="info" form-type="submit" custom-class="btn">提交</van-button>
+      <van-button round type="primary" form-type="reset" custom-class="btn">重置</van-button>
+    </view>
+  </form>
+</view>

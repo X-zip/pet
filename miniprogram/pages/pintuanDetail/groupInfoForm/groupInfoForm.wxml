@@ -1,0 +1,115 @@
+<!-- 背景图片 -->
+<image class="page-bg" src="../../../images/BG.png" mode="aspectFill"></image>
+
+<!-- 自定义导航栏 -->
+<view class="custom-navbar" style="height:{{navBarHeight}}px; padding-top:{{statusBarHeight}}px;">
+  <view class="navbar-content">
+    <view class="navbar-left">
+      <view class="navbar-back-btn" bindtap="goBack">
+        <text class="navbar-back-icon">‹</text>
+      </view>
+      <image class="navbar-paw-icon" src="../../../images/icon/paw.png" mode="aspectFit"></image>
+    </view>
+    <view class="navbar-center">
+      <text class="navbar-title">确认订单</text>
+    </view>
+    <view class="navbar-right">
+      <view class="navbar-icon-placeholder"></view>
+      <view class="navbar-icon-placeholder"></view>
+    </view>
+  </view>
+</view>
+
+<view class="order-page" style="margin-top:{{navBarHeight}}px;">
+  <!-- 配送方式 + 地址（同一卡片） -->
+  <view class="card delivery-card">
+    <view class="segmented">
+      <view class="seg-item {{deliveryMode === 'ship' ? 'seg-item--active' : ''}}" bindtap="onSwitchDelivery" data-mode="ship">
+        <text class="seg-text">邮寄到家</text>
+      </view>
+      <view class="seg-item {{deliveryMode === 'pickup' ? 'seg-item--active' : ''}}" bindtap="onSwitchDelivery" data-mode="pickup">
+        <text class="seg-text">自提点</text>
+      </view>
+    </view>
+
+    <view class="address-box" wx:if="{{deliveryMode === 'ship'}}">
+      <view class="address-line1">
+        <text class="address-name">{{address.name}}</text>
+        <text class="address-phone">{{address.phone}}</text>
+        <text class="address-tag" wx:if="{{address.tag}}">{{address.tag}}</text>
+      </view>
+      <view class="address-line2">{{address.detail}}</view>
+    </view>
+    <view class="address-box" wx:elif="{{deliveryMode === 'pickup'}}">
+      <view class="address-line1">
+        <text class="address-name">自提点</text>
+        <text class="address-tag address-tag--muted">{{pickup.name}}</text>
+      </view>
+      <view class="address-line2">{{pickup.detail}}</view>
+    </view>
+  </view>
+
+  <!-- 商品信息卡片 -->
+  <view class="card product-card">
+    <image class="product-image" src="{{main_pic}}" mode="aspectFill"></image>
+    <view class="product-mid">
+      <view class="product-name">【威尔逊】{{name}}</view>
+      <view class="product-price-row">
+        <text class="price-prefix">拼团价</text>
+        <text class="price-now">¥{{unitPrice}}</text>
+        <text class="price-per">/件</text>
+        <text class="price-old" wx:if="{{ori_price}}">¥{{ori_price}}</text>
+      </view>
+      <view class="product-desc">默认包含基础款式，规格见下方可选</view>
+    </view>
+    <view class="stepper" aria-label="数量选择">
+      <view class="stepper-btn" bindtap="onMinus">-</view>
+      <text class="stepper-val">{{quantity}}</text>
+      <view class="stepper-btn" bindtap="onPlus">+</view>
+    </view>
+  </view>
+
+  <!-- 规格选择 -->
+  <view class="card section-card">
+    <view class="section-title">船型分类</view>
+    <view class="chip-grid">
+      <block wx:for="{{skuList}}" wx:key="id">
+        <view class="chip {{item.id === selectedSkuId ? 'chip--active' : ''}}" bindtap="onSelectSku" data-id="{{item.id}}">
+          <text>{{item.title}}</text>
+        </view>
+      </block>
+    </view>
+    <view class="section-title">包装规格</view>
+    <view class="chip-grid">
+      <block wx:for="{{packList}}" wx:key="id">
+        <view class="chip {{item.id === selectedPackId ? 'chip--active' : ''}}" bindtap="onSelectPack" data-id="{{item.id}}">
+          <text>{{item.title}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 微信支付展示（固定） -->
+  <!-- <view class="card pay-card">
+    <view class="pay-row">
+      <view class="pay-left">
+        <view class="pay-icon"></view>
+        <text class="pay-text">微信支付（已选）</text>
+      </view>
+      <view class="pay-right">
+        <view class="pay-dot"></view>
+      </view>
+    </view>
+  </view> -->
+</view>
+
+<!-- 底部固定支付条（PAYBAR UPDATED） -->
+<view class="paybar">
+  <view class="price-pill" aria-label="合计金额">
+    <text class="price-pill-prefix">¥</text>
+    <text class="price-pill-text">{{totalPrice}}</text>
+  </view>
+  <button class="paybar-btn" bindtap="submitOrder">立即支付</button>
+</view>
+
+<van-toast id="van-toast" />

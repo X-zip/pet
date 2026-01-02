@@ -1,0 +1,39 @@
+/* 胶囊型可点击标签（与 action 行严格对齐） */
+.tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6rpx;
+    font-size: 24rpx;              /* 与 watchNum/like/comment 一致 */
+    font-weight: 600;
+    color: rgb(139, 90, 43);
+    background: rgba(255, 152, 0, 0.12);
+    border-radius: 30rpx;
+    padding: 0 20rpx;               /* 只留左右 padding，避免撑高 */
+    height: 60rpx;                  /* 与 action 子项同高 */
+    line-height: 60rpx;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+    text-decoration: none;
+  }
+  .tag-active,
+  .tag:active {
+    background: rgba(255, 152, 0, 0.2);
+    transform: scale(0.96);
+  }
+  .tag-icon {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    font-size: 22rpx;
+    color: rgb(139, 90, 43);
+  }
+  
+  /* 轻微引导动画（播放 3 次） */
+  @keyframes tagPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(255, 152, 0, .35); }
+    70%  { box-shadow: 0 0 0 10rpx rgba(255, 152, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 152, 0, 0); }
+  }
+  .tag { animation: tagPulse 2.2s ease-out 0s 3; }
+  

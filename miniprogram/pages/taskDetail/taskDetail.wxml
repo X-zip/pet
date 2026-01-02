@@ -1,0 +1,97 @@
+<van-toast id="van-toast" />
+<view class="container">
+    <view class="detail-box">
+        <view class="item" wx:if="{{task.address_from!=''}}">
+            <van-cell class="van-cell-box" title="取货地址" value="{{ task.address_from }}"/>
+        </view>
+        <view class="item" wx:if="{{task.address_to!=''}}">
+            <van-cell class="van-cell-box" title="送货地址" value="{{ task.address_to }}"/>
+        </view>
+        <view class="item" wx:if="{{task.due_date!=''}}">
+            <van-cell class="van-cell-box" title="完成日期" value="{{ task.due_date }}"/>
+        </view>
+        <view class="item" wx:if="{{task.due_time!=''}}">
+            <van-cell class="van-cell-box" title="完成时间" value="{{ task.due_time }}"/>
+        </view>
+        <view class="item" wx:if="{{task.release_name!=''}}">
+            <van-cell class="van-cell-box" title="收件人" value="{{ task.release_name }}" wx:if="{{openid == task.pickup_openid || openid == task.release_openid}}"/>
+            <van-cell class="van-cell-box" title="收件人" value="接单后可见" wx:else/>
+        </view>
+        <view class="item" wx:if="{{task.release_phone!=''}}">
+            <van-cell class="van-cell-box" title="手机号" value="{{ task.release_phone }}" wx:if="{{openid == task.pickup_openid || openid == task.release_openid}}"/>
+            <van-cell class="van-cell-box" title="手机号" value="接单后可见" wx:else/>
+        </view>
+        <view class="item" wx:if="{{task.release_wechat!=''}}">
+            <van-cell class="van-cell-box" title="社交账号" value="{{ task.release_wechat }}" wx:if="{{openid == task.pickup_openid || openid == task.release_openid}}"/>
+            <van-cell class="van-cell-box" title="社交账号" value="接单后可见" wx:else/>
+        </view>
+        <view class="item" wx:if="{{task.amount!=''}}">
+            <van-cell class="van-cell-box" title="数量（件）" value="{{ task.amount }}"/> 
+        </view>
+        <view class="item" wx:if="{{task.weight!=''}}">
+            <van-cell class="van-cell-box" title="总重量（千克）" value="{{ task.weight }}"/>             
+        </view>
+        <view class="item" wx:if="{{task.price!=''}}">
+            <van-cell class="van-cell-box" title="赏金（元）" value="{{ task.price/100 }}"/>             
+        </view>
+        
+    </view>   
+    <view class="detail-box" wx:if="{{task.description!=''}}">
+        <view class="item">
+            <van-panel title="详细信息" >
+                <view style="width: 90%;margin-left: 5%;">{{task.description}}</view>
+            </van-panel>            
+        </view>
+    </view>
+    <view class="detail-box"  wx:if="{{task.img_url!=''}}">
+        <view class="item">
+            <van-cell class="van-cell-box" title="图片"></van-cell>  
+            <van-row>
+                <block wx:for="{{task.img_url}}" wx:key="{{ index }}" wx:for-item="img">
+                    <van-col span="8"><van-image width="80" height="80" src="{{img}}" data-id="{{img}}" bindtap="preview" /></van-col>
+                </block>
+            </van-row>
+        </view> 
+    </view>
+    
+    <view class="btn-area">
+        <!-- 0: 未支付，仅发布人 -->
+        <view wx:if="{{isPublisher && s=='0'}}" class="row">
+            <van-button round type="info" bindtap="payOrder" custom-class="btn">支付</van-button>
+            <van-button round type="info" bindtap="cancelOrder" custom-class="btn">删除</van-button>
+        </view>
+        <!-- 1: 已支付，发布人可退款；骑手可接单 -->
+        <view wx:if="{{isPublisher && s=='1'}}" class="row">
+            <van-button round type="danger" bindtap="cancelOrder" custom-class="btn">取消并退款</van-button>
+        </view>
+        <view wx:if="{{!isPublisher && s=='1'}}" class="row">
+            <van-button round type="info" bindtap="confirmPick" custom-class="btn">确认接单</van-button>
+        </view>
+        <!-- 2: 已接单，发布人仅提示；骑手可完成 -->
+        <view wx:if="{{isPublisher && s=='2'}}" class="row">
+            <van-button round type="info" custom-class="btn" disabled>您的订单</van-button>
+        </view>
+        <view wx:if="{{isRider && s=='2'}}" class="row">
+            <van-button round type="info" bindtap="riderFinish" custom-class="btn">完成任务</van-button>
+        </view>
+        <!-- 3: 骑手完成待确认 -->
+        <view wx:if="{{isPublisher && s=='3'}}" class="row">
+            <van-button round type="info" bindtap="finishOrder" custom-class="btn">确认完成</van-button>
+        </view>
+        <view wx:if="{{isRider && s=='3'}}" class="row">
+            <van-button round type="info" custom-class="btn" disabled>等待确认</van-button>
+        </view>
+        <!-- 4: 发布人确认完成，骑手可提现 -->
+        <view wx:if="{{isRider && s=='4'}}" class="row">
+            <van-button round type="info" bindtap="getMoney" custom-class="btn">提现</van-button>
+        </view>
+        <!-- 5: 过期、删除、取消 -->
+        <view wx:if="{{s=='5'}}" class="row">
+            <van-button round type="info" custom-class="btn" disabled>已取消</van-button>
+        </view>
+        <!-- 5: 提现完成 -->
+        <view wx:if="{{s=='6'}}" class="row">
+            <van-button round type="info" custom-class="btn" disabled>已完单</van-button>
+        </view>
+    </view>    
+</view>

@@ -1,0 +1,17 @@
+<!--pages/contact/contact.wxml-->
+<view class="qr-list">
+  <view class="item">
+    <image class='image' src="https://img.yqtech.ltd/macao/contact/contact01.jpg" mode="widthFix" bindtap="imgYu4"></image>
+  </view>
+</view>
+<view class="text-list">
+  <text class="text">微信客服</text>
+</view>
+
+<view class= "copy-right">
+    <image class='copy-logo' src="../../../images/favicon.ico" mode="widthFix" bindtap="imgYu"></image>
+    <text class="copy-text">昱清科技 © 2022 Powered By Yuqing Pte.Ltd</text>
+</view>
+
+
+

@@ -1,0 +1,8 @@
+var random = function (val,UV,c_time) {
+    var dateNow = getDate();
+    var timeDiff = Math.min(Math.max(dateNow.getTime() - getDate(c_time).getTime(),0),24*60*60*1000);
+    // console.log(timeDiff)
+    val = val + UV/24*(timeDiff/1000/60/60)*1.4;
+    return val.toFixed(0)
+}
+module.exports.random = random;

@@ -1,0 +1,328 @@
+/* 
+  2025-12 UI 更新：
+  - 发布页统一为宠物主题配色（与 index / group 一致）
+  - 移除"跑腿"和"评分"发布入口
+  - "组局"改名为"宠物活动"（仅文案，不改数据字段）
+*/
+
+/* =========================
+   背景图片样式
+   ========================= */
+.page-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* =========================
+   自定义导航栏样式
+   ========================= */
+.custom-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    background: linear-gradient(135deg, rgb(255, 248, 235) 0%, rgb(247, 223, 185) 100%);
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+}
+
+.navbar-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60rpx !important;
+    min-height: 60rpx;
+    padding: 0 4%;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.navbar-left {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    min-width: 80rpx;
+}
+
+.navbar-paw-icon {
+    width: 28rpx;
+    height: 28rpx;
+    filter: brightness(1.4) sepia(1) hue-rotate(25deg) saturate(1.5);
+    transform: rotate(-45deg);
+}
+
+.navbar-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.navbar-title {
+    font-size: 30rpx;
+    font-weight: 700;
+    color: rgb(139, 90, 43);
+    letter-spacing: 1rpx;
+    line-height: 1.2;
+}
+
+.navbar-right {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16rpx;
+    min-width: 80rpx;
+    justify-content: flex-end;
+}
+
+.navbar-icon-placeholder {
+    width: 24rpx;
+    height: 24rpx;
+    background: rgba(139, 90, 43, 0.2);
+    border-radius: 50%;
+}
+
+/* =========================
+   页面整体样式
+   ========================= */
+page {
+    height: 100vh;
+    background-color: rgb(238, 205, 160);
+}
+
+/* =========================
+   主卡片容器（包含 Tab + 表单内容）
+   ========================= */
+.post-main-card {
+    margin: 24rpx 4%;
+    background: #ffffff;
+    border-radius: 32rpx;
+    box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+/* Tab 切换（宠物活动发布入口已下线） */
+
+/* =========================
+   表单页面样式
+   ========================= */
+.post-form-pane {
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    padding-bottom: 200rpx;
+}
+
+/* =========================
+   表单内容区域样式
+   ========================= */
+.post-main-body {
+    padding: 24rpx 28rpx 32rpx;
+    background: #ffffff;
+}
+
+/* 确保 van-cell-group 不添加额外的白色背景 */
+.post-main-body .van-cell-group {
+    background-color: transparent !important;
+    background: transparent !important;
+}
+
+.post-main-body .van-cell-group--inset {
+    background-color: transparent !important;
+    background: transparent !important;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+/* =========================
+   圈子发布表单样式
+   ========================= */
+.post-form-circle .van-cell__title {
+    color: rgb(139, 90, 43);
+    font-size: 32rpx;
+    font-weight: 600;
+}
+
+.post-form-circle .content {
+    min-height: 300rpx;
+}
+
+.post-form-circle .van-checkbox-box {
+    display: flex;
+    font-size: 20rpx;
+    margin-left: 5%;
+}
+
+.post-form-circle .tag-box {
+    padding: 20rpx 8rpx;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.post-form-circle .tag_col {
+    padding: 8rpx 4rpx;
+    min-height: 150rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.post-form-circle .tag {
+    height: 48rpx;
+    line-height: 48rpx;
+}
+
+/* 圈子分类标签样式 */
+.circle-tag-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    min-height: 140rpx;
+    padding: 12rpx 4rpx;
+    border-radius: 20rpx;
+    background: rgba(255, 255, 255, 0.6);
+    transition: all 0.3s ease;
+    opacity: 0.6;
+    box-sizing: border-box;
+}
+
+.circle-tag-item--active {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 4rpx 12rpx rgba(139, 90, 43, 0.2);
+    border: 2rpx solid rgba(139, 90, 43, 0.3);
+    transform: translateY(-2rpx);
+}
+
+.circle-tag-item .van-image {
+    flex-shrink: 0;
+    width: 64rpx !important;
+    height: 64rpx !important;
+    margin-bottom: 8rpx;
+}
+
+.circle-tag-text {
+    font-size: 24rpx;
+    color: rgb(139, 90, 43);
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.2;
+    word-break: keep-all;
+    width: 100%;
+    padding: 0 4rpx;
+    box-sizing: border-box;
+}
+
+.circle-tag-item--active .circle-tag-text {
+    font-weight: 600;
+    color: rgb(139, 90, 43);
+}
+
+/* =========================
+   宠物活动发布表单样式
+   ========================= */
+.container {
+    background-color: transparent;
+    width: 100%;
+    padding-bottom: 200rpx;
+}
+
+.post-form-gather .detail-box {
+    width: 100%;
+    background-color: transparent !important;
+    background: transparent !important;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+}
+
+/* 确保 detail-box 内的 van-cell-group 不产生额外背景 */
+.post-main-body .detail-box .van-cell-group {
+    background-color: transparent !important;
+    background: transparent !important;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.post-form-gather .van-field-box,
+.post-form-gather .van-cell-box {
+    font-weight: 600;
+    color: rgb(139, 90, 43);
+}
+
+.post-form-gather .van-checkbox-box {
+    display: flex;
+    font-size: 20rpx;
+    margin-left: 5%;
+}
+
+.post-form-gather .tag_col {
+    height: 100rpx;
+    line-height: 120rpx;
+    padding: 0 0 0 10rpx;
+}
+
+.post-form-gather .tag {
+    height: 48rpx;
+    line-height: 48rpx;
+}
+
+/* =========================
+   提交按钮样式
+   ========================= */
+.btn-area {
+    display: flex;
+    justify-content: center;
+    margin: 32rpx 10% 48rpx;
+    padding: 0;
+}
+
+.submit-btn {
+    width: 100%;
+    height: 88rpx;
+    line-height: 88rpx;
+    text-align: center;
+    background: linear-gradient(135deg, rgb(139, 90, 43) 0%, rgb(160, 110, 60) 100%);
+    color: #ffffff;
+    border-radius: 999rpx;
+    font-size: 30rpx;
+    font-weight: 600;
+    box-shadow: 0 4rpx 16rpx rgba(139, 90, 43, 0.3);
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.submit-btn::after {
+    border: none;
+}
+
+.submit-btn:active {
+    transform: scale(0.98);
+    box-shadow: 0 2rpx 8rpx rgba(139, 90, 43, 0.4);
+}
+
+/* =========================
+   其他样式
+   ========================= */
+.item {
+    margin-bottom: 20rpx;
+}
+
+.van-uploader-box {
+    display: flex;
+    justify-content: center;
+}

@@ -1,0 +1,486 @@
+/* pages/pintuanDetail/groupInfoForm/groupInfoForm.wxss */
+
+/* =========================
+   背景图片样式
+   ========================= */
+.page-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.10;
+}
+
+/* =========================
+   自定义导航栏样式
+   ========================= */
+.custom-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    background: linear-gradient(135deg, rgb(255, 248, 235) 0%, rgb(247, 223, 185) 100%);
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+}
+
+.navbar-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60rpx !important;
+    min-height: 60rpx;
+    padding: 0 4%;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.navbar-left {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 12rpx;
+    min-width: 80rpx;
+}
+
+.navbar-back-btn {
+    width: 48rpx;
+    height: 48rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(139, 90, 43, 0.1);
+    transition: all 0.3s ease;
+}
+
+.navbar-back-btn:active {
+    background: rgba(139, 90, 43, 0.2);
+    transform: scale(0.95);
+}
+
+.navbar-back-icon {
+    font-size: 40rpx;
+    font-weight: 300;
+    color: rgb(139, 90, 43);
+    line-height: 1;
+    margin-left: -4rpx;
+}
+
+.navbar-paw-icon {
+    width: 28rpx;
+    height: 28rpx;
+    filter: brightness(1.4) sepia(1) hue-rotate(25deg) saturate(1.5);
+    transform: rotate(-45deg);
+}
+
+.navbar-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.navbar-right {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16rpx;
+    min-width: 80rpx;
+    justify-content: flex-end;
+}
+
+.navbar-title {
+    font-size: 30rpx;
+    font-weight: 700;
+    color: rgb(139, 90, 43);
+    letter-spacing: 1rpx;
+    line-height: 1.2;
+}
+
+.navbar-icon-placeholder {
+    width: 24rpx;
+    height: 24rpx;
+    background: rgba(139, 90, 43, 0.2);
+    border-radius: 50%;
+}
+
+/* =========================
+   页面主体样式
+   ========================= */
+/* 主题变量 */
+page {
+  --bg: #F7DFB9;
+  --card: rgba(255,255,255,0.96);
+  --text: #2B2B2B;
+  --muted: rgba(139,90,43,0.65);
+  --brand: rgb(139, 90, 43);
+  --accent: #F8AE2B;
+  --border: rgba(139,90,43,0.10);
+  --shadow: 0 6rpx 18rpx rgba(139,90,43,0.10);
+  --radius: 28rpx;
+  /* PAYBAR UPDATED */
+  --paybar-h: 124rpx;
+}
+
+.order-page {
+  background: linear-gradient(180deg, #fbe6b3 0%, #f7dfb9 65%, #f7dfb9 100%);
+  padding: 28rpx 4% calc(var(--paybar-h) + env(safe-area-inset-bottom) + 48rpx);
+  font-family: "PingFang SC", sans-serif;
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+/* 通用卡片 */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24rpx 26rpx;
+  margin-bottom: 20rpx;
+  box-sizing: border-box;
+  border: 1rpx solid var(--border);
+}
+
+/* 配送卡片 */
+.delivery-card {
+  padding: 20rpx 22rpx 18rpx;
+}
+
+/* Segmented Control（一个整体容器） */
+.segmented {
+  display: flex;
+  gap: 8rpx;
+  padding: 8rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1rpx solid var(--border);
+  margin-bottom: 16rpx;
+}
+
+.seg-item {
+  flex: 1;
+  height: 64rpx;
+  border-radius: 999rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand);
+  font-weight: 700;
+}
+
+.seg-text {
+  font-size: 26rpx;
+}
+
+.seg-item--active {
+  background: linear-gradient(135deg, #F8AE2B 0%, #F59E0B 100%);
+  color: #ffffff;
+  box-shadow: 0 6rpx 14rpx rgba(245, 158, 11, 0.22);
+}
+
+.address-box {
+  background: rgba(255, 255, 255, 0.78);
+  border-radius: 22rpx;
+  padding: 16rpx 16rpx;
+  border: 1rpx solid var(--border);
+}
+
+.address-line1 {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 10rpx;
+  flex-wrap: wrap;
+}
+
+.address-name {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.address-phone {
+  font-size: 26rpx;
+  color: var(--text);
+  opacity: 0.85;
+}
+
+.address-tag {
+  padding: 4rpx 10rpx;
+  border-radius: 999rpx;
+  background: rgba(248, 174, 43, 0.16);
+  color: var(--brand);
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
+.address-tag--muted {
+  background: rgba(139, 90, 43, 0.08);
+  color: rgba(139,90,43,0.75);
+}
+
+.address-line2 {
+  font-size: 26rpx;
+  color: rgba(43, 43, 43, 0.78);
+  line-height: 1.55;
+}
+
+/* 商品卡片 */
+.product-card {
+  display: flex;
+  gap: 18rpx;
+  align-items: center;
+}
+
+.product-image {
+  width: 132rpx;
+  height: 132rpx;
+  border-radius: 16rpx;
+  flex-shrink: 0;
+  background: #f5f5f5;
+}
+
+.product-mid {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+  min-width: 0;
+}
+
+.product-name {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10rpx;
+  flex-wrap: wrap;
+}
+
+.price-prefix {
+  font-size: 24rpx;
+  color: rgba(139,90,43,0.72);
+  font-weight: 600;
+}
+
+.price-now {
+  font-size: 44rpx;
+  font-weight: 800;
+  color: #F39A2E;
+}
+
+.price-old {
+  font-size: 24rpx;
+  color: rgba(139,90,43,0.45);
+  text-decoration: line-through;
+}
+
+.price-per {
+  font-size: 22rpx;
+  color: rgba(139,90,43,0.55);
+}
+
+.product-desc {
+  font-size: 24rpx;
+  color: rgba(139,90,43,0.65);
+  line-height: 1.5;
+}
+
+/* Stepper（统一胶囊控件） */
+.stepper {
+  flex-shrink: 0;
+  height: 56rpx;
+  border-radius: 28rpx;
+  border: 1rpx solid var(--border);
+  background: rgba(255, 255, 255, 0.86);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.stepper-btn {
+  width: 56rpx;
+  height: 56rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand);
+  font-size: 34rpx;
+  font-weight: 700;
+}
+
+.stepper-btn:active {
+  background: rgba(248, 174, 43, 0.14);
+}
+
+.stepper-val {
+  width: 64rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: var(--text);
+  font-weight: 700;
+}
+
+/* 规格卡片 */
+.section-card .section-title {
+  font-size: 30rpx;
+  color: var(--text);
+  font-weight: 700;
+  margin-bottom: 14rpx;
+}
+
+.chip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin-bottom: 18rpx;
+}
+
+.chip {
+  height: 58rpx;
+  padding: 0 18rpx;
+  border-radius: 30rpx;
+  border: 1rpx solid rgba(139, 90, 43, 0.12);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--brand);
+  font-size: 24rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chip--active {
+  border: 1rpx solid rgba(248, 174, 43, 0.95);
+  background: rgba(248, 174, 43, 0.22);
+  color: var(--brand);
+  box-shadow: 0 6rpx 14rpx rgba(245, 158, 11, 0.16);
+}
+
+/* 支付方式 */
+.pay-card {
+  padding: 14rpx 18rpx;
+}
+
+.pay-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10rpx 6rpx;
+}
+
+.pay-left {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+}
+
+.pay-icon {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 12rpx;
+  background: linear-gradient(135deg, #34d058 0%, #2bb240 100%);
+}
+
+.pay-text {
+  font-size: 26rpx;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.pay-dot {
+  width: 22rpx;
+  height: 22rpx;
+  border-radius: 50%;
+  background: #F8AE2B;
+  box-shadow: 0 4rpx 10rpx rgba(245, 158, 11, 0.25);
+}
+
+.paybar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  padding: 18rpx 20rpx;
+  padding-bottom: calc(18rpx + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* PAYBAR UPDATED：两枚胶囊之间保持明显呼吸感，避免拼接 */
+  gap: 18rpx;
+  box-sizing: border-box;
+  background: transparent;
+}
+
+.price-pill {
+  flex: 1;
+  height: 88rpx;
+  border-radius: 999rpx;
+  /* PAYBAR UPDATED：不死黑，带一点层次 */
+  background: linear-gradient(180deg, #2a2a2a 0%, #1f1f1f 100%);
+  display: flex;
+  align-items: center;
+  padding: 0 28rpx;
+  box-sizing: border-box;
+  /* PAYBAR UPDATED：更柔和、向下扩散 */
+  box-shadow: 0 12rpx 24rpx rgba(0, 0, 0, 0.18);
+}
+
+.price-pill-prefix {
+  font-size: 28rpx;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.92);
+  margin-right: 4rpx;
+}
+
+.price-pill-text {
+  /* PAYBAR UPDATED：金额更突出但不炸 */
+  font-size: 38rpx;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.96);
+  letter-spacing: 0.5rpx;
+}
+
+.paybar-btn {
+  flex: 0 0 auto;
+  width: 268rpx;
+  height: 88rpx;
+  padding: 0;
+  /* PAYBAR UPDATED：与金额胶囊同圆角体系 */
+  border-radius: 999rpx;
+  background: linear-gradient(135deg, #F8AE2B 0%, #F59E0B 100%);
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 800;
+  border: none;
+  /* PAYBAR UPDATED：阴影语言与黑胶囊一致，但偏暖 */
+  box-shadow: 0 12rpx 24rpx rgba(245, 158, 11, 0.22);
+}
+
+.paybar-btn::after {
+  border: none;
+}
+
+.paybar-btn:active {
+  transform: scale(0.985);
+  box-shadow: 0 6rpx 14rpx rgba(245, 158, 11, 0.18);
+}

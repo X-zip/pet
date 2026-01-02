@@ -1,0 +1,33 @@
+{
+    "usingComponents":{
+        "van-cell": "@vant/weapp/cell/index",
+        "van-cell-group": "@vant/weapp/cell-group/index",
+        "van-field": "@vant/weapp/field/index",
+        "van-stepper": "@vant/weapp/stepper/index",
+        "van-slider": "@vant/weapp/slider/index",
+        "van-uploader": "@vant/weapp/uploader/index",
+        "van-button": "@vant/weapp/button/index",
+        "van-checkbox": "@vant/weapp/checkbox/index",
+        "van-checkbox-group": "@vant/weapp/checkbox-group/index",
+        "van-radio": "@vant/weapp/radio/index",
+        "van-radio-group": "@vant/weapp/radio-group/index",
+        "van-calendar": "@vant/weapp/calendar/index",
+        "van-datetime-picker": "@vant/weapp/datetime-picker/index",
+        "van-toast": "@vant/weapp/toast/index",
+        "van-popup": "@vant/weapp/popup/index",
+        "van-collapse": "@vant/weapp/collapse/index",
+        "van-collapse-item": "@vant/weapp/collapse-item/index",
+        "van-switch": "@vant/weapp/switch/index",
+        "van-tag": "@vant/weapp/tag/index",
+        "van-tab": "@vant/weapp/tab/index",
+        "van-tabs": "@vant/weapp/tabs/index",
+        "van-row": "@vant/weapp/row/index",
+        "van-col": "@vant/weapp/col/index",
+        "van-icon": "@vant/weapp/icon/index",
+        "van-search": "@vant/weapp/search/index",
+        "van-skeleton": "@vant/weapp/skeleton/index",
+        "van-divider": "@vant/weapp/divider/index",
+        "van-image": "@vant/weapp/image/index",
+        "van-notice-bar": "@vant/weapp/notice-bar/index"
+    }
+}

@@ -1,0 +1,92 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/search/search",
+    "pages/detail/detail",
+    "pages/usercenter/usercenter",
+    "pages/uitem/myComment/myComment",
+    "pages/uitem/my_like/my_like",
+    "pages/uitem/my_task/my_task",
+    "pages/uitem/myReply/myReply",
+    "pages/uitem/contact/contact",
+    "pages/uitem/suggestion/suggestion",
+    "pages/webView/webView",
+    "pages/uitem/login/login",
+    "pages/post/post",
+    "pages/application/application",
+    "pages/qr/qr",
+    "pages/uitem/rule/rule",
+    "pages/service/service",
+    "pages/notice/notice",
+    "pages/group/group",
+    "components/navbar/index",
+    "pages/selectCampus/selectCampus",
+    "pages/help/help",
+    "pages/chat/chat",
+    "pages/taskDetail/taskDetail",
+    "pages/hotList/hotlist",
+    "pages/zuju/zuju",
+    "pages/pintuanDetail/pintuanDetail",
+    "pages/detail/poster/poster",
+    "pages/campusVerify/campusVerify",
+    "pages/pintuanDetail/groupInfoForm/groupInfoForm",
+    "pages/pintuanDetail/showContact/showContact",
+    "pages/subpage/subpage",
+    "pages/score/topic_detail/score_topic_detail",
+    "components/tag-item/index"
+  ],
+  "window": {
+    "backgroundColor": "@navBackgroundColor",
+    "backgroundTextStyle": "@bgTxtStyle",
+    "navigationBarBackgroundColor": "@navBackgroundColor",
+    "navigationBarTitleText": "AnywayMacau",
+    "navigationBarTextStyle": "@navTextStyle"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "@tabFontColor",
+    "selectedColor": "@tabSelectedColor",
+    "backgroundColor": "@tabBgColor",
+    "borderStyle": "@tabBorderStyle",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "圈子",
+        "iconPath": "@iconPath1",
+        "selectedIconPath": "@selectedIconPath1"
+      },
+      {
+        "pagePath": "pages/service/service",
+        "text": "附近服务",
+        "iconPath": "@iconPath2",
+        "selectedIconPath": "@selectedIconPath2"
+      },
+      {
+        "pagePath": "pages/post/post",
+        "text": "发帖",
+        "iconPath": "@iconPath3",
+        "selectedIconPath": "@selectedIconPath3"
+      },
+      {
+        "pagePath": "pages/group/group",
+        "text": "小组",
+        "iconPath": "@iconPath4",
+        "selectedIconPath": "@selectedIconPath4"
+      },
+      {
+        "pagePath": "pages/usercenter/usercenter",
+        "text": "我的",
+        "iconPath": "@iconPath5",
+        "selectedIconPath": "@selectedIconPath5"
+      }
+    ]
+  },
+  "lazyCodeLoading": "requiredComponents",
+  "rendererOptions": {
+    "skyline": {
+      "defaultDisplayBlock": true
+    }
+  },
+  "themeLocation": "theme.json",
+  "sitemapLocation": "sitemap.json"
+}
